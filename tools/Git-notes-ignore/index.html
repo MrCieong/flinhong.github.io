@@ -4,22 +4,22 @@
 <head>
   <meta charset="utf-8" />
   
-  <title>没有错过的大坑舞火龙</title>
+  <title>Git 学习笔记 - .gitignore 的使用</title>
   
   <meta content="IE=edge" http-equiv="X-UA-Compatible" />
   <meta content="width=device-width, initial-scale=1" name="viewport" />
   <meta name="google-site-verification" content="HXPDAWYIepFJGNogMyAiitfbS7Y1qch0g48wPNEcWe4" />
-  <link rel="canonical" href="https://www.flinhong.com/journal/tai-hang-fire-dragon/" />
+  <link rel="canonical" href="https://www.flinhong.com/tools/Git-notes-ignore/" />
   
-  <meta name="description" content="每年农历八月十四、十五、十六日，也就是中秋节迎月、赏月、追月三日，位于香港岛大大坑村都会举行盛大的舞火龙庆典。这项庆祝活动开始于 1880 年（维基百科上说最早于19世纪末出现，实际上由何时开始则无从稽考），亦是香港在中秋节期间，一项非常独特的民间风俗。" />
+  <meta name="description" content="我们在使用 Git 进行版本控制的时候，有些文件是无需纳入 Git 管理的，通常都是些自动生成的文件。我们可以创建一个名为 .gitignore 的文件，列出要忽略的文件来解决这个问题。" />
   <meta property="og:type" content="article" />
-  <meta property="og:title" content="没有错过的大坑舞火龙" />
-  <meta property="og:description" content="每年农历八月十四、十五、十六日，也就是中秋节迎月、赏月、追月三日，位于香港岛大大坑村都会举行盛大的舞火龙庆典。这项庆祝活动开始于 1880 年（维基百科上说最早于19世纪末出现，实际上由何时开始则无从稽考），亦是香港在中秋节期间，一项非常独特的民间风俗。" />
+  <meta property="og:title" content="Git 学习笔记 - .gitignore 的使用" />
+  <meta property="og:description" content="我们在使用 Git 进行版本控制的时候，有些文件是无需纳入 Git 管理的，通常都是些自动生成的文件。我们可以创建一个名为 .gitignore 的文件，列出要忽略的文件来解决这个问题。" />
   
-  <meta property="og:image" content="/images/201509/tai-hang.jpg" />
+  <meta property="og:image" content="/images/201606/ignore.jpg" />
   
   
-  <meta property="og:url" content="https://www.flinhong.com/journal/tai-hang-fire-dragon/" />
+  <meta property="og:url" content="https://www.flinhong.com/tools/Git-notes-ignore/" />
   <meta property="og:site_name" content="Frank's Blog" />
   <link rel="shortcut icon" href="/assets/images/favicon.ico" />
   <link rel="icon" type="image/png" href="/assets/images/android-chrome-192x192.png" sizes="192x192">
@@ -132,7 +132,7 @@
         <li><a href="/">Homepage</a></li>
         <li><a href="/blog/">Blog</a></li>
         
-        <li><a href="/categories/Journal">Journal</a></li>
+        <li><a href="/categories/Tools">Tools</a></li>
         
       </ul>
     </div>
@@ -143,117 +143,145 @@
     <div id="main-box">
       <!-- BEGIN #main -->
       <div id="main">
-        <h1><span>没有错过的大坑舞火龙</span></h1>
+        <h1><span>Git 学习笔记 - .gitignore 的使用</span></h1>
         <div class="content-padding">
           <div class="article-full">
             
             <div class="article-main-photo">
-              <img src="/images/201509/tai-hang.jpg" alt="没有错过的大坑舞火龙" title="没有错过的大坑舞火龙" />
+              <img src="/images/201606/ignore.jpg" alt="Git 学习笔记 - .gitignore 的使用" title="Git 学习笔记 - .gitignore 的使用" />
             </div>
             
             <div class="article-icons">
               <a href="user-single.html" class="user-tooltip"><i class="fa fa-user"></i>Frank Lin</a>
-              <a href="javascript:;"><i class="fa fa-calendar"></i>September 28, 2015</a>
-              <a href="/categories/Journal/"><i class="fa fa-tag"></i>Journal</a>
-              <a href="/journal/tai-hang-fire-dragon/#disqus_thread" data-disqus-identifier="Frank's Blog//journal/tai-hang-fire-dragon"><i class="fa fa-comments"></i>0 Comment</a>
-              <a href="javascript:;"><i class="fa fa-check-square-o"></i>2421 words.</a>
+              <a href="javascript:;"><i class="fa fa-calendar"></i>June 12, 2016</a>
+              <a href="/categories/Tools/"><i class="fa fa-tag"></i>Tools</a>
+              <a href="/tools/Git-notes-ignore/#disqus_thread" data-disqus-identifier="Frank's Blog//tools/Git-notes-ignore"><i class="fa fa-comments"></i>0 Comment</a>
+              <a href="javascript:;"><i class="fa fa-check-square-o"></i>2462 words.</a>
             </div>
             <div class="clear-float do-the-split"></div>
             <div class="article-content">
-              <p>中秋节，除了月饼和灯谜，在香港还有一种特别的中秋庆祝方式——舞火龙，而且今年，我没有错过。</p>
+              <p>项目中经常会生成一些 Git 系统不需要追踪的文件。典型的是在编译生成过程中产生的文件或是编程器生成的临时备份文件。当然，你不追踪这些文件，可以不用 <code class="highlighter-rouge">git add</code> 把它们加到索引中。但是这样会很快变成一件烦人的事，你发现项目中到处有未追踪的文件; 这样也使 <code class="highlighter-rouge">git add .</code> 和 <code class="highlighter-rouge">git commit -a</code> 变得没有实际用处，同时 <code class="highlighter-rouge">git status</code> 命令的输出也会有它们，每次都看到 <code class="highlighter-rouge">Untracked files ...</code> 是不是会变得很抓狂。</p>
 
-<p>2011 年的时候，舞火龙已经成为第三批国家级非物质文化遗产，那么就先来介绍介绍一下这项习俗吧。</p>
+<p>其实，这个问题解决起来也很简单，我们可以创建一个名为 <code class="highlighter-rouge">.gitignore</code> 的特殊文件，然后把要忽略的文件名填进去，Git 就会自动忽略这些文件。之前在学习 <a href="/tools/Git-notes-basics/#headid-section-7">Git 基础</a>的时候就谈过这个问题。</p>
 
-<h2 id="headid-section">习俗起源</h2>
+<p>当然，我们不需要从头写 <code class="highlighter-rouge">.gitignore</code> 文件，GitHub 已经为我们准备了各种配置文件，只需要组合一下就可以使用了。所有配置文件可以直接在线浏览：<a href="https://github.com/github/gitignore">https://github.com/github/gitignore</a>，另外，推荐一个自动生成 <code class="highlighter-rouge">.gitignore</code> 文件的网址：<a href="https://www.gitignore.io/">http://www.gitignore.io/</a>。</p>
 
-<p>每年农历八月十四、十五、十六日，也就是中秋节迎月、赏月、追月三日，位于香港岛大大坑村都会举行盛大的舞火龙庆典。这项庆祝活动开始于 1880 年（维基百科上说最早于 19 世纪末出现，实际上由何时开始则无从稽考）。当时大坑一带聚居不少客家农民。村民多以务农、打猎为生，生活十分简朴。据闻中秋节前夕的一晚，台风吹袭大坑村，有一条大蟒蛇吞食村里的家畜，给村民合力打死于破屋内。翌日，台风过后，大蟒蛇尸体失踪。不久之后，大坑一带发生瘟疫，死人无数，村民感到惶恐不安。后来村中有道士说此大蟒蛇原本是龙王之儿子，因此要降疫症惩罚该村，报复杀子之仇恨，而村中又有一位老翁，声称有神仙打救报梦，表示必须在中秋节前后三天舞动火龙绕村巡游，并燃烧炮竹，这样便能驱除瘟疫，确保平安。自始便形成了大坑从每年举行舞火龙的习俗。于此同时，亦是香港在中秋节期间，一项非常独特的民间风俗<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup>。</p>
+<p>要注意，我们忽略文件的原则是<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup>：</p>
 
-<h2 id="headid-section-1">火龙的诞生</h2>
+<ol>
+  <li>忽略操作系统自动生成的文件，比如缩略图等；</li>
+  <li>忽略编译生成的中间文件、可执行文件等，也就是如果一个文件是通过另一个文件自动生成的，那自动生成的文件就没必要放进版本库，比如 Java 编译产生的 .class 文件；</li>
+  <li>忽略你自己的带有敏感信息的配置文件，比如存放口令的配置文件。</li>
+</ol>
 
-<p>舞龙是中国固有的传统，但大坑龙与众不同之处在于它的名副其实，它确实是一条火龙，是由一点一点的香火汇聚而成。火龙的龙头、龙身、龙尾，以及两颗龙珠，都插满了由大坑居民特制的长寿香，点点香火使火龙在晚间舞动起来，气魄逼人。一般舞龙，是由人躲到布后，但火龙又岂能这样？火龙是由草扎作而成，然后再插上一束又一束的香。干草易碎，是什么能支持这巨大火龙活灵活现跃然街中？它的秘密是珍珠草。</p>
+<p>比如说，你在 Windows 下进行 Python 开发，Windows 会自动在有图片的目录下生成隐藏的缩略图文件，如果有自定义目录，目录下就会有 <code class="highlighter-rouge">Desktop.ini</code> 文件，因此你需要忽略 Windows 自动生成的信息文件：</p>
 
-<p>不要以为珍珠草是什么稀世奇珍，过往，香港有很多珍珠草，或香港岛或九龙或新界都是四处可见，珍珠草唾手可得。只是随着社会发展，空地减少，珍珠草变得芳踪难觅。它不是绝迹香江，只是数目太少，不足用以扎作。大坑弟子四处寻访，就在大潭道的两条水坝找到几十颗珍珠草，但扎成火龙要的是上百担草，这几十颗根本不够。加上珍珠草分散香港各地，实在难以寻得。因此，近十几年，大坑人透过中联办在内地觅得扎龙的材料，从东莞、石门一带运来珍珠草。</p>
+<div class="highlighter-rouge"><pre class="highlight"><code># Windows:
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+</code></pre>
+</div>
 
-<p>然而，不是找到珍珠草就已经万事俱备，还要留意天气和时间<sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup>：</p>
+<p>然后，继续忽略 Python 编译产生的 <code class="highlighter-rouge">.pyc</code>、<code class="highlighter-rouge">.pyo</code>、<code class="highlighter-rouge">dist</code> 等文件或目录：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code># Python:
+*.py[cod]
+*.so
+*.egg
+*.egg-info
+dist
+build
+</code></pre>
+</div>
+
+<p>最后一步就是把 <code class="highlighter-rouge">.gitignore</code> 也提交到 Git，并且可以对其做版本管理。当然检验 <code class="highlighter-rouge">.gitignore</code> 的标准是 <code class="highlighter-rouge">git status</code> 命令是不是说 <code class="highlighter-rouge">working directory clean</code>。</p>
+
+<p>有些时候，你想添加一个文件到 Git，但发现添加不了，原因可能就是这个文件被 <code class="highlighter-rouge">.gitignore</code> 忽略了：</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>git add App.class
+The following paths are ignored by one of your .gitignore files:
+App.class
+Use -f <span class="k">if </span>you really want to add them.
+</code></pre>
+</div>
+
+<p>如果你确实想添加该文件，可以用 <code class="highlighter-rouge">-f</code> 强制添加到 Git：</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>git add -f App.class
+</code></pre>
+</div>
+
+<p>或者你发现，可能是 <code class="highlighter-rouge">.gitignore</code> 写得有问题，需要找出来到底哪个规则写错了，可以用 <code class="highlighter-rouge">git check-ignore</code> 命令检查：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$ git check-ignore -v App.class
+.gitignore:3:*.class    App.class
+</code></pre>
+</div>
+
+<p>上面，Git 告诉我们，<code class="highlighter-rouge">.gitignore</code> 的第 3 行规则忽略了该文件，于是我们就可以知道应该修订哪个规则了。</p>
+
+<p>其他信息可以直接 <code class="highlighter-rouge">man gitignore</code> 查看帮助<sup id="fnref:2"><a href="#fn:2" class="footnote">2</a></sup>。</p>
+
+<p>但有些时候我们会遇到这样的问题：写入 <code class="highlighter-rouge">.gitignore</code> 文件中的文件却还是被 Git 追踪, 当你通过 <code class="highlighter-rouge">git status</code> 查询文件状态时，他们并没有被忽略。</p>
+
+<p><strong>问题场景</strong></p>
+
+<ol>
+  <li>
+    <p>当你在 git 库中编写某些代码文件，并已经 stage 该文件之后，你发现某个文件你不想用了，想在以后的改变中忽略它。然后在你的 <code class="highlighter-rouge">.gitignore</code> 文件中加入该文件名，结果它并没有被忽略。</p>
+  </li>
+  <li>
+    <p>当你从远程代码库中 <code class="highlighter-rouge">git clone</code> 一份代码到本地并做些修改，build，然后通过 <code class="highlighter-rouge">git add .</code> 等 stage 了这些改变，当你通过 <code class="highlighter-rouge">git status</code> 查看状态时发现不小心把 <code class="highlighter-rouge">build/</code> 文件夹给 add 进来了。于是你在 <code class="highlighter-rouge">.gitignore</code> 文件中加入了 <code class="highlighter-rouge">build/</code>，但发现并不起作用。</p>
+  </li>
+</ol>
+
+<p>究其原因，<code class="highlighter-rouge">.gitignore</code> 文件只是 ignore 没有被 staged(cached) 文件，对于已经被 staged 的文件，加入 ignore 文件时一定要先从 staged 移除。下面这段话来自 GitHub：</p>
 
 <blockquote>
-  <p>扎龙前还要看天气。如果下雨，而时间又太过紧迫，我们便会把草先割回来，铺在地上吹干或晒干。用来扎龙的草不能太湿，若用了湿了的草扎龙，在舞龙时水分便会干，干了便会缩，缩便会松，松便容易散。若没有太阳，时间又太紧迫，迫于无奈下，通宵扎龙也试过。故此，配合时间扎龙也是非常重要的。</p>
+  <p>If you already have a file checked in, and you want to ignore it, Git will not ignore the file if you add a rule later. In those cases, you must untrack the file first, by running the following command in your terminal:</p>
 </blockquote>
 
-<p>龙头由藤条屈曲为骨架；龙牙以锯齿的铁片造成；双眼是手电筒；舌头是漆红的木片。带引舞龙的珠球是个插满线香的沙田柚，一共两个。</p>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>git rm --cached 
+</code></pre>
+</div>
 
-<h2 id="headid-section-2">舞火龙盛况</h2>
+<p>因此，要想用 <code class="highlighter-rouge">.gitignore</code> 成功忽略文件，必须先把它们从 staged 中移除<sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup>：</p>
 
-<p>农历八月十四日晚上七时，过百名舞龙健儿举着整条龙（还没有插上长寿香）到莲花宫<sup id="fnref:3"><a href="#fn:3" class="footnote">3</a></sup>，向观音菩萨参拜，并举行开光仪式。开光时，只有龙头被带到庙内。</p>
+<ol>
+  <li>
+    <p>commit 你已有的改变，保存当前的工作。</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">git rm --cached file/path/to/be/ignored</code> 清除缓存。</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">git add .</code> 添加更改变化。</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">git commit -m "fixed untracked files"</code>。</p>
+  </li>
+</ol>
 
-<p>火龙每次起舞前，都必先在此经过“点睛”、“簪花”和“挂红”的仪式。</p>
-
-<blockquote>
-  <p>首先，必须为火龙点睛。然后是簪花，簪花时可能簪几种不同的花。再之后是挂青，最后是挂长红。原则上，除了这几样外，我们会让一些官员致辞，之后剪裁，接着便起龙。传统上，仪式的主持人必须由客家人担任，禀神内容也须用客家话说出来。</p>
-</blockquote>
-
-<p>鼓声一响，每人向空中发射五彩缤纷的纸彩炮，之后健儿便马上舞动虎虎生威的龙头。顿时，全场气氛热血沸腾，各人手舞足蹈，准备迎接火龙。而在庙外的其余三十二节龙身体，亦紧接被带进庙内绕过神坛，再往浣纱街方向走去。当火龙舞动到街外后，各健儿马上把两万五千枝长寿香插在整条龙身上，之后，舞火龙的仪式才能正式开始。与此同时，一些可爱的小女孩身穿美丽夺目的唐装，个人手持一个粉红色的莲花灯表演莲花舞。当长寿香点满在火龙身上时，亦是整晚活动的高潮，各健儿舞动全长六十七米的金色大火龙，穿梭于大坑一带的大街小巷。在场的数千名市民不断欢呼鼓掌，同时亦忙于拍下此难得的盛会。</p>
-
-<p>第一、二天，舞火龙约十时半便会结束，而最后一晚，则是大概十时十五分。传统火龙将会反始终方向行大坑一圈，表示行大运、祝合境平安。</p>
-
-<p>农历十六晚的舞火龙仪式结束后，健儿们把火龙送到铜锣湾的避风塘，并举行祭祀神灵仪式，之后便把火龙送到海上<sup id="fnref:4"><a href="#fn:4" class="footnote">4</a></sup>，寓意“龙归沧海”。最后大会派发龙饼给街坊，祝福各人丰衣足食。</p>
-
-<h2 id="headid-section-3">这是我看到的</h2>
-
-<p>看完别人的介绍，还是看看我所见到的吧。</p>
-
-<p>去的时候有些晚了（说是 8:15 开始，到的时候差不多 8 点半了），人超多，根本挤不进去，索性就不挤了。下面是刚从天后站出来遇到的第一个指示牌和围观火龙的人群。</p>
-
-<p><img src="https://c1.staticflickr.com/1/637/21766315075_8a97c96f9b_b.jpg" alt="接口指示牌" /></p>
-
-<p><img src="https://c1.staticflickr.com/1/586/21766405475_55d68a02fe_b.jpg" alt="人群" /></p>
-
-<p>没成想，刚从人群里面出来，就遇到舞龙队朝着自己的方向走来，原来是到旁边的商家那里取悬挂的生菜和红包。运气真好，呵呵。</p>
-
-<p><img src="https://c1.staticflickr.com/1/585/21578491400_edc487c77e_b.jpg" alt="舞龙队" /></p>
-
-<p>之后舞龙队就往后面的街道继续巡游去了。人群过于壮观也就没跟着过去了。到了一条叫火龙径的地方拍照。这条街直接通往维多利亚公园，待会在那里还会有舞龙表演。</p>
-
-<p><img src="https://c1.staticflickr.com/1/610/21754989712_7690fd323f_b.jpg" alt="彩带" /></p>
-
-<p><img src="https://c1.staticflickr.com/1/636/21766744405_b0fac889fc_b.jpg" alt="摄影师" /></p>
-
-<p>到了维多利亚公园，先看看彩灯展，一顿拍，可是没一个拍好的~ 然后找个前排的位置等 10 点半的主角戏——舞龙表演。</p>
-
-<p><img src="https://c2.staticflickr.com/6/5692/21766888735_5025e1448a_b.jpg" alt="彩灯" /></p>
-
-<p>等了好久，终于开始了。不过，先等等，苏格兰风笛表演先给大家暖暖场。然后是火龙进场，“点睛”、“簪花”和“挂红”来一遍，再是少不了的官员致辞。</p>
-
-<p><img src="https://c1.staticflickr.com/1/633/21755326542_db7f6186a0_b.jpg" alt="苏格兰风笛" /></p>
-
-<p>最后才是正式的舞火龙了。整个仪式果真是按照整“火龙过桥”、“火龙缠双柱”、“彩灯火龙结团圆”三部分来的。随手拍拍，莫要介意。</p>
-
-<p><img src="https://c1.staticflickr.com/1/715/21767170815_5363b8637f_b.jpg" alt="舞火龙1" /></p>
-
-<p><img src="https://c1.staticflickr.com/1/639/21767248015_cca10b1bf6_b.jpg" alt="舞火龙2" /></p>
-
-<p>参考：</p>
+<p>引用：</p>
 
 <div class="footnotes">
   <ol>
     <li id="fn:1">
-      <p>何辉生：《香港风俗及节令文化》。香港：明报出版社有限公司，2006年。 <a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+      <p><a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/0013758404317281e54b6f5375640abbb11e67be4cd49e0000">忽略特殊文件</a> <a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
     </li>
     <li id="fn:2">
-      <p>陈素怡、李智浩：&lt;大坑舞火龙：神话与凡俗&gt;，《故园故事》。湾仔区议会，2007年。 <a href="#fnref:2" class="reversefootnote">&#8617;</a></p>
+      <p><a href="https://segmentfault.com/a/1190000000522997">.gitignore 文件使用说明</a> <a href="#fnref:2" class="reversefootnote">&#8617;</a></p>
     </li>
     <li id="fn:3">
-      <p>莲花宫，位于铜锣湾大坑莲花宫西街街尾，创建于清同治三年（1864年），奉祀观音。 <a href="#fnref:3" class="reversefootnote">&#8617;</a></p>
-    </li>
-    <li id="fn:4">
-      <p>近年为免污染海水，于深夜用货车送到焚化炉去，变作“飞龙在天”。 <a href="#fnref:4" class="reversefootnote">&#8617;</a></p>
+      <p><a href="http://t.hengwei.me/post/gitignore%E6%96%87%E4%BB%B6%E4%B8%8D%E8%B5%B7%E4%BD%9C%E7%94%A8/">.gitignore 文件不起作用</a> <a href="#fnref:3" class="reversefootnote">&#8617;</a></p>
     </li>
   </ol>
 </div>
 
               <div class="article-icons">
                 <span><i class="fa fa-tags"></i></span>
-                <a href="/tags/#Hong Kong" class="tags">Hong Kong</a>
+                <a href="/tags/#Git" class="tags">Git</a>
                 
               </div>
               <div class="breaking-line"></div>
@@ -301,17 +329,6 @@
 				</li>
 				
 				<li>
-					<a href="/tools/Git-notes-ignore/">
-						<span class="image-comments"><span class="disqus-comment-count" data-disqus-identifier="Frank's Blog//tools/Git-notes-ignore">0 Comments</span></span>
-						
-						<img src="/images/201606/ignore.jpg" alt="Git 学习笔记 - .gitignore 的使用" title="Git 学习笔记 - .gitignore 的使用">
-						
-						<strong>Git 学习笔记 - .gitignore 的使用...</strong>
-						<span class="a-txt">June 12, 2016</span>
-					</a>
-				</li>
-				
-				<li>
 					<a href="/tips/automated-blog-with-gitlab-ci/">
 						<span class="image-comments"><span class="disqus-comment-count" data-disqus-identifier="Frank's Blog//tips/automated-blog-with-gitlab-ci">0 Comments</span></span>
 						
@@ -319,6 +336,17 @@
 						
 						<strong>使用 GitLab CI 自动部署博客到 GitHub...</strong>
 						<span class="a-txt">May 22, 2016</span>
+					</a>
+				</li>
+				
+				<li>
+					<a href="/tools/Git-notes-logs/">
+						<span class="image-comments"><span class="disqus-comment-count" data-disqus-identifier="Frank's Blog//tools/Git-notes-logs">0 Comments</span></span>
+						
+						<img src="/images/201605/git-log.jpg" alt="Git 学习笔记 - 提交历史" title="Git 学习笔记 - 提交历史">
+						
+						<strong>Git 学习笔记 - 提交历史</strong>
+						<span class="a-txt">May 21, 2016</span>
 					</a>
 				</li>
 				
@@ -341,9 +369,9 @@
 		<div id="disqus_thread"></div>
 		<script>
 		var disqus_config = function () {
-		this.page.url = "https://www.flinhong.com/journal/tai-hang-fire-dragon/";
-		this.page.identifier = "Frank's Blog//journal/tai-hang-fire-dragon";
-		this.page.title = "没有错过的大坑舞火龙";
+		this.page.url = "https://www.flinhong.com/tools/Git-notes-ignore/";
+		this.page.identifier = "Frank's Blog//tools/Git-notes-ignore";
+		this.page.title = "Git 学习笔记 - .gitignore 的使用";
 		};
 		(function() { // DON'T EDIT BELOW THIS LINE
 		var d = document, s = d.createElement('script');
@@ -389,15 +417,6 @@
 	</div>
 	
 
-	
-	<!-- BEGIN .panel -->
-	<div class="panel toc-fix">
-		<h2>Table of Contents</h2>
-		<div class="panel-content">
-			<div id="toc" class="toc-menu"></div>
-		</div>
-	<!-- END .panel -->
-	</div>
 	
 
 	<!-- BEGIN .panel -->
@@ -664,13 +683,6 @@
   ga('send', 'pageview');
 </script>
 
-
-<script type="text/javascript" src="/jscript/toc.js"></script>
-<script type="text/javascript">
-$(document).ready(function() {
-	$('#toc').toc({ headers: '.article-content h1, .article-content h2, .article-content h3, .article-content h4, .article-content h5, .article-content h6' });
-});
-</script>
 
 
 </body>

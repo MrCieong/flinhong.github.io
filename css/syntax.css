@@ -79,6 +79,7 @@ pre.highlight {border: 1px dotted #e8e7e5; border-radius: 7px; padding-left: 7px
 .code pre {padding-left: 7px;}
 
 ol,ul,li .article-content {list-style-type: decimal;}
+ol,ul,li .article-content {margin-bottom: 1em;}
 
 th, tr .article-content {padding-right: 2em;}
 

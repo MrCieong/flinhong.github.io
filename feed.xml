@@ -1,4 +1,35 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="https://www.flinhong.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://www.flinhong.com/" rel="alternate" type="text/html" /><updated>2016-06-12T22:07:50+08:00</updated><id>https://www.flinhong.com/</id><title>Frank&#39;s Blog</title><subtitle>This blog is an exploration of my quirky thoughts and random adventures through life. I hope you enjoy reading and perusing my posts, please leave me a comment... I&#39;d love to hear from you!</subtitle><author><name>Frank Lin</name></author><entry><title>使用 GitLab CI 自动部署博客到 GitHub Pages</title><link href="https://www.flinhong.com/tips/automated-blog-with-gitlab-ci/" rel="alternate" type="text/html" title="使用 GitLab CI 自动部署博客到 GitHub Pages" /><published>2016-05-22T00:00:00+08:00</published><updated>2016-05-22T00:00:00+08:00</updated><id>https://www.flinhong.com/tips/automated-blog-with-gitlab-ci</id><content type="html" xml:base="https://www.flinhong.com/tips/automated-blog-with-gitlab-ci/">&lt;p&gt;由于一些莫名其妙的原因，我用 GitHub Pages 的 Jekyll 版本不能在本地生成 _posts 的静态文件，自然放到 GitHub 上也不行。一直没弄清楚原因，😳 求知情人士解答。于是找了备用方案，用起了 &lt;a href=&quot;http://docs.gitlab.com/ee/pages/README.html&quot;&gt;GitLab Pages&lt;/a&gt;，但是访问速度上又没有 GitHub Pages 给力，又不想用其他 CDN，所以还是两头托管，还能让百度索引。&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="https://www.flinhong.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://www.flinhong.com/" rel="alternate" type="text/html" /><updated>2016-06-13T00:21:27+08:00</updated><id>https://www.flinhong.com/</id><title>Frank&#39;s Blog</title><subtitle>This blog is an exploration of my quirky thoughts and random adventures through life. I hope you enjoy reading and perusing my posts, please leave me a comment... I&#39;d love to hear from you!</subtitle><author><name>Frank Lin</name></author><entry><title>Anna Kendrick - Cups</title><link href="https://www.flinhong.com/media/Anna-Kendrick-Cups/" rel="alternate" type="text/html" title="Anna Kendrick - Cups" /><published>2016-06-12T00:00:00+08:00</published><updated>2016-06-12T00:00:00+08:00</updated><id>https://www.flinhong.com/media/Anna-Kendrick-Cups</id><content type="html" xml:base="https://www.flinhong.com/media/Anna-Kendrick-Cups/">&lt;p&gt;这首歌本是 A. P. Carter 在 20 世纪 30 年代所创作的一首老歌，名叫《若我离开了》(“When I’m Gone”)。后由多人先后反复修改，加入了击杯元素并修改了填词，最后由美国演员 Anna Kendrick 在电影 &lt;em&gt;Pitch Perfect&lt;/em&gt; 中唱红。&lt;/p&gt;
+
+&lt;p&gt;歌词很简单，但是击杯游戏很有意思，吸引了大部分眼球。&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;I got my ticket for the long way round&lt;/p&gt;
+
+  &lt;p&gt;The one with the prettiest of views&lt;/p&gt;
+
+  &lt;p&gt;It’s got mountains&lt;/p&gt;
+
+  &lt;p&gt;It’s got rivers&lt;/p&gt;
+
+  &lt;p&gt;It’s got sights to give you shivers
+But it sure would be prettier with you&lt;/p&gt;
+
+  &lt;p&gt;When I’m gone&lt;/p&gt;
+
+  &lt;p&gt;When I’m gone&lt;/p&gt;
+
+  &lt;p&gt;You’re gonna miss me when I’m gone&lt;/p&gt;
+
+  &lt;p&gt;You’re gonna miss me by my walk&lt;/p&gt;
+
+  &lt;p&gt;You’re gonna miss me by my talk, oh&lt;/p&gt;
+
+  &lt;p&gt;You’re gonna miss me when I’m gone&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;电影中这段也挺好玩的：&lt;/p&gt;
+
+&lt;iframe width=&quot;853&quot; height=&quot;480&quot; src=&quot;https://www.youtube.com/embed/weqDCGg0GYs&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;</content><author><name>Frank Lin</name></author><category term="Media" /><category term="movie" /><category term="music" /><summary>这首歌本是 A. P. Carter 在 20 世纪 30 年代所创作的一首老歌，名叫《若我离开了》(“When I’m Gone”)。后由多人先后反复修改，加入了击杯元素并修改了填词，最后由美国演员 Anna Kendrick 在电影 Pitch Perfect 中唱红。</summary></entry><entry><title>使用 GitLab CI 自动部署博客到 GitHub Pages</title><link href="https://www.flinhong.com/tips/automated-blog-with-gitlab-ci/" rel="alternate" type="text/html" title="使用 GitLab CI 自动部署博客到 GitHub Pages" /><published>2016-05-22T00:00:00+08:00</published><updated>2016-05-22T00:00:00+08:00</updated><id>https://www.flinhong.com/tips/automated-blog-with-gitlab-ci</id><content type="html" xml:base="https://www.flinhong.com/tips/automated-blog-with-gitlab-ci/">&lt;p&gt;由于一些莫名其妙的原因，我用 GitHub Pages 的 Jekyll 版本不能在本地生成 _posts 的静态文件，自然放到 GitHub 上也不行。一直没弄清楚原因，😳 求知情人士解答。于是找了备用方案，用起了 &lt;a href=&quot;http://docs.gitlab.com/ee/pages/README.html&quot;&gt;GitLab Pages&lt;/a&gt;，但是访问速度上又没有 GitHub Pages 给力，又不想用其他 CDN，所以还是两头托管，还能让百度索引。&lt;/p&gt;
 
 &lt;p&gt;其实 GitLab Pages 是基于 GitLab CI，我们最终看到的网站是借由所配置的 &lt;a href=&quot;http://doc.gitlab.com/ee/ci/quick_start/README.html#configuring-a-runner&quot;&gt;Runner&lt;/a&gt; 生成的，所以可以用各种 Jekyll 插件，还能自定所使用的 Jekyll 版本。搭建起来和 GitHub Pages 差不多，可以参看官方博客 &lt;a href=&quot;https://about.gitlab.com/2016/04/07/gitlab-pages-setup/&quot;&gt;Hosting on GitLab.com with GitLab Pages&lt;/a&gt; 设置就行。&lt;/p&gt;
 
@@ -830,158 +861,4 @@ Frank Lin
 
 &lt;p&gt;单说到这首歌，我觉得歌曲 MV 里的情景远不及电影里面的情节，还是看下面这个预告片听这首歌最有感觉了。&lt;/p&gt;
 
-&lt;iframe width=&quot;1280&quot; height=&quot;720&quot; src=&quot;https://www.youtube.com/embed/hn5KqHzPWrQ&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;</content><author><name>Frank Lin</name></author><category term="Media" /><category term="movie" /><category term="music" /><summary>看完一部电影，听完一首歌，以及经历一个别人的故事，而后感悟一下自己的人生。</summary></entry><entry><title>Jekyll 中的日期格式</title><link href="https://www.flinhong.com/front-end/date-formatting-in-jekyll/" rel="alternate" type="text/html" title="Jekyll 中的日期格式" /><published>2016-03-09T00:00:00+08:00</published><updated>2016-03-09T00:00:00+08:00</updated><id>https://www.flinhong.com/front-end/date-formatting-in-jekyll</id><content type="html" xml:base="https://www.flinhong.com/front-end/date-formatting-in-jekyll/">&lt;p&gt;博客中，经常需要调用文章发表日期，而且需要各种长短不一的日期格式以适配不同的场景。好在 Jekyll 使用 Liquid 标记语言来显示日期，可以方便地自定义显示格式，另外其他用到 Liquid 的地方都能用下面的方法来调整日期显示格式。&lt;/p&gt;
-
-&lt;h2 id=&quot;headid-liquid&quot;&gt;Liquid默认样式&lt;/h2&gt;
-
-&lt;p&gt;Jekyll 使用 Shopify’s Liquid Template Engine&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;，显示日期可以直接使用 Liquid tag: &lt;code class=&quot;highlighter-rouge&quot;&gt;page.date&lt;/code&gt;，当然外面加上双大括号（由于会直接显示结果了，所以这里和下文都不加大括号了）。这种默认格式显示结果为：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;page.date
-2016-03-09 00:00:00 +0800
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;当然，一般情况下使用 Jekyll 很少去定义一个文章的具体时间，所以看到的 time 都是 &lt;code class=&quot;highlighter-rouge&quot;&gt;00:00:00&lt;/code&gt;，当然你也可以在 YAML 中加上 time。如果对上面的默认 tag 加以修饰，就能生成各种不同格式的日期样式，更方便我们查看。例如，加上一个 &lt;code class=&quot;highlighter-rouge&quot;&gt;date:&lt;/code&gt;的 filter，我们就可以只取日期而不取时间，这也是我们最常使用的，比如下面的样式：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;page.date | date: &#39;%B %d, %Y&#39;
-March 09, 2016
-
-page.date | date: &#39;%b %d, %Y&#39;
-Mar 09, 2016
-
-page.date | date: &#39;%b %-d, %Y&#39;
-Mar 9, 2016
-
-page.date | date: &#39;%Y-%m-%d&#39;
-2016-03-09
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;用到上面这些其实已经相当足够了，可以按自己的需要做各种自定义。当然还可以对结果进一步处理，具体可参见 Jekyll Date Formatting Examples 中更多的示例&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;。这篇文章也主要是简单做个总结，方便自己参考。&lt;/p&gt;
-
-&lt;h2 id=&quot;headid-jekyll-&quot;&gt;Jekyll 内置样式&lt;/h2&gt;
-
-&lt;h3 id=&quot;headid-date-to-string&quot;&gt;Date to String&lt;/h3&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;page.date | date_to_string
-09 Mar 2016
-
-Output Example 1: 03 May 2016
-Output Example 2: 04 Jul 2016
-Output Example 3: 23 Sep 2016
-Output Example 4: 26 Nov 2016
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;headid-date-to-long-string&quot;&gt;Date to Long String&lt;/h3&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;page.date | date_to_long_string
-09 March 2016
-
-Output Example 1: 03 May 2016
-Output Example 2: 04 July 2016
-Output Example 3: 23 September 2016
-Output Example 4: 26 November 2016
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;headid-date-to-xml-schema&quot;&gt;Date to XML Schema&lt;/h3&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;page.date | date_to_xmlschema
-2016-03-09T00:00:00+08:00
-
-Output Example 1: 2016-05-03T09:14:00-04:00
-Output Example 2: 2016-07-04T09:14:00-04:00
-Output Example 3: 2016-09-23T09:14:00-04:00
-Output Example 4: 2016-11-26T08:14:00-05:00
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;headid-date-to-rfc-822&quot;&gt;Date to RFC-822&lt;/h3&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;page.date | date_to_rfc822
-Wed, 09 Mar 2016 00:00:00 +0800
-
-Output Example 1: Fri, 03 May 2016 09:14:00 -0400
-Output Example 2: Thu, 04 Jul 2016 09:14:00 -0400
-Output Example 3: Mon, 23 Sep 2016 09:14:00 -0400
-Output Example 4: Tue, 26 Nov 2016 08:14:00 -0500
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;headid-jekyll--liquid-&quot;&gt;Jekyll 中自定义 Liquid 样式&lt;/h2&gt;
-
-&lt;h3 id=&quot;headid-section&quot;&gt;非英文月份&lt;/h3&gt;
-
-&lt;p&gt;Outside U.S. Style with Non-English Full Month Name，这里就用中文简单举例好了，其实很不适合中文呢，不过大概意思就是这样了。&lt;/p&gt;
-
-&lt;script src=&quot;https://gist.github.com/flinhong/2e903284c59e84abbccb.js&quot;&gt;&lt;/script&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;三月9号，2016
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;headid-section-1&quot;&gt;英文有序日期&lt;/h3&gt;
-
-&lt;p&gt;U.S. Style with Full Month Names and Ordinalized Days:
-&lt;script src=&quot;https://gist.github.com/flinhong/533a14966a01cddd60c4.js&quot;&gt;&lt;/script&gt;&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Output Example 1: May 3rd, 2016
-Output Example 2: July 4th, 2016 
-Output Example 3: September 23rd, 2016 
-Output Example 4: November 26th, 2016
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;headid-section-2&quot;&gt;英文月份缩写&lt;/h3&gt;
-
-&lt;p&gt;U.S. Style with AP Month Abbreviations and Ordinalized Days:
-&lt;script src=&quot;https://gist.github.com/flinhong/ab6fd80d7eae4164529f.js&quot;&gt;&lt;/script&gt;&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Output Example 1: May 3rd, 2016
-Output Example 2: July 4th, 2016 
-Output Example 3: Sept. 23rd, 2016
-Output Example 4: Nov. 26th, 2016
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;headid-section-3&quot;&gt;英文加上星期&lt;/h3&gt;
-
-&lt;p&gt;U.S. Style Full Day and Full Month Names:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;page.date | date: &quot;%A, %B %-d, %Y&quot;
-Wednesday, March 9, 2016
-
-Output Example 1: Friday, May 3, 2016
-Output Example 2: Thursday, July 4, 2016 
-Output Example 3: Monday, September 23, 2016 
-Output Example 4: Tuesday, November 26, 2016
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;headid-section-4&quot;&gt;英文星期缩写&lt;/h3&gt;
-
-&lt;p&gt;Chicago Manual of Style Day Abbreviations and U.S. Style Date:
-&lt;script src=&quot;https://gist.github.com/flinhong/837b5d9fc307e86f3166.js&quot;&gt;&lt;/script&gt;&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Output Example 1: Fri. ~ May 3, 2016
-Output Example 2: Thurs. ~ July 4, 2016
-Output Example 3: Mon. ~ September 23, 2016 
-Output Example 4: Tues. ~ November 26, 2016
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;真是不看不知道，一看吓一跳，前辈们真是好好和时间约了一次，才有现在这些结果 🐤。&lt;/p&gt;
-
-&lt;p&gt;参考：&lt;/p&gt;
-
-&lt;div class=&quot;footnotes&quot;&gt;
-  &lt;ol&gt;
-    &lt;li id=&quot;fn:1&quot;&gt;
-      &lt;p&gt;&lt;a href=&quot;http://wiki.shopify.com/Liquid&quot;&gt;Shopify’s Liquid template engine&lt;/a&gt;. “A small and fast template language which is quick to learn but very powerful for full customization.” &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-    &lt;li id=&quot;fn:2&quot;&gt;
-      &lt;p&gt;&lt;a href=&quot;http://alanwsmith.com/jekyll-liquid-date-formatting-examples&quot;&gt;Jekyll Date Formatting Examples&lt;/a&gt;. “Everything you wanted to know about Jekyll date formatting but were afraid to ask.” &lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-  &lt;/ol&gt;
-&lt;/div&gt;</content><author><name>Frank Lin</name></author><category term="Front-end" /><category term="Jekyll" /><summary>博客中，经常需要调用文章发表日期，而且需要各种长短不一的日期格式以适配不同的场景。好在 Jekyll 使用 Liquid 标记语言来显示日期，可以方便地自定义显示格式，另外其他用到 Liquid 的地方都能用下面的方法来调整日期显示格式。</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://www.flinhong.com/images/201603/date format.jpg" /></entry></feed>
+&lt;iframe width=&quot;1280&quot; height=&quot;720&quot; src=&quot;https://www.youtube.com/embed/hn5KqHzPWrQ&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;</content><author><name>Frank Lin</name></author><category term="Media" /><category term="movie" /><category term="music" /><summary>看完一部电影，听完一首歌，以及经历一个别人的故事，而后感悟一下自己的人生。</summary></entry></feed>

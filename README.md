@@ -1,8 +1,6 @@
 ## Frank's Blog
 
-Thanks to Jekyll and GitHub, I can build my blog in such an easy way.
-
-And keep a blog is really an interesting part of my life. Hope you can enjoy the journey as you surf.
+keep a blog is really an interesting part of my life. Hope you can enjoy the journey as you surf.
 
 ## Blog Status
 

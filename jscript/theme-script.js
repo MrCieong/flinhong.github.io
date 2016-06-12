@@ -956,7 +956,7 @@ jWindow.scroll(function(){
   var pxright = ( screenWidth - contentWidth ) / 2;
   var footerOffset = $('.footer').offset().top;
   if(scrollHeight > headerHeight && scrollHeight + screenHeight < footerOffset && screenWidth > 1000){
-    $('#sidebar').css({
+    $('.post-sidebar').css({
       'position':'fixed',
       'top':'0px',
       'right':pxright + 'px',
@@ -978,13 +978,13 @@ jWindow.scroll(function(){
       'right':pxright + 'px',
       'z-index': '0'
     });
-    $('#sidebar').css({
+    $('.post-sidebar').css({
       'position':'static'
     }); 	
   }
 
   else{
-    $('#sidebar').css({
+    $('.post-sidebar').css({
       'position':'static'
     });
     $('.moved').css({

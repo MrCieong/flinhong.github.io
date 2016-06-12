@@ -1,0 +1,739 @@
+<!DOCTYPE HTML>
+<html lang = "en">
+
+<head>
+  <meta charset="utf-8" />
+  
+  <title>Git 学习笔记 - 提交历史</title>
+  
+  <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <meta name="google-site-verification" content="HXPDAWYIepFJGNogMyAiitfbS7Y1qch0g48wPNEcWe4" />
+  <link rel="canonical" href="https://www.flinhong.com/tools/Git-notes-logs/" />
+  
+  <meta name="description" content="在提交了若干更新，又或者克隆了某个项目之后，你也许想回顾下提交历史。完成这个任务最简单而又有效的工具是 git log 命令。今天按照 Git Pro 中的演示例子 simplegit 项目，一步一步操作学习吧。" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Git 学习笔记 - 提交历史" />
+  <meta property="og:description" content="在提交了若干更新，又或者克隆了某个项目之后，你也许想回顾下提交历史。完成这个任务最简单而又有效的工具是 git log 命令。今天按照 Git Pro 中的演示例子 simplegit 项目，一步一步操作学习吧。" />
+  
+  <meta property="og:image" content="/images/201605/git-log.jpg" />
+  
+  
+  <meta property="og:url" content="https://www.flinhong.com/tools/Git-notes-logs/" />
+  <meta property="og:site_name" content="Frank's Blog" />
+  <link rel="shortcut icon" href="/assets/images/favicon.ico" />
+  <link rel="icon" type="image/png" href="/assets/images/android-chrome-192x192.png" sizes="192x192">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon-180x180.png">
+  <link rel="stylesheet" type="text/css" href="/css/reset.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="/css/dat-menu.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="/css/main-stylesheet.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="/css/responsive.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="/css/syntax.css" media="screen" />
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700|Lato:300,400,700|Source+Sans+Pro:300,400,600,700&amp;subset=latin,latin-ext" />
+  <!--[if lt IE 9 ]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+  
+</head>
+
+<body class="no-slider">
+<!-- <body class="has-top-menu"> -->
+  <!-- BEGIN #slider-imgs -->
+  <div id="slider-imgs">
+    <div class="featured-img-box">
+      <div id="featured-img-1" class="featured-img"></div>
+      <div id="featured-img-2" class="featured-img invisible"></div>
+      <div id="featured-img-3" class="featured-img invisible"></div>
+      <div id="featured-img-4" class="featured-img invisible"></div>
+    </div>
+  <!-- END #slider-imgs -->
+  </div>
+  <!-- BEGIN #top-layer -->
+  <div id="top-layer">
+  
+<div id="header-top">
+  <div class="wrapper">
+    <ul class="right">
+      <li><a href="http://www.facebook.com/flinhong" target="_blank"><i class="fa fa-facebook"></i></a></li>
+      <li><a href="https://twitter.com/flinhong" target="_blank"><i class="fa fa-twitter"></i></a></li>
+      <li><a href="https://github.com/flinhong" target="_blank"><i class="fa fa-github"></i></a></li>
+      <li><a href="http://weibo.com/linhong" target="_blank"><i class="fa fa-weibo"></i></a></li>
+      <li><a href="https://www.linkedin.com/in/frankhl" target="_blank"><i class="fa fa-linkedin"></i></a></li>
+      <li><a href="https://www.flickr.com/photos/frankhlin/" target="_blank"><i class="fa fa-flickr"></i></a></li>
+    </ul>
+    <ul class="load-responsive" rel="Top menu">
+      <li><a href="/archives/"><span>Links</span></a>
+        <ul class="sub-menu">
+          <li><a href="/about/">About</a></li>
+          <li><a href="http://photo.flinhong.com/">My Photos</a></li>
+        </ul>
+      </li>
+      <li><a href="/search/">Search</a></li>
+      <li><a href="/feed.xml">RSS Feed</a></li>
+    </ul>
+  </div>
+</div>
+
+  <section id="content">
+    
+<header id="header">
+  <div id="menu-bottom">
+    
+<!-- <nav id="menu" class="main-menu width-fluid"> -->
+<nav id="menu" class="main-menu">
+  <div class="blur-before"></div>
+  <a href="/" class="header-logo left"><img src="/assets/images/logo.png" class="logo" alt="Frank's Blog" title="Frank's Blog" /></a>
+  <a href="#dat-menu" class="datmenu-prompt"><i class="fa fa-bars"></i>Show Menu</a>
+  <ul class="load-responsive" rel="Main menu">
+    <li><a href="/blog/"><i class="fa fa-wordpress"></i><strong>Blog Index</strong></a></li>
+    <li><a href="/calendar/"><i class="fa fa-calendar-o"></i><strong>Calendar</strong></a></li>
+    <li><a href="http://lofter.flinhong.com/"><i class="fa fa-camera-retro"></i><strong>Photo Gallery</strong></a></li>
+    <li><a href="http://news.flinhong.com"><i class="fa fa-newspaper-o"></i><strong>News Digest</strong></a></li>
+    <li><a href="/archives/"><span><i class="fa fa-puzzle-piece"></i><strong>Pages</strong></span></a>
+      <ul class="sub-menu">
+        <li><a href="/archives/">Archives</a></li>
+        <li><a href="/shortcodes/">Shortcodes</a></li>
+        <li><a href="/sitedoc/">Documentation</a></li>
+      </ul>
+    </li>
+    <li><a href="/about/"><i class="fa fa-info-circle"></i><strong>About Me</strong></a></li>
+    <li><a href="/contact/"><i class="fa fa-map-marker"></i><strong>Contact</strong></a></li>
+    <!-- <li class="no-icon"><a href="#"><strong>Without icon</strong></a></li> -->
+  </ul>
+</nav>
+
+  </div>
+
+  <div class="wrapper">
+    <div class="header-breadcrumbs">
+      <h2 class="right">Keep recording...</h2>
+      <ul>
+        <li><a href="/">Homepage</a></li>
+        <li><a href="/blog/">Blog</a></li>
+        
+        <li>Tools</li>
+        
+      </ul>
+    </div>
+  </div>
+
+</header>
+
+    <div id="main-box">
+      <!-- BEGIN #main -->
+      <div id="main">
+        <h1><span>Git 学习笔记 - 提交历史</span></h1>
+        <div class="content-padding">
+          <div class="article-full">
+            
+            <div class="article-main-photo">
+              <img src="/images/201605/git-log.jpg" alt="Git 学习笔记 - 提交历史" title="Git 学习笔记 - 提交历史" />
+            </div>
+            
+            <div class="article-icons">
+              <a href="user-single.html" class="user-tooltip"><i class="fa fa-user"></i>Frank Lin</a>
+              <a href="javascript:;"><i class="fa fa-calendar"></i>May 21, 2016</a>
+              <a href="/Tools/"><i class="fa fa-tag"></i>Tools</a>
+              <a href="/tools/Git-notes-logs/#disqus_thread" data-disqus-identifier="Frank's Blog//tools/Git-notes-logs"><i class="fa fa-comments"></i>0 Comment</a>
+              <a href="javascript:;"><i class="fa fa-check-square-o"></i>4098 words.</a>
+            </div>
+            <div class="clear-float do-the-split"></div>
+            <div class="article-content">
+              <p>在提交了若干更新，又或者克隆了某个项目之后，你也许想回顾下提交历史。完成这个任务最简单而又有效的工具是 <code class="highlighter-rouge">git log</code> 命令。</p>
+
+<p>接下来按照 Git Pro 中的演示例子 simplegit 项目，一步一步操作学习吧。运行下面的命令获取该项目源代码：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>git clone https://github.com/schacon/simplegit-progit
+</code></pre>
+</div>
+
+<p>然后在此项目中运行 <code class="highlighter-rouge">git log</code>，应该会看到下面的输出：</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>git log
+commit ca82a6dff817ec66f44342007202690a93763949
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Mon Mar 17 21:52:11 2008 -0700
+
+    changed the version number
+
+commit 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Sat Mar 15 16:40:33 2008 -0700
+
+    removed unnecessary <span class="nb">test
+
+</span>commit a11bef06a3f659402fe7563abf99ad00de2209e6
+Author: Scott Chacon &lt;schacon@gee-mail.com&gt;
+Date:   Sat Mar 15 10:31:28 2008 -0700
+
+    first commit
+</code></pre>
+</div>
+
+<p>默认不用任何参数的话，<code class="highlighter-rouge">git log</code> 会按提交时间列出所有的更新，最近的更新排在最上面。正如你所看到的，这个命令会列出每个提交的 SHA-1 校验和、作者的名字和电子邮件地址、提交时间以及提交说明。</p>
+
+<p>一个常用的选项是 <code class="highlighter-rouge">-p</code>，用来显示每次提交的内容差异。 你也可以加上 <code class="highlighter-rouge">-2</code> 来仅显示最近两次提交：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$ git log -p -2
+</code></pre>
+</div>
+
+<p>该选项除了显示基本信息之外，还在附带了每次 commit 的变化。当进行代码审查，或者快速浏览某个搭档提交的 commit 所带来的变化的时候，这个参数就非常有用了。 你也可以为 <code class="highlighter-rouge">git log</code> 附带一系列的总结性选项。比如说，如果你想看到每次提交的简略的统计信息，你可以使用 <code class="highlighter-rouge">--stat</code> 选项：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$ git log --stat
+</code></pre>
+</div>
+
+<p><code class="highlighter-rouge">--stat</code> 选项在每次提交的下面列出额所有被修改过的文件、有多少文件被修改了以及被修改过的文件的哪些行被移除或是添加了。在每次提交的最后还有一个总结。</p>
+
+<p>另外一个常用的选项是 <code class="highlighter-rouge">--pretty</code>。这个选项可以指定使用不同于默认格式的方式展示提交历史。这个选项有一些内建的子选项供你使用。比如用 oneline 将每个提交放在一行显示，查看的提交数很大时非常有用。另外还有 <code class="highlighter-rouge">short</code>，<code class="highlighter-rouge">full</code> 和 <code class="highlighter-rouge">fuller</code> 可以用，展示的信息或多或少有些不同。</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$ git log --pretty=oneline
+</code></pre>
+</div>
+
+<p>但最有意思的是 <code class="highlighter-rouge">format</code>，可以定制要显示的记录格式。这样的输出对后期提取分析格外有用 — 因为你知道输出的格式不会随着 Git 的更新而发生改变：</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>git log --pretty<span class="o">=</span>format:<span class="s2">"%h - %an, %ar : %s"</span>
+ca82a6d - Scott Chacon, 6 years ago : changed the version number
+085bb3b - Scott Chacon, 6 years ago : removed unnecessary <span class="nb">test
+</span>a11bef0 - Scott Chacon, 6 years ago : first commit
+</code></pre>
+</div>
+
+<p>下表是 <code class="highlighter-rouge">git log --pretty=format</code> 常用的选项：</p>
+
+<hr />
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left"><strong>选项</strong></th>
+      <th style="text-align: left"><strong>说明</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">%H</code></td>
+      <td style="text-align: left">提交对象（commit）的完整哈希字串</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">%h</code></td>
+      <td style="text-align: left">提交对象的简短哈希字串</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">%T</code></td>
+      <td style="text-align: left">树对象（tree）的完整哈希字串</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">%t</code></td>
+      <td style="text-align: left">树对象的简短哈希字串</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">%P</code></td>
+      <td style="text-align: left">父对象（parent）的完整哈希字串</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">%p</code></td>
+      <td style="text-align: left">父对象的简短哈希字串</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">%an</code></td>
+      <td style="text-align: left">作者（author）的名字</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">%ae</code></td>
+      <td style="text-align: left">作者的电子邮件地址</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">%ad</code></td>
+      <td style="text-align: left">作者修订日期（可以用 –date= 选项定制格式）</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">%ar</code></td>
+      <td style="text-align: left">作者修订日期，按多久以前的方式显示</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">%cn</code></td>
+      <td style="text-align: left">提交者(committer)的名字</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">%ce</code></td>
+      <td style="text-align: left">提交者的电子邮件地址</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">%cd</code></td>
+      <td style="text-align: left">提交日期</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">%cr</code></td>
+      <td style="text-align: left">提交日期，按多久以前的方式显示</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><code class="highlighter-rouge">%s</code></td>
+      <td style="text-align: left">提交说明</td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<p>你一定奇怪 作者 和 提交者 之间究竟有何差别，其实作者指的是实际作出修改的人，提交者指的是最后将此工作成果提交到仓库的人。所以，当你为某个项目发布补丁，然后某个核心成员将你的补丁并入项目时，你就是作者，而那个核心成员就是提交者。</p>
+
+<p>当 <code class="highlighter-rouge">oneline</code> 或 <code class="highlighter-rouge">format</code> 与另一个 <code class="highlighter-rouge">log</code> 选项 <code class="highlighter-rouge">--graph</code> 结合使用时尤其有用。这个选项添加了一些 ASCII 字符串来形象地展示你的分支、合并历史：</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>git log --pretty<span class="o">=</span>format:<span class="s2">"%h %s"</span> --graph
+<span class="k">*</span> 2d3acf9 ignore errors from SIGCHLD on <span class="nb">trap</span>
+<span class="k">*</span>  5e3ee11 Merge branch <span class="s1">'master'</span> of git://github.com/dustin/grit
+|<span class="se">\</span>
+| <span class="k">*</span> 420eac9 Added a method <span class="k">for </span>getting the current branch.
+<span class="k">*</span> | 30e367c timeout code and tests
+<span class="k">*</span> | 5a09431 add timeout protection to grit
+<span class="k">*</span> | e1193f8 support <span class="k">for </span>heads with slashes <span class="k">in </span>them
+|/
+<span class="k">*</span> d6016bc require <span class="nb">time </span><span class="k">for </span>xmlschema
+<span class="k">*</span>  11d191e Merge branch <span class="s1">'defunkt'</span> into <span class="nb">local</span>
+</code></pre>
+</div>
+
+<p>以上只是简单介绍了一些 <code class="highlighter-rouge">git log</code> 命令支持的选项。这个有个<a href="https://git-scm.com/book/zh/v2/ch00/log_options">表格</a>列出了我们目前涉及到的和没涉及到的选项，以及它们是如何影响 log 命令的输出的。</p>
+
+<p>除了定制输出格式的选项之外，<code class="highlighter-rouge">git log</code> 还有许多非常实用的限制输出长度的选项，也就是只输出部分提交信息。之前你已经看到过 -2 了，它只显示最近的两条提交，实际上，这是 <code class="highlighter-rouge">-&lt;n&gt;</code> 选项的写法，其中的 n 可以是任何整数，表示仅显示最近的若干条提交。不过实践中我们是不太用这个选项的，Git 在输出所有提交时会自动调用分页程序，所以你一次只会看到一页的内容。</p>
+
+<p>另外还有按照时间作限制的选项，比如 <code class="highlighter-rouge">--since</code> 和 <code class="highlighter-rouge">--until</code> 也很有用。</p>
+
+<p>还可以给出若干搜索条件，列出符合的提交。用 <code class="highlighter-rouge">--author</code> 选项显示指定作者的提交，用 <code class="highlighter-rouge">--grep</code> 选项搜索提交说明中的关键字。（请注意，如果要得到同时满足这两个选项搜索条件的提交，就必须用 <code class="highlighter-rouge">--all-match</code> 选项。否则，满足任意一个条件的提交都会被匹配出来）</p>
+
+<p>另一个非常有用的筛选选项是 <code class="highlighter-rouge">-S</code>，可以列出那些添加或移除了某些字符串的提交。比如说，你想找出添加或移除了某一个特定函数的引用的提交，你可以这样使用：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>$ git log -Sfunction_name
+</code></pre>
+</div>
+
+<p>最后一个很实用的 <code class="highlighter-rouge">git log</code> 选项是路径 (path)，如果只关心某些文件或者目录的历史提交，可以在 <code class="highlighter-rouge">git log</code> 选项的最后指定它们的路径。因为是放在最后位置上的选项，所以用两个短划线（–）隔开之前的选项和后面限定的路径名。</p>
+
+<p>来看一个实际的例子，如果要查看 Git 仓库中，2008 年 10 月期间，Junio Hamano 提交的但未合并的测试文件，可以用下面的查询命令：</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>git log --pretty<span class="o">=</span><span class="s2">"%h - %s"</span> --author<span class="o">=</span>gitster --since<span class="o">=</span><span class="s2">"2008-10-01"</span> <span class="se">\</span>
+   --before<span class="o">=</span><span class="s2">"2008-11-01"</span> --no-merges -- t/
+5610e3b - Fix testcase failure when extended attributes are <span class="k">in </span>use
+acd3b9e - Enhance hold_lock_file_for_<span class="o">{</span>update,append<span class="o">}()</span> API
+f563754 - demonstrate breakage of detached checkout with symbolic link HEAD
+d1a43f2 - reset --hard/read-tree --reset -u: remove unmerged new paths
+51a94af - Fix <span class="s2">"checkout --track -b newbranch"</span> on detached HEAD
+b0ad11e - pull: allow <span class="s2">"git pull origin </span><span class="nv">$something</span><span class="s2">:</span><span class="nv">$current_branch</span><span class="s2">"</span> into an unborn branch
+</code></pre>
+</div>
+
+<p>这次就到这里，有很多 GUI 都能可视化显示这些记录，看起来会比较贴心些，不过不都是基于这些命令的基础嘛，多学学还是有用的。</p>
+
+              <div class="article-icons">
+                <span><i class="fa fa-tags"></i></span>
+                <a href="/tags/#Git" class="tags">Git</a>
+                
+              </div>
+              <div class="breaking-line"></div>
+            </div>
+          </div>
+          
+
+<div class="addthis_sharing_toolbox"></div>
+<br />
+
+
+<!-- BEGIN .article-footer -->
+<div class="article-footer">
+	<div class="about-author">
+		<h2><span>About</span></h2>
+		<div class="inner">
+			<a href="/about/" class="avatar avatar-large user-tooltip">
+				<img src="/assets/images/avatar.jpg" alt="Avatar" class="author-image setborder" />
+			</a>
+			<div class="side">
+				<div class="about-head">
+					<a href="/about/" class="comment-user user-tooltip"><b>Frank Lin</b></a>
+				</div>
+				<i>林宏</i>
+				<a href="http://lofter.flinhong.com"><i class="fa fa-camera"></i>Photo Galleries</a>
+				<a href="/blog/"><i class="fa fa-comment"></i>Blog Posts</a>
+			</div>
+			<p>This blog is an exploration of my quirky thoughts and random adventures through life. I hope you enjoy reading and perusing my posts, please leave me a comment... I'd love to hear from you!</p>
+		</div>
+	</div>
+	<div class="similar-posts">
+		<h2><span>Related Posts</span></h2>
+		<div class="home-article right">
+			<ul>
+				
+				<li>
+					<a href="/tips/automated-blog-with-gitlab-ci/">
+						<span class="image-comments"><span class="disqus-comment-count" data-disqus-identifier="Frank's Blog//tips/automated-blog-with-gitlab-ci">0 Comments</span></span>
+						
+						<img src="/images/201605/gitlab.png" alt="使用 GitLab CI 自动部署博客到 GitHub Pages" title="使用 GitLab CI 自动部署博客到 GitHub Pages">
+						
+						<strong>使用 GitLab CI 自动部署博客到 GitHub...</strong>
+						<span class="a-txt">May 22, 2016</span>
+					</a>
+				</li>
+				
+				<li>
+					<a href="/tools/Git-notes-basics/">
+						<span class="image-comments"><span class="disqus-comment-count" data-disqus-identifier="Frank's Blog//tools/Git-notes-basics">0 Comments</span></span>
+						
+						<img src="/images/201605/git-history.png" alt="Git 学习笔记 - Git 基础" title="Git 学习笔记 - Git 基础">
+						
+						<strong>Git 学习笔记 - Git 基础...</strong>
+						<span class="a-txt">May 20, 2016</span>
+					</a>
+				</li>
+				
+				<li>
+					<a href="/tools/Git-notes-start/">
+						<span class="image-comments"><span class="disqus-comment-count" data-disqus-identifier="Frank's Blog//tools/Git-notes-start">0 Comments</span></span>
+						
+						<img src="/images/201605/git-start.jpg" alt="Git 学习笔记 - 起步" title="Git 学习笔记 - 起步">
+						
+						<strong>Git 学习笔记 - 起步</strong>
+						<span class="a-txt">May 19, 2016</span>
+					</a>
+				</li>
+				
+			</ul>
+		</div>
+	</div>
+<!-- END .article-footer -->
+</div>
+
+        <!-- END .content-padding -->
+        </div>
+        
+
+<h2><span>Comments</span></h2>
+
+<!-- BEGIN .content-padding -->
+<div class="content-padding">
+	<div class="comment-part">
+		
+		<div id="disqus_thread"></div>
+		<script>
+		var disqus_config = function () {
+		this.page.url = "https://www.flinhong.com/tools/Git-notes-logs/";
+		this.page.identifier = "Frank's Blog//tools/Git-notes-logs";
+		this.page.title = "Git 学习笔记 - 提交历史";
+		};
+		(function() { // DON'T EDIT BELOW THIS LINE
+		var d = document, s = d.createElement('script');
+		s.src = '//flinhong.disqus.com/embed.js';
+		s.setAttribute('data-timestamp', +new Date());
+		(d.head || d.body).appendChild(s);
+		})();
+		</script>
+		<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+		
+	</div>
+<!-- END .content-padding -->
+</div>
+
+      <!-- END #main -->
+      </div>
+      
+<!-- BEGIN #sidebar -->
+<aside id="sidebar">
+
+	<!-- BEGIN .panel -->
+	<div class="panel moved">
+		<h2>Social Connects</h2>
+		<div class="panel-content socialize">
+
+			<a href="http://www.facebook.com/flinhong" target="_blank" class="strike-tooltip s-fb" title="Visit Facebook"><i class="fa fa-facebook"></i></a>
+			<a href="https://twitter.com/flinhong" target="_blank" class="strike-tooltip s-tw" title="Visit Twitter"><i class="fa fa-twitter"></i></a>
+			<a href="https://github.com/flinhong" target="_blank" class="strike-tooltip s-gh" title="Visit GitHub"><i class="fa fa-github"></i></a>
+			<a href="http://weibo.com/linhong" target="_blank" class="strike-tooltip s-wb" title="Visit Weibo"><i class="fa fa-weibo"></i></a>
+			<a href="https://www.linkedin.com/in/frankhl" target="_blank" class="strike-tooltip s-lk" title="Visit Linkedin"><i class="fa fa-linkedin"></i></a>
+
+		</div>
+	<!-- END .panel -->
+	</div>
+
+	
+	<div class="panel moved">
+		<div class="panel-content">
+			<form action="/search/" target="_blank" method="get">
+				<input type="text" placeholder="Type and press enter..." name="q">
+			</form>
+		</div>
+	</div>
+	
+
+	
+
+	<!-- BEGIN .panel -->
+	<div class="panel moved">
+		<h2>Accept Donations</h2>
+		<div class="panel-content">
+
+			<div class="donation-widget">
+				<p>Your donation will encourage me to make my blog even better! If you don't want to donate or you don't have any money, don't worry, just enjoy it! :)</p>
+				<div class="donation-stats">
+					<a href="javascript:;" class="button" id="click-button">Make a donation</a><br />
+					<p id="qrcode"><img src="/assets/images/qrwechat.png"><br />Scan the QR code to pay me with <a href="https://pay.weixin.qq.com/wechatpay">WeChat Pay</a>.<p>
+				</div>
+			</div>
+
+		</div>
+	<!-- END .panel -->
+	</div>
+
+	
+	<!-- BEGIN .panel -->
+	<div class="panel">
+		<h2>Recent Posts</h2>
+		<div class="top-right"><a href="/blog/">View all</a></div>
+		<div class="panel-content">
+
+			<div class="d-articles">
+				
+				<div class="item">
+					<div class="item-header">
+						
+						<a href="/tools/Git-notes-start/"><img src="/images/201605/git-start.jpg" alt="Git 学习笔记 - 起步" /></a>
+						
+					</div>
+					<div class="item-content">
+						<h4><a href="/tools/Git-notes-start/">Git 学习笔记 - 起步</a></h4>
+						<p>May 19, 2016</p>
+					</div>
+				</div>
+				
+				<div class="item">
+					<div class="item-header">
+						
+						<a href="/learning/hello-world-again/"><img src="/images/201605/csharp.jpg" alt="Hello World! - Again" /></a>
+						
+					</div>
+					<div class="item-content">
+						<h4><a href="/learning/hello-world-again/">Hello World! - Again</a></h4>
+						<p>May 18, 2016</p>
+					</div>
+				</div>
+				
+				<div class="item">
+					<div class="item-header">
+						
+						<a href="/tools/Sublime-Evernote/"><img src="/images/201605/Evernote.jpg" alt="在 Sublime Text 中用 Markdown 编辑 Evernote 笔记" /></a>
+						
+					</div>
+					<div class="item-content">
+						<h4><a href="/tools/Sublime-Evernote/">在 Sublime Text 中用 Markdown 编辑 Evernote 笔记</a></h4>
+						<p>May 16, 2016</p>
+					</div>
+				</div>
+				
+				<div class="item">
+					<div class="item-header">
+						
+						<a href="/media/First-Direct-Platypus/"><img src="/assets/images/default.jpg" alt="First Direct - Platypus" /></a>
+						
+					</div>
+					<div class="item-content">
+						<h4><a href="/media/First-Direct-Platypus/">First Direct - Platypus</a></h4>
+						<p>May 13, 2016</p>
+					</div>
+				</div>
+				
+				<div class="item">
+					<div class="item-header">
+						
+						<a href="/front-end/recent-comments-using-disqus-api/"><img src="/images/201604/comments.jpg" alt="使用 Disqus API 加载最近评论" /></a>
+						
+					</div>
+					<div class="item-content">
+						<h4><a href="/front-end/recent-comments-using-disqus-api/">使用 Disqus API 加载最近评论</a></h4>
+						<p>April 13, 2016</p>
+					</div>
+				</div>
+				
+			</div>
+
+		</div>
+	<!-- END .panel -->
+	</div>
+	
+
+	
+<!-- BEGIN .panel -->
+<div class="panel">
+	<h2>Latest Comments</h2>
+	<div class="panel-content no-padding">
+		<div id="recent-comments"></div>
+	</div>
+<!-- END .panel -->
+</div>
+
+
+	<!-- BEGIN .panel -->
+	<div class="panel moved">
+		<h2>Tag Cloud</h2>
+		<div class="panel-content">
+			<div class="tagcloud">
+				<a href="/tags/#Ubuntu">Ubuntu</a><a href="/tags/#Jekyll">Jekyll</a><a href="/tags/#html">html</a><a href="/tags/#reading">reading</a><a href="/tags/#Hong Kong">Hong Kong</a><a href="/tags/#Olympus">Olympus</a><a href="/tags/#movie">movie</a><a href="/tags/#music">music</a><a href="/tags/#JavaScript">JavaScript</a><a href="/tags/#Disqus">Disqus</a><a href="/tags/#commercial">commercial</a><a href="/tags/#Sublime Text">Sublime Text</a><a href="/tags/#Evernote">Evernote</a><a href="/tags/#C#">C#</a><a href="/tags/#Git">Git</a><a href="/tags/#GitLab">GitLab</a>
+			</div>
+		</div>
+	<!-- END .panel -->
+	</div>
+
+<!-- END #sidebar -->
+</aside>
+
+      <div class="clear-float"></div>
+    </div>
+  </section>
+  </div>
+  <div class="clear-float"></div>
+  
+<div class="wrapper">
+	<!-- BEGIN .footer -->
+	<div class="footer">
+
+		<div class="footer-top"></div>
+
+		<div class="footer-content">
+
+			<!-- BEGIN .panel -->
+			<div class="panel">
+				<h2>About</h2>
+				<div class="panel-content">
+
+					<div>
+                        <p>
+                            Thanks for visiting my personal blog that generated by <a href="https://jekyllrb.com/" target="_blank">Jekyll</a> and proudly hosting on <a href="https://pages.github.com/" target="_blank"><i class="fa fa-github"></i> GitHub Pages</a>. Except where otherwise noted, content on this site is licensed under the <a href="https://creativecommons.org/licenses/by-nc/4.0/" rel="nofollow" title="CC BY-NC 4.0 license" target="_blank"><i class="fa fa-creative-commons" aria-hidden="true"></i> CC BY-NC 4.0</a> for non-commercial use.
+                        </p>
+
+						<a href="mailto:franklin@flinhong.com" class="icon-line">
+							<i class="fa fa-envelope-o"></i><span>franklin@flinhong.com</span>
+						</a>
+
+						<span class="icon-line">
+							<i class="fa fa-map-marker"></i><span>CYC 807, HKU, Hong Kong, China</span>
+						</span>
+
+					</div>
+
+				</div>
+			<!-- END .panel -->
+			</div>
+
+			<!-- BEGIN .panel -->
+			<div class="panel">
+				<h2>Recent Posts</h2>
+				<div class="top-right"><a href="/blog/">View all</a></div>
+				<div class="panel-content">
+
+					<div class="d-articles">
+						
+						<div class="item">
+							<div class="item-header">
+								
+								<a href="/tips/automated-blog-with-gitlab-ci/"><img src="/images/201605/gitlab.png" alt="使用 GitLab CI 自动部署博客到 GitHub Pages" /></a>
+								
+							</div>
+							<div class="item-content">
+								<h4><a href="/tips/automated-blog-with-gitlab-ci/">使用 GitLab CI 自动部署博客到 GitHub Pages</a></h4>
+								<p>May 22, 2016</p>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="item-header">
+								
+								<a href="/tools/Git-notes-logs/"><img src="/images/201605/git-log.jpg" alt="Git 学习笔记 - 提交历史" /></a>
+								
+							</div>
+							<div class="item-content">
+								<h4><a href="/tools/Git-notes-logs/">Git 学习笔记 - 提交历史</a></h4>
+								<p>May 21, 2016</p>
+							</div>
+						</div>
+						
+						<div class="item">
+							<div class="item-header">
+								
+								<a href="/tools/Git-notes-basics/"><img src="/images/201605/git-history.png" alt="Git 学习笔记 - Git 基础" /></a>
+								
+							</div>
+							<div class="item-content">
+								<h4><a href="/tools/Git-notes-basics/">Git 学习笔记 - Git 基础</a></h4>
+								<p>May 20, 2016</p>
+							</div>
+						</div>
+						
+					</div>
+
+				</div>
+			<!-- END .panel -->
+			</div>
+
+			<!-- BEGIN .panel -->
+			<div class="panel">
+				<h2>Tag Cloud</h2>
+				<div class="panel-content">
+
+					<div class="tagcloud">
+						<a href="/tags/#Ubuntu">Ubuntu</a><a href="/tags/#Jekyll">Jekyll</a><a href="/tags/#html">html</a><a href="/tags/#reading">reading</a><a href="/tags/#Hong Kong">Hong Kong</a><a href="/tags/#Olympus">Olympus</a><a href="/tags/#movie">movie</a><a href="/tags/#music">music</a><a href="/tags/#JavaScript">JavaScript</a><a href="/tags/#Disqus">Disqus</a><a href="/tags/#commercial">commercial</a><a href="/tags/#Sublime Text">Sublime Text</a><a href="/tags/#Evernote">Evernote</a><a href="/tags/#C#">C#</a><a href="/tags/#Git">Git</a><a href="/tags/#GitLab">GitLab</a>
+					</div>
+
+				</div>
+			<!-- END .panel -->
+			</div>
+
+		</div>
+
+		<div class="footer-bottom">
+			<div class="left">&copy; Copyright 2016 <strong>Frank Lin.</strong> All rights reserved.</div>
+			<div class="right">
+				<ul>
+					<li><a href="/">Homepage</a></li>
+					<li><a href="/blog/">Blog</a></li>
+					<li><a href="http://lofter.flinhong.com">Photo Gallery</a></li>
+					<li><a href="/feed.xml">RSS</a></li>
+					<li><a href="/sitemap.xml">Sitemap</a></li>
+					<li><a href="/about/">About</a></li>
+				</ul>
+			</div>
+			<div class="clear-float"></div>
+		</div>
+		<a class="back-to-top" href="#"><span><i class="fa fa-chevron-up"></i></span></a>
+	<!-- END .footer -->
+	</div>
+</div>
+
+  
+<script type='text/javascript' src='/jscript/jquery-1.11.2.min.js'></script>
+<script type='text/javascript' src='/jscript/modernizr.custom.50878.js'></script>
+<script type='text/javascript' src='/jscript/iscroll.js'></script>
+<script type='text/javascript' src='/jscript/dat-menu.js'></script>
+<script type='text/javascript' src="/jscript/jquery.fitvids.js"></script>
+<script type='text/javascript'>
+	var strike_autostart = false;
+</script>
+
+<script type='text/javascript' src='/jscript/theme-script.js'></script>
+
+<script type='text/javascript' src='/jscript/moment.min.js'></script>
+<script id="dsq-count-scr" src="//flinhong.disqus.com/count.js" async></script>
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-55d1d3f27f6078ce"></script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-74593146-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+</body>
+</html>

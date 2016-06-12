@@ -1,0 +1,987 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="https://www.flinhong.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://www.flinhong.com/" rel="alternate" type="text/html" /><updated>2016-06-12T16:28:30+08:00</updated><id>https://www.flinhong.com/</id><title>Frank&#39;s Blog</title><subtitle>This blog is an exploration of my quirky thoughts and random adventures through life. I hope you enjoy reading and perusing my posts, please leave me a comment... I&#39;d love to hear from you!</subtitle><author><name>Frank Lin</name></author><entry><title>使用 GitLab CI 自动部署博客到 GitHub Pages</title><link href="https://www.flinhong.com/tips/automated-blog-with-gitlab-ci/" rel="alternate" type="text/html" title="使用 GitLab CI 自动部署博客到 GitHub Pages" /><published>2016-05-22T00:00:00+08:00</published><updated>2016-05-22T00:00:00+08:00</updated><id>https://www.flinhong.com/tips/automated-blog-with-gitlab-ci</id><content type="html" xml:base="https://www.flinhong.com/tips/automated-blog-with-gitlab-ci/">&lt;p&gt;由于一些莫名其妙的原因，我用 GitHub Pages 的 Jekyll 版本不能在本地生成 _posts 的静态文件，自然放到 GitHub 上也不行。一直没弄清楚原因，😳 求知情人士解答。于是找了备用方案，用起了 &lt;a href=&quot;http://docs.gitlab.com/ee/pages/README.html&quot;&gt;GitLab Pages&lt;/a&gt;，但是访问速度上又没有 GitHub Pages 给力，又不想用其他 CDN，所以还是两头托管，还能让百度索引。&lt;/p&gt;
+
+&lt;p&gt;其实 GitLab Pages 是基于 GitLab CI，我们最终看到的网站是借由所配置的 &lt;a href=&quot;http://doc.gitlab.com/ee/ci/quick_start/README.html#configuring-a-runner&quot;&gt;Runner&lt;/a&gt; 生成的，所以可以用各种 Jekyll 插件，还能自定所使用的 Jekyll 版本。搭建起来和 GitHub Pages 差不多，可以参看官方博客 &lt;a href=&quot;https://about.gitlab.com/2016/04/07/gitlab-pages-setup/&quot;&gt;Hosting on GitLab.com with GitLab Pages&lt;/a&gt; 设置就行。&lt;/p&gt;
+
+&lt;p&gt;为了省事，还可以进一步配置 GitLab Pages 所用到的 &lt;code class=&quot;highlighter-rouge&quot;&gt;.gitlab-ci.yml&lt;/code&gt; 文件，让 GitLab 中生成的静态文件自动部署到 GitHub 上，再也不用两个仓库倒腾了。&lt;/p&gt;
+
+&lt;p&gt;首先，需要在 GitHub 中生成一个 &lt;code class=&quot;highlighter-rouge&quot;&gt;Personal access tokens&lt;/code&gt;，注意生成后自己拷贝下来，因为你以后在 GitHub 上不会再见到这个 token 了。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/201605/github-settings.png&quot; alt=&quot;GitHub access token&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;然后就是配置 GitLab 的 &lt;code class=&quot;highlighter-rouge&quot;&gt;.gitlab-ci.yml&lt;/code&gt; 文件，比如说我的：&lt;/p&gt;
+
+&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# requiring the environment of Ruby 2.x&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;ruby:2.2&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;# add bundle cache to &#39;vendor&#39; for speeding up builds&lt;/span&gt;
+&lt;span class=&quot;s&quot;&gt;cache&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;s&quot;&gt;paths&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; 
+    &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;vendor/&lt;/span&gt;
+
+&lt;span class=&quot;s&quot;&gt;before_script&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;bundle install --path vendor&lt;/span&gt;
+
+&lt;span class=&quot;s&quot;&gt;pages&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;s&quot;&gt;stage&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;deploy&lt;/span&gt;
+  &lt;span class=&quot;s&quot;&gt;script&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;git clone https://&amp;lt;your_github_token&amp;gt;@github.com/&amp;lt;your_github_repo.git&amp;gt; public&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;bundle exec jekyll build -d public/&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;cd ./public&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;git config user.name &quot;Frank Lin&quot;&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;git config user.email &quot;franklin@flinhong.com&quot;&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;git config --global push.default simple&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;git add .&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;git commit -m &quot;Update site&quot;&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;git push --set-upstream &quot;&amp;lt;your_github_token&amp;gt;@github.com/&amp;lt;your_github_repo.git&amp;gt;&quot;&lt;/span&gt;
+  &lt;span class=&quot;s&quot;&gt;artifacts&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;s&quot;&gt;paths&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;public&lt;/span&gt;
+  &lt;span class=&quot;s&quot;&gt;only&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;master&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;把上面的 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;your_github_token&amp;gt;&lt;/code&gt; 和 &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;your_github_repo.git&amp;gt;&lt;/code&gt; 换成你自己的就好了（不用&lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;&amp;gt;&lt;/code&gt;）。GitLab Pages 使用 &lt;code class=&quot;highlighter-rouge&quot;&gt;public&lt;/code&gt; 文件夹展示生成的内容，所以要在 GitLab 上托管博客，就不要改这个文件夹了。&lt;/p&gt;
+
+&lt;p&gt;然后就可以继续开开心心的弄博客啦，只需要把 Jekyll 文件推送到 GitLab 上，就能看到 GitHub 用生成的静态文件给你展示博客内容啦。当然，也可以用同样的方法推送到 Coding.net 上，我就这么做了，这下一次 push，几处都有了，也不用那么麻烦设置我现在还没懂的 Webhooks 了。&lt;/p&gt;
+
+&lt;p&gt;当然，GitLab 提供免费的私人仓库，所以你不想共享博客源文件也可以用这种方法。PS，GitLab Pages 支持自定义域名使用 &lt;code class=&quot;highlighter-rouge&quot;&gt;https&lt;/code&gt; ，👍。&lt;/p&gt;</content><author><name>Frank Lin</name></author><category term="Tips" /><category term="GitLab" /><category term="Jekyll" /><summary>由于一些莫名其妙的原因，我用 GitHub Pages 的 Jekyll 版本不能在本地生成 _posts 的静态文件，自然放到 GitHub 上也不行。一直没弄清楚原因，😳 求知情人士解答。于是找了备用方案，用起了 GitLab Pages，但是访问速度上又没有 GitHub Pages 给力，又不想用其他 CDN，所以还是两头托管，还能让百度索引。</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://www.flinhong.com/images/201605/gitlab.png" /></entry><entry><title>Git 学习笔记 - 提交历史</title><link href="https://www.flinhong.com/tools/Git-notes-logs/" rel="alternate" type="text/html" title="Git 学习笔记 - 提交历史" /><published>2016-05-21T00:00:00+08:00</published><updated>2016-05-21T00:00:00+08:00</updated><id>https://www.flinhong.com/tools/Git-notes-logs</id><content type="html" xml:base="https://www.flinhong.com/tools/Git-notes-logs/">&lt;p&gt;在提交了若干更新，又或者克隆了某个项目之后，你也许想回顾下提交历史。完成这个任务最简单而又有效的工具是 &lt;code class=&quot;highlighter-rouge&quot;&gt;git log&lt;/code&gt; 命令。&lt;/p&gt;
+
+&lt;p&gt;接下来按照 Git Pro 中的演示例子 simplegit 项目，一步一步操作学习吧。运行下面的命令获取该项目源代码：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;git clone https://github.com/schacon/simplegit-progit
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;然后在此项目中运行 &lt;code class=&quot;highlighter-rouge&quot;&gt;git log&lt;/code&gt;，应该会看到下面的输出：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;git log
+commit ca82a6dff817ec66f44342007202690a93763949
+Author: Scott Chacon &amp;lt;schacon@gee-mail.com&amp;gt;
+Date:   Mon Mar 17 21:52:11 2008 -0700
+
+    changed the version number
+
+commit 085bb3bcb608e1e8451d4b2432f8ecbe6306e7e7
+Author: Scott Chacon &amp;lt;schacon@gee-mail.com&amp;gt;
+Date:   Sat Mar 15 16:40:33 2008 -0700
+
+    removed unnecessary &lt;span class=&quot;nb&quot;&gt;test
+
+&lt;/span&gt;commit a11bef06a3f659402fe7563abf99ad00de2209e6
+Author: Scott Chacon &amp;lt;schacon@gee-mail.com&amp;gt;
+Date:   Sat Mar 15 10:31:28 2008 -0700
+
+    first commit
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;默认不用任何参数的话，&lt;code class=&quot;highlighter-rouge&quot;&gt;git log&lt;/code&gt; 会按提交时间列出所有的更新，最近的更新排在最上面。正如你所看到的，这个命令会列出每个提交的 SHA-1 校验和、作者的名字和电子邮件地址、提交时间以及提交说明。&lt;/p&gt;
+
+&lt;p&gt;一个常用的选项是 &lt;code class=&quot;highlighter-rouge&quot;&gt;-p&lt;/code&gt;，用来显示每次提交的内容差异。 你也可以加上 &lt;code class=&quot;highlighter-rouge&quot;&gt;-2&lt;/code&gt; 来仅显示最近两次提交：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ git log -p -2
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;该选项除了显示基本信息之外，还在附带了每次 commit 的变化。当进行代码审查，或者快速浏览某个搭档提交的 commit 所带来的变化的时候，这个参数就非常有用了。 你也可以为 &lt;code class=&quot;highlighter-rouge&quot;&gt;git log&lt;/code&gt; 附带一系列的总结性选项。比如说，如果你想看到每次提交的简略的统计信息，你可以使用 &lt;code class=&quot;highlighter-rouge&quot;&gt;--stat&lt;/code&gt; 选项：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ git log --stat
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;--stat&lt;/code&gt; 选项在每次提交的下面列出额所有被修改过的文件、有多少文件被修改了以及被修改过的文件的哪些行被移除或是添加了。在每次提交的最后还有一个总结。&lt;/p&gt;
+
+&lt;p&gt;另外一个常用的选项是 &lt;code class=&quot;highlighter-rouge&quot;&gt;--pretty&lt;/code&gt;。这个选项可以指定使用不同于默认格式的方式展示提交历史。这个选项有一些内建的子选项供你使用。比如用 oneline 将每个提交放在一行显示，查看的提交数很大时非常有用。另外还有 &lt;code class=&quot;highlighter-rouge&quot;&gt;short&lt;/code&gt;，&lt;code class=&quot;highlighter-rouge&quot;&gt;full&lt;/code&gt; 和 &lt;code class=&quot;highlighter-rouge&quot;&gt;fuller&lt;/code&gt; 可以用，展示的信息或多或少有些不同。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ git log --pretty=oneline
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;但最有意思的是 &lt;code class=&quot;highlighter-rouge&quot;&gt;format&lt;/code&gt;，可以定制要显示的记录格式。这样的输出对后期提取分析格外有用 — 因为你知道输出的格式不会随着 Git 的更新而发生改变：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;git log --pretty&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;format:&lt;span class=&quot;s2&quot;&gt;&quot;%h - %an, %ar : %s&quot;&lt;/span&gt;
+ca82a6d - Scott Chacon, 6 years ago : changed the version number
+085bb3b - Scott Chacon, 6 years ago : removed unnecessary &lt;span class=&quot;nb&quot;&gt;test
+&lt;/span&gt;a11bef0 - Scott Chacon, 6 years ago : first commit
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;下表是 &lt;code class=&quot;highlighter-rouge&quot;&gt;git log --pretty=format&lt;/code&gt; 常用的选项：&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;&lt;strong&gt;选项&lt;/strong&gt;&lt;/th&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;&lt;strong&gt;说明&lt;/strong&gt;&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;%H&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;提交对象（commit）的完整哈希字串&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;%h&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;提交对象的简短哈希字串&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;%T&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;树对象（tree）的完整哈希字串&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;%t&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;树对象的简短哈希字串&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;%P&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;父对象（parent）的完整哈希字串&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;%p&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;父对象的简短哈希字串&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;%an&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;作者（author）的名字&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;%ae&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;作者的电子邮件地址&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;%ad&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;作者修订日期（可以用 –date= 选项定制格式）&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;%ar&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;作者修订日期，按多久以前的方式显示&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;%cn&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;提交者(committer)的名字&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;%ce&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;提交者的电子邮件地址&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;%cd&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;提交日期&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;%cr&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;提交日期，按多久以前的方式显示&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;%s&lt;/code&gt;&lt;/td&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;提交说明&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;你一定奇怪 作者 和 提交者 之间究竟有何差别，其实作者指的是实际作出修改的人，提交者指的是最后将此工作成果提交到仓库的人。所以，当你为某个项目发布补丁，然后某个核心成员将你的补丁并入项目时，你就是作者，而那个核心成员就是提交者。&lt;/p&gt;
+
+&lt;p&gt;当 &lt;code class=&quot;highlighter-rouge&quot;&gt;oneline&lt;/code&gt; 或 &lt;code class=&quot;highlighter-rouge&quot;&gt;format&lt;/code&gt; 与另一个 &lt;code class=&quot;highlighter-rouge&quot;&gt;log&lt;/code&gt; 选项 &lt;code class=&quot;highlighter-rouge&quot;&gt;--graph&lt;/code&gt; 结合使用时尤其有用。这个选项添加了一些 ASCII 字符串来形象地展示你的分支、合并历史：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;git log --pretty&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;format:&lt;span class=&quot;s2&quot;&gt;&quot;%h %s&quot;&lt;/span&gt; --graph
+&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; 2d3acf9 ignore errors from SIGCHLD on &lt;span class=&quot;nb&quot;&gt;trap&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;  5e3ee11 Merge branch &lt;span class=&quot;s1&quot;&gt;&#39;master&#39;&lt;/span&gt; of git://github.com/dustin/grit
+|&lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+| &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; 420eac9 Added a method &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;getting the current branch.
+&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; | 30e367c timeout code and tests
+&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; | 5a09431 add timeout protection to grit
+&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; | e1193f8 support &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;heads with slashes &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;them
+|/
+&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt; d6016bc require &lt;span class=&quot;nb&quot;&gt;time &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;xmlschema
+&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;  11d191e Merge branch &lt;span class=&quot;s1&quot;&gt;&#39;defunkt&#39;&lt;/span&gt; into &lt;span class=&quot;nb&quot;&gt;local&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;以上只是简单介绍了一些 &lt;code class=&quot;highlighter-rouge&quot;&gt;git log&lt;/code&gt; 命令支持的选项。这个有个&lt;a href=&quot;https://git-scm.com/book/zh/v2/ch00/log_options&quot;&gt;表格&lt;/a&gt;列出了我们目前涉及到的和没涉及到的选项，以及它们是如何影响 log 命令的输出的。&lt;/p&gt;
+
+&lt;p&gt;除了定制输出格式的选项之外，&lt;code class=&quot;highlighter-rouge&quot;&gt;git log&lt;/code&gt; 还有许多非常实用的限制输出长度的选项，也就是只输出部分提交信息。之前你已经看到过 -2 了，它只显示最近的两条提交，实际上，这是 &lt;code class=&quot;highlighter-rouge&quot;&gt;-&amp;lt;n&amp;gt;&lt;/code&gt; 选项的写法，其中的 n 可以是任何整数，表示仅显示最近的若干条提交。不过实践中我们是不太用这个选项的，Git 在输出所有提交时会自动调用分页程序，所以你一次只会看到一页的内容。&lt;/p&gt;
+
+&lt;p&gt;另外还有按照时间作限制的选项，比如 &lt;code class=&quot;highlighter-rouge&quot;&gt;--since&lt;/code&gt; 和 &lt;code class=&quot;highlighter-rouge&quot;&gt;--until&lt;/code&gt; 也很有用。&lt;/p&gt;
+
+&lt;p&gt;还可以给出若干搜索条件，列出符合的提交。用 &lt;code class=&quot;highlighter-rouge&quot;&gt;--author&lt;/code&gt; 选项显示指定作者的提交，用 &lt;code class=&quot;highlighter-rouge&quot;&gt;--grep&lt;/code&gt; 选项搜索提交说明中的关键字。（请注意，如果要得到同时满足这两个选项搜索条件的提交，就必须用 &lt;code class=&quot;highlighter-rouge&quot;&gt;--all-match&lt;/code&gt; 选项。否则，满足任意一个条件的提交都会被匹配出来）&lt;/p&gt;
+
+&lt;p&gt;另一个非常有用的筛选选项是 &lt;code class=&quot;highlighter-rouge&quot;&gt;-S&lt;/code&gt;，可以列出那些添加或移除了某些字符串的提交。比如说，你想找出添加或移除了某一个特定函数的引用的提交，你可以这样使用：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ git log -Sfunction_name
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;最后一个很实用的 &lt;code class=&quot;highlighter-rouge&quot;&gt;git log&lt;/code&gt; 选项是路径 (path)，如果只关心某些文件或者目录的历史提交，可以在 &lt;code class=&quot;highlighter-rouge&quot;&gt;git log&lt;/code&gt; 选项的最后指定它们的路径。因为是放在最后位置上的选项，所以用两个短划线（–）隔开之前的选项和后面限定的路径名。&lt;/p&gt;
+
+&lt;p&gt;来看一个实际的例子，如果要查看 Git 仓库中，2008 年 10 月期间，Junio Hamano 提交的但未合并的测试文件，可以用下面的查询命令：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;git log --pretty&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;%h - %s&quot;&lt;/span&gt; --author&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;gitster --since&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;2008-10-01&quot;&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&lt;/span&gt;
+   --before&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;2008-11-01&quot;&lt;/span&gt; --no-merges -- t/
+5610e3b - Fix testcase failure when extended attributes are &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;use
+acd3b9e - Enhance hold_lock_file_for_&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;update,append&lt;span class=&quot;o&quot;&gt;}()&lt;/span&gt; API
+f563754 - demonstrate breakage of detached checkout with symbolic link HEAD
+d1a43f2 - reset --hard/read-tree --reset -u: remove unmerged new paths
+51a94af - Fix &lt;span class=&quot;s2&quot;&gt;&quot;checkout --track -b newbranch&quot;&lt;/span&gt; on detached HEAD
+b0ad11e - pull: allow &lt;span class=&quot;s2&quot;&gt;&quot;git pull origin &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$something&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$current_branch&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; into an unborn branch
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;这次就到这里，有很多 GUI 都能可视化显示这些记录，看起来会比较贴心些，不过不都是基于这些命令的基础嘛，多学学还是有用的。&lt;/p&gt;</content><author><name>Frank Lin</name></author><category term="Tools" /><category term="Git" /><summary>在提交了若干更新，又或者克隆了某个项目之后，你也许想回顾下提交历史。完成这个任务最简单而又有效的工具是 git log 命令。</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://www.flinhong.com/images/201605/git-log.jpg" /></entry><entry><title>Git 学习笔记 - Git 基础</title><link href="https://www.flinhong.com/tools/Git-notes-basics/" rel="alternate" type="text/html" title="Git 学习笔记 - Git 基础" /><published>2016-05-20T00:00:00+08:00</published><updated>2016-05-20T00:00:00+08:00</updated><id>https://www.flinhong.com/tools/Git-notes-basics</id><content type="html" xml:base="https://www.flinhong.com/tools/Git-notes-basics/">&lt;p&gt;今天学习 Git 仓库的基本操作：初始化一个仓库（repository）、开始或停止跟踪（track）文件、暂存（stage）或提交（commit)更改，配置 Git 来忽略指定的文件和文件模式，以及在仓库中移动、移除文件。&lt;/p&gt;
+
+&lt;h2 id=&quot;headid-git-&quot;&gt;获取 Git 仓库&lt;/h2&gt;
+
+&lt;h3 id=&quot;headid-section&quot;&gt;在现有目录中初始化仓库&lt;/h3&gt;
+
+&lt;p&gt;如果你打算使用 Git 来对现有的项目进行管理，你只需要进入该项目目录并输入：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;git init
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;该命令将创建一个名为 &lt;code class=&quot;highlighter-rouge&quot;&gt;.git&lt;/code&gt; 的子目录，这个子目录含有你初始化的 Git 仓库中所有的必须文件，这些文件是 Git 仓库的骨干。 但是，在这个时候，我们仅仅是做了一个初始化的操作，你的项目里的文件还没有被跟踪。你可通过 &lt;code class=&quot;highlighter-rouge&quot;&gt;git add&lt;/code&gt; 命令来实现对指定文件的跟踪，然后执行 &lt;code class=&quot;highlighter-rouge&quot;&gt;git commit&lt;/code&gt; 提交：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;git add &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;.c
+&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;git add LICENSE
+&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;git commit -m &lt;span class=&quot;s1&quot;&gt;&#39;initial project version&#39;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;headid-section-1&quot;&gt;克隆现有的仓库&lt;/h3&gt;
+
+&lt;p&gt;这也是我最常用的，在 Github 上建好仓库后，用克隆的方法可以不用怎么配置就能直接推送了。&lt;/p&gt;
+
+&lt;p&gt;克隆仓库的命令格式是 &lt;code class=&quot;highlighter-rouge&quot;&gt;git clone [url]&lt;/code&gt;。比如，要克隆 Git 的可链接库 libgit2，可以用下面的命令：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;git clone https://github.com/libgit2/libgit2
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;这会在当前目录下创建一个名为 “libgit2” 的目录，并在这个目录下初始化一个 .git 文件夹，从远程仓库拉取下所有数据放入 .git 文件夹，然后从中读取最新版本的文件的拷贝。如果你想在克隆远程仓库的时候，自定义本地仓库的名字，你可以使用如下命令：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;git clone https://github.com/libgit2/libgit2 mylibgit
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;headid-section-2&quot;&gt;记录每次更新到仓库&lt;/h2&gt;
+
+&lt;p&gt;你工作目录下的每一个文件都不外乎这两种状态：已跟踪或未跟踪。已跟踪的文件是指那些被纳入了版本控制的文件，在上一次快照中有它们的记录，在工作一段时间后，它们的状态可能处于未修改，已修改或已放入暂存区。工作目录中除已跟踪文件以外的所有其它文件都属于未跟踪文件，它们既不存在于上次快照的记录中，也没有放入暂存区。初次克隆某个仓库的时候，工作目录中的所有文件都属于已跟踪文件，并处于未修改状态。&lt;/p&gt;
+
+&lt;p&gt;编辑过某些文件之后，由于自上次提交后你对它们做了修改，Git 将它们标记为已修改文件。我们逐步将这些修改过的文件放入暂存区，然后提交所有暂存了的修改，如此反复。所以使用 Git 时文件的生命周期如下：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/201605/lifecycle.png&quot; alt=&quot;Git 文件周期&quot; /&gt;
+&lt;em&gt;文件的状态变化周期&lt;/em&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;headid-section-3&quot;&gt;检查当前文件状态&lt;/h3&gt;
+
+&lt;p&gt;要查看哪些文件处于什么状态，可以用 &lt;code class=&quot;highlighter-rouge&quot;&gt;git status&lt;/code&gt; 命令。如果在克隆仓库后立即使用此命令，会看到类似这样的输出：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;git status
+On branch master
+nothing to commit, working directory clean
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;现在，让我们在项目下创建一个新的 README 文件。如果之前并不存在这个文件，使用 &lt;code class=&quot;highlighter-rouge&quot;&gt;git status&lt;/code&gt; 命令，你将看到一个新的未跟踪文件：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&#39;My Project&#39;&lt;/span&gt; &amp;gt; README
+&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;git status
+On branch master
+Untracked files:
+  &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;use &lt;span class=&quot;s2&quot;&gt;&quot;git add &amp;lt;file&amp;gt;...&quot;&lt;/span&gt; to include &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;what will be committed&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+    README
+
+nothing added to commit but untracked files present &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;use &lt;span class=&quot;s2&quot;&gt;&quot;git add&quot;&lt;/span&gt; to track&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;在状态报告中可以看到新建的 README 文件出现在 &lt;code class=&quot;highlighter-rouge&quot;&gt;Untracked files&lt;/code&gt; 下面。&lt;/p&gt;
+
+&lt;h3 id=&quot;headid-section-4&quot;&gt;跟踪新文件&lt;/h3&gt;
+
+&lt;p&gt;使用命令 &lt;code class=&quot;highlighter-rouge&quot;&gt;git add&lt;/code&gt; 开始跟踪一个文件。 所以，要跟踪 README 文件，运行：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;git add README
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;此时再运行 &lt;code class=&quot;highlighter-rouge&quot;&gt;git status&lt;/code&gt; 命令，会看到 README 文件已被跟踪，并处于暂存状态：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;git status
+On branch master
+Changes to be committed:
+  &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;use &lt;span class=&quot;s2&quot;&gt;&quot;git reset HEAD &amp;lt;file&amp;gt;...&quot;&lt;/span&gt; to unstage&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+    new file:   README
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;只要在 &lt;code class=&quot;highlighter-rouge&quot;&gt;Changes to be committed&lt;/code&gt; 这行下面的，就说明是已暂存状态。如果此时提交，那么该文件此时此刻的版本将被留存在历史记录中。&lt;code class=&quot;highlighter-rouge&quot;&gt;git add&lt;/code&gt; 命令使用文件或目录的路径作为参数；如果参数是目录的路径，该命令将递归地跟踪该目录下的所有文件。&lt;/p&gt;
+
+&lt;h3 id=&quot;headid-section-5&quot;&gt;暂存已修改文件&lt;/h3&gt;
+
+&lt;p&gt;修改文件之后，要暂存这次更新，需要运行 &lt;code class=&quot;highlighter-rouge&quot;&gt;git add&lt;/code&gt; 命令。这是个多功能命令：可以用它开始跟踪新文件，或者把已跟踪的文件放到暂存区，还能用于合并时把有冲突的文件标记为已解决状态等。将这个命令理解为“添加内容到下一次提交中”而不是“将一个文件添加到项目中”要更加合适。&lt;/p&gt;
+
+&lt;p&gt;如果运行了 &lt;code class=&quot;highlighter-rouge&quot;&gt;git add&lt;/code&gt; 之后又作了修订的文件，需要重新运行 &lt;code class=&quot;highlighter-rouge&quot;&gt;git add&lt;/code&gt; 把最新版本重新暂存起来。&lt;/p&gt;
+
+&lt;h3 id=&quot;headid-section-6&quot;&gt;状态简览&lt;/h3&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;git status&lt;/code&gt; 命令的输出十分详细，但其用语有些繁琐。 如果你使用 &lt;code class=&quot;highlighter-rouge&quot;&gt;git status -s&lt;/code&gt; 命令或 &lt;code class=&quot;highlighter-rouge&quot;&gt;git status --short&lt;/code&gt; 命令，你将得到一种更为紧凑的格式输出，例如：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;git status -s
+ M README
+MM Rakefile
+A  lib/git.rb
+M  lib/simplegit.rb
+?? LICENSE.txt
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;新添加的未跟踪文件前面有 &lt;code class=&quot;highlighter-rouge&quot;&gt;??&lt;/code&gt; 标记，新添加到暂存区中的文件前面有 &lt;code class=&quot;highlighter-rouge&quot;&gt;A&lt;/code&gt; 标记，修改过的文件前面有 &lt;code class=&quot;highlighter-rouge&quot;&gt;M&lt;/code&gt; 标记。 你可能注意到了 &lt;code class=&quot;highlighter-rouge&quot;&gt;M&lt;/code&gt; 有两个可以出现的位置，出现在右边的 &lt;code class=&quot;highlighter-rouge&quot;&gt;M&lt;/code&gt; 表示该文件被修改了但是还没放入暂存区，出现在靠左边的 &lt;code class=&quot;highlighter-rouge&quot;&gt;M&lt;/code&gt; 表示该文件被修改了并放入了暂存区。例如，上面的状态报告显示： README 文件在工作区被修改了但是还没有将修改后的文件放入暂存区, lib/simplegit.rb 文件被修改了并将修改后的文件放入了暂存区。而 Rakefile 在工作区被修改并提交到暂存区后又在工作区中被修改了，所以在暂存区和工作区都有该文件被修改了的记录。&lt;/p&gt;
+
+&lt;h3 id=&quot;headid-section-7&quot;&gt;忽略文件&lt;/h3&gt;
+
+&lt;p&gt;一般我们总会有些文件无需纳入 Git 的管理，也不希望它们总出现在未跟踪文件列表。 通常都是些自动生成的文件，比如日志文件，或者编译过程中创建的临时文件等。在这种情况下，我们可以创建一个名为 &lt;code class=&quot;highlighter-rouge&quot;&gt;.gitignore&lt;/code&gt; 的文件，列出要忽略的文件模式。来看一个实际的例子：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;cat .gitignore
+&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;.[oa]
+&lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;~
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;第一行告诉 Git 忽略所有以 &lt;code class=&quot;highlighter-rouge&quot;&gt;.o&lt;/code&gt; 或 &lt;code class=&quot;highlighter-rouge&quot;&gt;.a&lt;/code&gt; 结尾的文件。一般这类对象文件和存档文件都是编译过程中出现的。第二行告诉 Git 忽略所有以波浪符（~）结尾的文件，许多文本编辑软件（比如 Emacs）都用这样的文件名保存副本。&lt;/p&gt;
+
+&lt;p&gt;文件 &lt;code class=&quot;highlighter-rouge&quot;&gt;.gitignore&lt;/code&gt; 的格式规范如下：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;* 所有空行或者以 ＃ 开头的行都会被 Git 忽略。
+* 可以使用标准的 glob 模式匹配。
+* 匹配模式可以以（/）开头防止递归。
+* 匹配模式可以以（/）结尾指定目录。
+* 要忽略指定模式以外的文件或目录，可以在模式前加上惊叹号（!）取反。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;所谓的 glob 模式是指 shell 所使用的简化了的正则表达式。星号 (&lt;code class=&quot;highlighter-rouge&quot;&gt;*&lt;/code&gt;) 匹配零个或多个任意字符； [&lt;code class=&quot;highlighter-rouge&quot;&gt;abc&lt;/code&gt;] 匹配任何一个列在方括号中的字符（这个例子要么匹配一个 &lt;code class=&quot;highlighter-rouge&quot;&gt;a&lt;/code&gt;，要么匹配一个 &lt;code class=&quot;highlighter-rouge&quot;&gt;b&lt;/code&gt;，要么匹配一个 &lt;code class=&quot;highlighter-rouge&quot;&gt;c&lt;/code&gt;）；问号（&lt;code class=&quot;highlighter-rouge&quot;&gt;?&lt;/code&gt;）只匹配一个任意字符；如果在方括号中使用短划线分隔两个字符，表示所有在这两个字符范围内的都可以匹配（比如 [&lt;code class=&quot;highlighter-rouge&quot;&gt;0-9&lt;/code&gt;] 表示匹配所有 &lt;code class=&quot;highlighter-rouge&quot;&gt;0&lt;/code&gt; 到 &lt;code class=&quot;highlighter-rouge&quot;&gt;9&lt;/code&gt; 的数字）。使用两个星号（&lt;code class=&quot;highlighter-rouge&quot;&gt;*&lt;/code&gt;) 表示匹配任意中间目录，比如 &lt;code class=&quot;highlighter-rouge&quot;&gt;a/**/z&lt;/code&gt; 可以匹配 &lt;code class=&quot;highlighter-rouge&quot;&gt;a/z&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;a/b/z&lt;/code&gt; 或 &lt;code class=&quot;highlighter-rouge&quot;&gt;a/b/c/z&lt;/code&gt; 等。&lt;/p&gt;
+
+&lt;p&gt;GitHub 有一个十分详细的针对数十种项目及语言的 &lt;code class=&quot;highlighter-rouge&quot;&gt;.gitignore&lt;/code&gt; 文件列表，你可以在 &lt;a href=&quot;https://github.com/github/gitignore&quot;&gt;https://github.com/github/gitignore&lt;/a&gt; 找到它.&lt;/p&gt;
+
+&lt;h3 id=&quot;headid-section-8&quot;&gt;查看已暂存和未暂存的修改&lt;/h3&gt;
+
+&lt;p&gt;如果 &lt;code class=&quot;highlighter-rouge&quot;&gt;git status&lt;/code&gt; 命令的输出对于你来说过于模糊，你想知道具体修改了什么地方，可以用 &lt;code class=&quot;highlighter-rouge&quot;&gt;git diff&lt;/code&gt; 命令。你可能通常会用它来回答这两个问题：当前做的哪些更新还没有暂存？ 有哪些更新已经暂存起来准备好了下次提交？&lt;/p&gt;
+
+&lt;p&gt;此命令比较的是工作目录中当前文件和暂存区域快照之间的差异，也就是修改之后还没有暂存起来的变化内容。&lt;/p&gt;
+
+&lt;p&gt;若要查看已暂存的将要添加到下次提交里的内容，可以用 &lt;code class=&quot;highlighter-rouge&quot;&gt;git diff --cached&lt;/code&gt; 命令。（Git 1.6.1 及更高版本还允许使用 &lt;code class=&quot;highlighter-rouge&quot;&gt;git diff --staged&lt;/code&gt;，效果是相同的，但更好记些。）&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;git diff&lt;/code&gt; 本身只显示尚未暂存的改动，而不是自上次提交以来所做的所有改动。所以有时候你一下子暂存了所有更新过的文件后，运行 &lt;code class=&quot;highlighter-rouge&quot;&gt;git diff&lt;/code&gt; 后却什么也没有，就是这个原因。&lt;/p&gt;
+
+&lt;h3 id=&quot;headid-section-9&quot;&gt;提交更新&lt;/h3&gt;
+
+&lt;p&gt;每次准备提交前，先用 &lt;code class=&quot;highlighter-rouge&quot;&gt;git status&lt;/code&gt; 看下，是不是都已暂存起来了，然后再运行提交命令 &lt;code class=&quot;highlighter-rouge&quot;&gt;git commit&lt;/code&gt;：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;git commit
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;这种方式会启动文本编辑器以便输入本次提交的说明。&lt;/p&gt;
+
+&lt;p&gt;另外，你也可以在 &lt;code class=&quot;highlighter-rouge&quot;&gt;commit&lt;/code&gt; 命令后添加 &lt;code class=&quot;highlighter-rouge&quot;&gt;-m&lt;/code&gt; 选项，将提交信息与命令放在同一行，如下所示：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;git commit -m &lt;span class=&quot;s2&quot;&gt;&quot;Story 182: Fix benchmarks for speed&quot;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;master 463dc4f] Story 182: Fix benchmarks &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;speed
+ 2 files changed, 2 insertions&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;+&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+ create mode 100644 README
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;OK，现在你已经创建了第一个提交！可以看到，提交后它会告诉你，当前是在哪个分支（master）提交的，本次提交的完整 SHA-1 校验和是什么（463dc4f），以及在本次提交中，有多少文件修订过，多少行添加和删改过。&lt;/p&gt;
+
+&lt;p&gt;请记住，提交时记录的是放在暂存区域的快照。任何还未暂存的仍然保持已修改状态，可以在下次提交时纳入版本管理。 每一次运行提交操作，都是对你项目作一次快照，以后可以回到这个状态，或者进行比较。&lt;/p&gt;
+
+&lt;h3 id=&quot;headid-section-10&quot;&gt;跳过使用暂存区域&lt;/h3&gt;
+
+&lt;p&gt;尽管使用暂存区域的方式可以精心准备要提交的细节，但有时候这么做略显繁琐。 Git 提供了一个跳过使用暂存区域的方式， 只要在提交的时候，给 &lt;code class=&quot;highlighter-rouge&quot;&gt;git commit&lt;/code&gt; 加上 &lt;code class=&quot;highlighter-rouge&quot;&gt;-a&lt;/code&gt; 选项，Git 就会自动把所有已经跟踪过的文件暂存起来一并提交，从而跳过 &lt;code class=&quot;highlighter-rouge&quot;&gt;git add&lt;/code&gt; 步骤：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;git status
+On branch master
+Changes not staged &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;commit:
+  &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;use &lt;span class=&quot;s2&quot;&gt;&quot;git add &amp;lt;file&amp;gt;...&quot;&lt;/span&gt; to update what will be committed&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;use &lt;span class=&quot;s2&quot;&gt;&quot;git checkout -- &amp;lt;file&amp;gt;...&quot;&lt;/span&gt; to discard changes &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;working directory&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+    modified:   CONTRIBUTING.md
+
+no changes added to commit &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;use &lt;span class=&quot;s2&quot;&gt;&quot;git add&quot;&lt;/span&gt; and/or &lt;span class=&quot;s2&quot;&gt;&quot;git commit -a&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;git commit -a -m &lt;span class=&quot;s1&quot;&gt;&#39;added new benchmarks&#39;&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;master 83e38c7] added new benchmarks
+ 1 file changed, 5 insertions&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;+&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;, 0 deletions&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;-&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;如此，提交之前不再需要 git add 文件“CONTRIBUTING.md”了。&lt;/p&gt;
+
+&lt;h3 id=&quot;headid-section-11&quot;&gt;移除文件&lt;/h3&gt;
+
+&lt;p&gt;要从 Git 中移除某个文件，就必须要从已跟踪文件清单中移除（确切地说，是从暂存区域移除），然后提交。 可以用 &lt;code class=&quot;highlighter-rouge&quot;&gt;git rm&lt;/code&gt; 命令完成此项工作，并连带从工作目录中删除指定的文件，这样以后就不会出现在未跟踪文件清单中了。&lt;/p&gt;
+
+&lt;p&gt;如果只是简单地从工作目录中手工删除文件，运行 &lt;code class=&quot;highlighter-rouge&quot;&gt;git status&lt;/code&gt; 时就会在 “Changes not staged for commit” 部分（也就是 未暂存清单）看到：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;rm PROJECTS.md
+&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;git status
+On branch master
+Your branch is up-to-date with &lt;span class=&quot;s1&quot;&gt;&#39;origin/master&#39;&lt;/span&gt;.
+Changes not staged &lt;span class=&quot;k&quot;&gt;for &lt;/span&gt;commit:
+  &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;use &lt;span class=&quot;s2&quot;&gt;&quot;git add/rm &amp;lt;file&amp;gt;...&quot;&lt;/span&gt; to update what will be committed&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;use &lt;span class=&quot;s2&quot;&gt;&quot;git checkout -- &amp;lt;file&amp;gt;...&quot;&lt;/span&gt; to discard changes &lt;span class=&quot;k&quot;&gt;in &lt;/span&gt;working directory&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+        deleted:    PROJECTS.md
+
+no changes added to commit &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;use &lt;span class=&quot;s2&quot;&gt;&quot;git add&quot;&lt;/span&gt; and/or &lt;span class=&quot;s2&quot;&gt;&quot;git commit -a&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;然后再运行 &lt;code class=&quot;highlighter-rouge&quot;&gt;git rm&lt;/code&gt; 记录此次移除文件的操作：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;git rm PROJECTS.md
+rm &lt;span class=&quot;s1&quot;&gt;&#39;PROJECTS.md&#39;&lt;/span&gt;
+&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;git status
+On branch master
+Changes to be committed:
+  &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;use &lt;span class=&quot;s2&quot;&gt;&quot;git reset HEAD &amp;lt;file&amp;gt;...&quot;&lt;/span&gt; to unstage&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+
+    deleted:    PROJECTS.md
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;下一次提交时，该文件就不再纳入版本管理了。如果删除之前修改过并且已经放到暂存区域的话，则必须要用强制删除选项 &lt;code class=&quot;highlighter-rouge&quot;&gt;-f&lt;/code&gt;。 这是一种安全特性，用于防止误删还没有添加到快照的数据，这样的数据不能被 Git 恢复。&lt;/p&gt;
+
+&lt;p&gt;另外一种情况是，我们想把文件从 Git 仓库中删除（亦即从暂存区域移除），但仍然希望保留在当前工作目录中。换句话说，你想让文件保留在磁盘，但是并不想让 Git 继续跟踪。 当你忘记添加 .gitignore 文件，不小心把一个很大的日志文件或一堆 .a 这样的编译生成文件添加到暂存区时，这一做法尤其有用。为达到这一目的，使用 &lt;code class=&quot;highlighter-rouge&quot;&gt;--cached&lt;/code&gt; 选项：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;git rm --cached README
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;git rm&lt;/code&gt; 命令后面可以列出文件或者目录的名字，也可以使用上面提到的 &lt;code class=&quot;highlighter-rouge&quot;&gt;glob&lt;/code&gt; 模式。&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;git rm log/&lt;span class=&quot;se&quot;&gt;\*&lt;/span&gt;.log
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;注意星号 &lt;code class=&quot;highlighter-rouge&quot;&gt;*&lt;/code&gt; 之前的反斜杠 &lt;code class=&quot;highlighter-rouge&quot;&gt;\&lt;/code&gt;， 因为 Git 有它自己的文件模式扩展匹配方式，所以我们不用 &lt;code class=&quot;highlighter-rouge&quot;&gt;shell&lt;/code&gt; 来帮忙展开。此命令删除 &lt;code class=&quot;highlighter-rouge&quot;&gt;log/&lt;/code&gt; 目录下扩展名为 &lt;code class=&quot;highlighter-rouge&quot;&gt;.log&lt;/code&gt; 的所有文件。类似的比如：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;git rm &lt;span class=&quot;se&quot;&gt;\*&lt;/span&gt;~
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;该命令为删除以 &lt;code class=&quot;highlighter-rouge&quot;&gt;~&lt;/code&gt; 结尾的所有文件。&lt;/p&gt;
+
+&lt;h3 id=&quot;headid-section-12&quot;&gt;移动文件&lt;/h3&gt;
+
+&lt;p&gt;要在 Git 中对文件改名，可以这么做：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;git mv file_from file_to
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;它会恰如预期般正常工作。 实际上，即便此时查看状态信息，也会明白无误地看到关于重命名操作的说明：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ git mv README.md README
+$ git status
+On branch master
+Changes to be committed:
+  (use &quot;git reset HEAD &amp;lt;file&amp;gt;...&quot; to unstage)
+
+    renamed:    README.md -&amp;gt; README
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;其实，运行 &lt;code class=&quot;highlighter-rouge&quot;&gt;git mv&lt;/code&gt; 就相当于运行了下面三条命令：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;mv README.md README
+&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;git rm README.md
+&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;git add README
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;学完这些，突然觉得还是 GUI 好用…… 😂&lt;/p&gt;</content><author><name>Frank Lin</name></author><category term="Tools" /><category term="Git" /><summary>今天学习 Git 仓库的基本操作：初始化一个仓库（repository）、开始或停止跟踪（track）文件、暂存（stage）或提交（commit)更改，配置 Git 来忽略指定的文件和文件模式，以及在仓库中移动、移除文件。</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://www.flinhong.com/images/201605/git-history.png" /></entry><entry><title>Git 学习笔记 - 起步</title><link href="https://www.flinhong.com/tools/Git-notes-start/" rel="alternate" type="text/html" title="Git 学习笔记 - 起步" /><published>2016-05-19T00:00:00+08:00</published><updated>2016-05-19T00:00:00+08:00</updated><id>https://www.flinhong.com/tools/Git-notes-start</id><content type="html" xml:base="https://www.flinhong.com/tools/Git-notes-start/">&lt;p&gt;虽然接触 Git 有些时间了，但大多数情况使用的都是 Github Desktop 或者 Git GUI，对 Git 本身以及 Git 的一些命令并不理解。所以找到 &lt;a href=&quot;https://git-scm.com/book/en/v2&quot;&gt;Pro Git&lt;/a&gt; 深入学习一下 Git。&lt;/p&gt;
+
+&lt;h2 id=&quot;headid-git-&quot;&gt;Git 如何对待数据&lt;/h2&gt;
+
+&lt;p&gt;Git 和其它版本控制系统（包括 Subversion 和近似工具）的主要差别在于 Git 对待数据的方法。Git 更像是把数据看作是对小型文件系统的一组快照。每次你提交更新，或在 Git 中保存项目状态时，它主要对当时的全部文件制作一个快照并保存这个快照的索引。为了高效，如果文件没有修改，Git 不再重新存储该文件，而是只保留一个链接指向之前存储的文件。Git 对待数据更像是一个&lt;em&gt;快照流&lt;/em&gt;。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/201605/git-ver-time.png&quot; alt=&quot;Git data over time&quot; /&gt;
+&lt;em&gt;存储项目随时间改变的快照&lt;/em&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;headid-git--1&quot;&gt;数据在 Git 中的三种状态&lt;/h2&gt;
+
+&lt;p&gt;Git 有三种状态，你的文件可能处于其中之一：已提交（committed）、已修改（modified）和已暂存（staged）。已提交表示数据已经安全的保存在本地数据库中。已修改表示修改了文件，但还没保存到数据库中。已暂存表示对一个已修改文件的当前版本做了标记，使之包含在下次提交的快照中。&lt;/p&gt;
+
+&lt;p&gt;由此引入 Git 项目的三个工作区域的概念：Git 仓库、工作目录以及暂存区域。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/201605/git-area.png&quot; alt=&quot;3 status in Git&quot; /&gt;
+&lt;em&gt;工作目录、暂存区域以及 Git 仓库.&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;基本的 Git 工作流程如下：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;1. 在工作目录中修改文件。
+2. 暂存文件，将文件的快照放入暂存区域。
+3. 提交更新，找到暂存区域的文件，将快照永久性存储到 Git 仓库目录。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;如果 Git 目录中保存着的特定版本文件，就属于已提交状态。 如果作了修改并已放入暂存区域，就属于已暂存状态。 如果自上次取出后，作了修改但还没有放到暂存区域，就是已修改状态。&lt;/p&gt;
+
+&lt;h2 id=&quot;headid-git--2&quot;&gt;初次运行 Git 前的配置&lt;/h2&gt;
+
+&lt;p&gt;当安装完 Git 应该做的第一件事就是设置你的用户名称与邮件地址。这样做很重要，因为每一个 Git 的提交都会使用这些信息，并且它会写入到你的每一次提交中，不可更改：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;git config --global user.name &lt;span class=&quot;s2&quot;&gt;&quot;Frank Lin&quot;&lt;/span&gt;
+&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;git config --global user.email franklin@flinhong.com
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;如果想要检查你的配置，可以使用 &lt;code class=&quot;highlighter-rouge&quot;&gt;git config --list&lt;/code&gt; 命令来列出所有 Git 当时能找到的配置。通过输入 &lt;code class=&quot;highlighter-rouge&quot;&gt;git config &amp;lt;key&amp;gt;&lt;/code&gt; 来检查 Git 的某一项配置&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;git config user.name
+Frank Lin
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;headid-section&quot;&gt;获取帮助&lt;/h2&gt;
+
+&lt;p&gt;有三种方法可以找到 Git 命令的使用手册：&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;git &lt;span class=&quot;nb&quot;&gt;help&lt;/span&gt; &amp;lt;verb&amp;gt;
+&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;git &amp;lt;verb&amp;gt; --help
+&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;man git-&amp;lt;verb&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;例如，要想获得 config 命令的手册，执行&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gp&quot;&gt;$ &lt;/span&gt;git &lt;span class=&quot;nb&quot;&gt;help &lt;/span&gt;config
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;这些命令可以随时随地使用而无需联网。&lt;/p&gt;</content><author><name>Frank Lin</name></author><category term="Tools" /><category term="Git" /><summary>虽然接触 Git 有些时间了，但大多数情况使用的都是 Github Desktop 或者 Git GUI，对 Git 本身以及 Git 的一些命令并不理解。所以找到 Pro Git 深入学习一下 Git。</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://www.flinhong.com/images/201605/git-start.jpg" /></entry><entry><title>Hello World! - Again</title><link href="https://www.flinhong.com/learning/hello-world-again/" rel="alternate" type="text/html" title="Hello World! - Again" /><published>2016-05-18T00:00:00+08:00</published><updated>2016-05-18T00:00:00+08:00</updated><id>https://www.flinhong.com/learning/hello-world-again</id><content type="html" xml:base="https://www.flinhong.com/learning/hello-world-again/">&lt;p&gt;没想到学一门语言都跳票多次，真是惭愧惭愧！这次是真的下定决心好好学习一下 C# 了，我就不信我坚持不下去。&lt;/p&gt;
+
+&lt;p&gt;这个进度我就不敢保证了，毕竟平时要忙实验，尽量抽空学吧。这里也做下学习笔记，督促督促自己。&lt;/p&gt;
+
+&lt;p&gt;这次参考书籍是 &lt;a href=&quot;https://www.microsoftpressstore.com/store/microsoft-visual-c-sharp-2013-step-by-step-9780735681835&quot;&gt;Microsoft Visual C# 2013&lt;/a&gt;，同时参考 &lt;a href=&quot;https://courses.edx.org/courses/course-v1:Microsoft+DEV204x+2T2016/info&quot;&gt;Microsoft’s DEV204x&lt;/a&gt; 课程，就由这里起步吧。&lt;/p&gt;
+
+&lt;p&gt;虽说 &lt;code class=&quot;highlighter-rouge&quot;&gt;Hello World!&lt;/code&gt; 见了不知多少次了，但是这么具有标志性，我也来段纪念纪念。&lt;/p&gt;
+
+&lt;div class=&quot;language-c# highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;System.Collections.Generic&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;System.Linq&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;System.Text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;System.Threading.Tasks&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;namespace&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;TestHello&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Program&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;Main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;Console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;WriteLine&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Hello World!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;Console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;WriteLine&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Just do it, Frank!&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+            &lt;span class=&quot;n&quot;&gt;Console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;ReadKey&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;</content><author><name>Frank Lin</name></author><category term="Learning" /><category term="C#" /><summary>没想到学一门语言都跳票多次，真是惭愧惭愧！这次是真的下定决心好好学习一下 C# 了，我就不信我坚持不下去。</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://www.flinhong.com/images/201605/csharp.jpg" /></entry><entry><title>在 Sublime Text 中用 Markdown 编辑 Evernote 笔记</title><link href="https://www.flinhong.com/tools/Sublime-Evernote/" rel="alternate" type="text/html" title="在 Sublime Text 中用 Markdown 编辑 Evernote 笔记" /><published>2016-05-16T00:00:00+08:00</published><updated>2016-05-16T00:00:00+08:00</updated><id>https://www.flinhong.com/tools/Sublime-Evernote</id><content type="html" xml:base="https://www.flinhong.com/tools/Sublime-Evernote/">&lt;p&gt;某个风和日丽的下午，一学妹问我有没有什么好用的笔记软件，但不要 Evernote 和 OneNote。一时语塞，除了这两个常用的笔记软件，我也提不出其他比较靠谱的了，知之甚少。&lt;/p&gt;
+
+&lt;p&gt;虽然自己也时有做笔记，但多数时间是用 Evernote 摘录网页，以作备用。为了回答学妹的问题，我也试着搜索了一下。&lt;a href=&quot;http://www.appinn.com/my-fav-note-final/&quot;&gt;小众软件&lt;/a&gt;曾票选过最受欢迎的笔记软件，还是 Evernote 最受青睐，OneNote 也还不错，其他的基本没用过也不做评价。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://lh3.googleusercontent.com/-ofBR5thsjtU/VznEZr5z6TI/AAAAAAAAAYM/CmXFgB4Grkk/s0/Note%252520Apps.png&quot; alt=&quot;最受欢迎的笔记软件&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;既然 Evernote 最常用，那还是选择它吧。但是 Evernote 对 Markdown 支持不是很到位，更不要说 OneNote 了。所以有不少同学选择在 GitHub 上做起笔记来。这倒也可以，不过自己要看个笔记还得去翻网页就不太方便了。所以有了今天这款 &lt;a href=&quot;https://packagecontrol.io/packages/Evernote&quot;&gt;Evernote for Sublime Text&lt;/a&gt; 插件。&lt;/p&gt;
+
+&lt;h2 id=&quot;headid-section&quot;&gt;简介&lt;/h2&gt;
+
+&lt;p&gt;Evernote for Sublime Text 做到的是在 Sublime Text 中编辑 Markdown 文本，本地保存（可用 OneDrive, GitHub 等做同步备份）原始文本，并和 Evernote 笔记 ID 关联同步。这样，在 Sublime 中可以浏览由 Sublime 创建的 Markdown 文件，又能将转换后的笔记同步到 Evernote 的笔记列表，还可进行双向同步（在 Sublime 中打开 Evernote 的笔记并转换成 Markdown 进行编辑）。不过，在使用过程中，一旦在 Evernote 中对笔记进行了更新，则有一定几率导致笔记同步冲突&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;。Markdown 标记错误也能引起不能同步。&lt;/p&gt;
+
+&lt;p&gt;自己试用了一下，感觉用 Markdown 这样做笔记确实很方便，同步冲突也确实遇到了（代码高亮的时候写错了语言名称），不过这不影响我继续使用这个优秀的插件。在编辑过程中注意不要修改 Evernote 中的笔记就是了（那就暂时不打开 Evernote吧）。若今后修改了 Evernote 中的笔记，最好使用插件的打开命令，打开一份新的再继续编辑更新吧。&lt;/p&gt;
+
+&lt;h2 id=&quot;headid-section-1&quot;&gt;安装&lt;/h2&gt;
+
+&lt;p&gt;那么，来看看这款插件的使用吧。首先是&lt;a href=&quot;https://github.com/bordaigorl/sublime-evernote/wiki/Installation&quot;&gt;安装&lt;/a&gt;：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;用 Sublime Text 的 &lt;code class=&quot;highlighter-rouge&quot;&gt;Package Control&lt;/code&gt; 安装 Evernote。如果你在 Sublime Text 中没有安装过 &lt;code class=&quot;highlighter-rouge&quot;&gt;Package Control&lt;/code&gt;，请参见这里的&lt;a href=&quot;https://packagecontrol.io/installation&quot;&gt;安装指南&lt;/a&gt;。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;设置 Sublime Text 插件与 Evernote 关联&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;：&lt;/p&gt;
+
+    &lt;p&gt;(1) 关联 Evernote 需要 &lt;code class=&quot;highlighter-rouge&quot;&gt;Developer Token&lt;/code&gt;，如果第一次关联或者要更新 Token，可以通过 Sublime Text 菜单中的 &lt;code class=&quot;highlighter-rouge&quot;&gt;Preferences &amp;gt; Package Settings &amp;gt; Evernote &amp;gt; Reconfigure Evernote&lt;/code&gt; 打开 Evernote 的相应页面获取应用授权。&lt;/p&gt;
+
+    &lt;p&gt;&lt;img src=&quot;https://lh3.googleusercontent.com/-eX1AQnGrvuQ/VznMqCedygI/AAAAAAAAAYc/2Tpri7no2ek/s0/sublime_text_2016-05-16_21-35-33.png&quot; alt=&quot;关联 Evernote&quot; /&gt;&lt;/p&gt;
+
+    &lt;p&gt;(2) 如果是中国印象笔记的用户，需&lt;a href=&quot;https://github.com/bordaigorl/sublime-evernote/wiki/First-Use#%E4%B8%AD%E5%9B%BD%E5%8D%B0%E8%B1%A1%E7%AC%94%E8%AE%B0%E7%94%A8%E6%88%B7appyinxiangcom&quot;&gt;参见这里&lt;/a&gt;进行关联设置。&lt;/p&gt;
+
+    &lt;p&gt;(3) 将 Evernote 网页中的 Developer Token 和 NoteStore URL 添加到 Sublime Evernote 插件的设置文件 &lt;code class=&quot;highlighter-rouge&quot;&gt;Preferences &amp;gt; Package Settings &amp;gt; Evernote &amp;gt; Settings - User&lt;/code&gt;：&lt;/p&gt;
+
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&lt;span class=&quot;w&quot;&gt;
+ &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;noteStoreUrl&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Your NoteStore URL&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Your Developer Token&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+ &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;测试是否成功：通过 &lt;code class=&quot;highlighter-rouge&quot;&gt;ctrl+shift+p&lt;/code&gt; (Win, Linux) 或者 &lt;code class=&quot;highlighter-rouge&quot;&gt;shift+command+p&lt;/code&gt; (OS X) 打开 Sublime Text 命令窗口，输入 Evernote，就会看见 Evernote 插件的许多命令，点击 Evernote:list recent notes，如果看到罗列出最新的笔记，则说明授权成功。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h2 id=&quot;headid-section-2&quot;&gt;快捷键设置&lt;/h2&gt;
+
+&lt;p&gt;默认情况下，Evernote 插件没有绑定任何快捷键，所有操作通过 Sublime 中 &lt;code class=&quot;highlighter-rouge&quot;&gt;ctrl+shift+p&lt;/code&gt; 输入 Evenote 后选择相应功能进行。当然你也可以在 Sublime Text 中通过 &lt;code class=&quot;highlighter-rouge&quot;&gt;Preferences &amp;gt; Key Bindings - User&lt;/code&gt; 关联快捷键&lt;sup id=&quot;fnref:3&quot;&gt;&lt;a href=&quot;#fn:3&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;keys&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;super+e&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;command&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;show_overlay&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;args&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;overlay&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;command_palette&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Evernote: &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;keys&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;ctrl+e&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;ctrl+s&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;command&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;send_to_evernote&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;keys&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;ctrl+e&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;ctrl+o&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;command&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;open_evernote_note&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;keys&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;ctrl+e&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;ctrl+u&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;command&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;save_evernote_note&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;意思是，按 &lt;code class=&quot;highlighter-rouge&quot;&gt;ctrl+e&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;ctrl+s&lt;/code&gt; 后，会将笔记保存并且同步到印象笔记，按 &lt;code class=&quot;highlighter-rouge&quot;&gt;ctrl+e&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;ctrl+s&lt;/code&gt; 则是更新笔记。&lt;/p&gt;
+
+&lt;p&gt;嗯，差不多这样就可以开始使用了，更多功能参看 Evernote for Sublime Text 的 &lt;a href=&quot;https://github.com/bordaigorl/sublime-evernote/wiki&quot;&gt;Wiki&lt;/a&gt;。&lt;/p&gt;
+
+&lt;p&gt;对我来说，既可以用 Markdown 写 Blog post 同步到 Gitlab，又可以同时在 Evernote 中做个备份，很不错了。&lt;/p&gt;
+
+&lt;p&gt;参考:&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;http://blog.ernest.me/post/evernote-starts-support-markdown&quot;&gt;从 Evernote 开始官方支持 Markdown 说起&lt;/a&gt; &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:2&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;http://www.jianshu.com/p/0add426fdd26&quot;&gt;Sublime-evernote：支持用 Markdown 写印象笔记(Evernote)&lt;/a&gt; &lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:3&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;https://packagecontrol.io/packages/Evernote&quot;&gt;Evernote for Sublime Text&lt;/a&gt; &lt;a href=&quot;#fnref:3&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;</content><author><name>Frank Lin</name></author><category term="Tools" /><category term="Sublime Text" /><category term="Evernote" /><summary>某个风和日丽的下午，一学妹问我有没有什么好用的笔记软件，但不要 Evernote 和 OneNote。一时语塞，除了这两个常用的笔记软件，我也提不出其他比较靠谱的了，知之甚少。</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://www.flinhong.com/images/201605/Evernote.jpg" /></entry><entry><title>First Direct - Platypus</title><link href="https://www.flinhong.com/media/First-Direct-Platypus/" rel="alternate" type="text/html" title="First Direct - Platypus" /><published>2016-05-13T00:00:00+08:00</published><updated>2016-05-13T00:00:00+08:00</updated><id>https://www.flinhong.com/media/First-Direct-Platypus</id><content type="html" xml:base="https://www.flinhong.com/media/First-Direct-Platypus/">&lt;p&gt;A one-minute TV commercial showing “Barry,” an affable platypus, walking about town while he makes points about his favorite bank — First Direct, who’s different… just like him.&lt;/p&gt;
+
+&lt;p&gt;Commercial ads always make innovations, and I was attracted by the video the first time I watch it during F1 live racing.&lt;/p&gt;</content><author><name>Frank Lin</name></author><category term="Media" /><category term="commercial" /><summary>A one-minute TV commercial showing “Barry,” an affable platypus, walking about town while he makes points about his favorite bank — First Direct, who’s different… just like him.</summary></entry><entry><title>使用 Disqus API 加载最近评论</title><link href="https://www.flinhong.com/front-end/recent-comments-using-disqus-api/" rel="alternate" type="text/html" title="使用 Disqus API 加载最近评论" /><published>2016-04-13T00:00:00+08:00</published><updated>2016-04-13T00:00:00+08:00</updated><id>https://www.flinhong.com/front-end/recent-comments-using-disqus-api</id><content type="html" xml:base="https://www.flinhong.com/front-end/recent-comments-using-disqus-api/">&lt;p&gt;多说应该是目前国内用户量最大的社会化评论平台，但是稳定性堪忧，还不能完全适用于 https，所以我又把博客的评论系统从多说换到了 Disqus。&lt;/p&gt;
+
+&lt;p&gt;之前多说官方提供了最近评论的 JavaScript 代码，直接加载就好，现在换到 Disqus 又要折腾了。&lt;/p&gt;
+
+&lt;h2 id=&quot;headid-disqus&quot;&gt;关于 Disqus&lt;/h2&gt;
+
+&lt;p&gt;Disqus 在国外的网站上很常见，但在国内可能被墙所以用的不多。而且 Disqus 提供的第三方登录（Facebook, Twitter, Google）国内全部无法使用，Disqus 账户国内也不是非常普及。虽然允许不登录留言，但是 Disqus 默认引导注册 Disqus 账号，需要勾选「I’d rather post as a guest」这个隐秘的复选框，才能只输入昵称和邮箱提交评论。&lt;/p&gt;
+
+&lt;p&gt;但是人家稳定呀，也没有其他合适的选择，那只能靠自己把需要的最近评论搞定啦。&lt;/p&gt;
+
+&lt;p&gt;早些时候，Disqus 也提供了最近评论的 JavaScript 代码，但是官方提示说&lt;a href=&quot;https://help.disqus.com/customer/portal/articles/1179651-widgets&quot;&gt;不再继续支持&lt;/a&gt;，而是提供了新的 &lt;a href=&quot;https://disqus.com/api/docs/&quot;&gt;Disqus API&lt;/a&gt; 供开发者使用。虽说 API 自由度更高，但对于我这样的菜鸟来说难度就有点大了，只能祭出 Google 求助了。&lt;/p&gt;
+
+&lt;p&gt;Disqus 提供了一大堆的 API，而且 Documents 对我来说比较晦涩。找来找去就只找到一段官方的 &lt;a href=&quot;https://github.com/TaltonFiggins/disqus-recent-comments/blob/master/disqus-recent-comments.php&quot;&gt;Sample codes&lt;/a&gt;，但用的是 php 写的 ，对于我这样使用 Jekyll 静态网页的来说，用处不大了。&lt;/p&gt;
+
+&lt;h2 id=&quot;headid-javascript-disqus-widget&quot;&gt;JavaScript Disqus Widget&lt;/h2&gt;
+
+&lt;p&gt;搜索过程中发现，Disqus 早先的 &lt;code class=&quot;highlighter-rouge&quot;&gt;recent_comments_widget.js&lt;/code&gt; 还是可以继续使用的，只是不再提供更新了。&lt;/p&gt;
+
+&lt;p&gt;用起来也很方便，使用下面这段代码即可&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;：&lt;/p&gt;
+
+&lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;script &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;type=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;text/javascript&quot;&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;src=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;http://example.disqus.com/recent_comments_widget.js?num_items=5&amp;amp;hide_mods=0&amp;amp;hide_avatars=0&amp;amp;avatar_size=32&amp;amp;excerpt_length=100&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/script&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;把代码中的 &lt;code class=&quot;highlighter-rouge&quot;&gt;example&lt;/code&gt; 换成你注册的 Disqus shortname 就行了，更多的配置可以参见 &lt;a href=&quot;http://subinsb.com/add-disqus-recent-comments-widget&quot;&gt;How To Add Disqus Recent Comments Widget&lt;/a&gt;。&lt;/p&gt;
+
+&lt;h2 id=&quot;headid-disqus-api-&quot;&gt;Disqus API 用起来&lt;/h2&gt;
+
+&lt;p&gt;虽说上面的方法我试过能用，但是官方都不建议使用了，那怎能安心的将就下去。&lt;/p&gt;
+
+&lt;p&gt;还好搜到一个 &lt;a href=&quot;http://www.raymondcamden.com/2014/03/21/Example-of-a-JavaScript-Disqus-Recent-Comment-Widget/&quot;&gt;Example of a JavaScript Disqus Recent Comment Widget&lt;/a&gt;，正好解决了我的问题，bravo！&lt;/p&gt;
+
+&lt;p&gt;那么，依样画个葫芦画个瓢，把 Disqus API 用起来吧。&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;
+    &lt;p&gt;首先需要一个 &lt;code class=&quot;highlighter-rouge&quot;&gt;public Disqus API key&lt;/code&gt;。&lt;/p&gt;
+
+    &lt;p&gt;通过 &lt;a href=&quot;https://disqus.com/api/applications/&quot;&gt;API Resources - Applications&lt;/a&gt; 创建一个新应用就行。你将得到一个 &lt;code class=&quot;highlighter-rouge&quot;&gt;Secret Key&lt;/code&gt; 和一个 &lt;code class=&quot;highlighter-rouge&quot;&gt;Public Key&lt;/code&gt;，这里只需要用到 &lt;code class=&quot;highlighter-rouge&quot;&gt;Public Key&lt;/code&gt;。但是需要设置 &lt;code class=&quot;highlighter-rouge&quot;&gt;Domains&lt;/code&gt; 以允许那些域名能使用这个 API Key，为了调试方便，我把 localhost 也加进去了&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;虽然 Disqus 提供了几十个 API，但这里用到 &lt;code class=&quot;highlighter-rouge&quot;&gt;forums/listPosts&lt;/code&gt; 这一个就可以 pull 最近评论了。来一份官方 &lt;a href=&quot;http://disqus.com/api/docs/forums/listPosts/&quot;&gt;Documentation&lt;/a&gt; 以供参考。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;Disqus 把你的网站看作一个 &lt;code class=&quot;highlighter-rouge&quot;&gt;forum&lt;/code&gt;，而其中的一个个评论视作你的 &lt;code class=&quot;highlighter-rouge&quot;&gt;posts&lt;/code&gt;，所以不要把这个 &lt;code class=&quot;highlighter-rouge&quot;&gt;posts&lt;/code&gt; 看作是自己的文章了。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;这个 API 可以提供多个参数，比如说我这里只需要最近 5 个评论，就设置 &lt;code class=&quot;highlighter-rouge&quot;&gt;limit=5&lt;/code&gt; (默认是 25，最大为 100)，然后 &lt;code class=&quot;highlighter-rouge&quot;&gt;related=thread&lt;/code&gt; 用以调取我们相应文章的信息（具体不太理解 😜）。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;这样就配置完了，剩下的都是 CSS 的魔法了。将返回的信息自定义好 html 格式，然后通过 CSS 设置相应样式。&lt;/p&gt;
+
+&lt;p&gt;我用到的代码如下：&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-js&quot; data-lang=&quot;js&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;c1&quot;&gt;// Disqus comments&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;src&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/js/moment.min.js&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/script&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;gt;
+&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;text/javascript&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;ready&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;$commentDiv&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;#recent-comments&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;https://disqus.com/api/3.0/forums/listPosts.json?forum=flinhong&amp;amp;limit=5&amp;amp;related=thread&amp;amp;api_key=your_public_api_key&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;code&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;code&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;result&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+                &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;post&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt;
+                &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;dir&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;post&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+                &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;timeago&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;moment&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;utc&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;post&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;createdAt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;startOf&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&#39;minute&#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;fromNow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+                &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;html&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&amp;lt;div class=&#39;comment&#39;&amp;gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+                &lt;span class=&quot;nx&quot;&gt;html&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&amp;lt;img src=&#39;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;post&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;author&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;avatar&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;small&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;permalink&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&#39;&amp;gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+                &lt;span class=&quot;nx&quot;&gt;html&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&amp;lt;a href=&#39;&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;post&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;author&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;profileUrl&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&#39;&amp;gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;post&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;author&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&amp;lt;/a&amp;gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+                &lt;span class=&quot;nx&quot;&gt;html&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot; • &quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;timeago&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+                &lt;span class=&quot;nx&quot;&gt;html&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&amp;lt;p class=&#39;postRef&#39;&amp;gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;post&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;raw_message&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&amp;lt;/p&amp;gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+                &lt;span class=&quot;nx&quot;&gt;html&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&amp;lt;p&amp;gt;&amp;lt;span&amp;gt;posted on&amp;lt;/span&amp;gt; &amp;lt;a href=&#39;&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;post&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;thread&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;link&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&#39;&amp;gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;post&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;thread&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;title&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&amp;lt;/a&amp;gt;&amp;lt;/p&amp;gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+                &lt;span class=&quot;nx&quot;&gt;html&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&amp;lt;/div&amp;gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+                &lt;span class=&quot;nx&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;html&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+            &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+            &lt;span class=&quot;nx&quot;&gt;$commentDiv&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;html&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/script&amp;gt;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;p&gt;上面的代码我实际用的时候调整了一下 html 样式，但大概就是这个意思了。把其中的 &lt;code class=&quot;highlighter-rouge&quot;&gt;forum=flinhong&lt;/code&gt; 替换成你自己的 Disqus shortname，然后填入相应的参数设置（可用的设置参数去上面的官方文档中找）和 api_key，然后去改 html 和 CSS 吧。&lt;/p&gt;
+
+&lt;p&gt;由于 Disqus 返回的时间格式 &lt;code class=&quot;highlighter-rouge&quot;&gt;2008-06-10T01:45:27&lt;/code&gt; 不好直接使用，所以我这里用到了一个 &lt;a href=&quot;http://momentjs.com/&quot;&gt;moment.js&lt;/a&gt; 将时间转换成 Disqus 评论里常见的 &lt;code class=&quot;highlighter-rouge&quot;&gt;20 minutes ago&lt;/code&gt; 这样的格式。看这篇文章右侧就是完成的样子啦，多多评论呀 😌！&lt;/p&gt;
+
+&lt;h2 id=&quot;headid-disqus-api--1&quot;&gt;Disqus API 的使用限制&lt;/h2&gt;
+
+&lt;p&gt;Disqus 限制了每小时只能有 1000 次请求，所以如果你的网站访问量很大，你就需要悠着点用了。&lt;a href=&quot;http://jaimeiniesta.com/articles/building-a-disqus-recent-comments-widget-with-javascript/&quot;&gt;Building a Disqus Recent Comments Widget with JavaScript&lt;/a&gt; 这篇文章里面提到使用 &lt;a href=&quot;https://github.com/paulirish/jquery-ajax-localstorage-cache&quot;&gt;jquery-ajax-localstorage&lt;/a&gt; 来缓存 Disqus 返回的信息，这样同一个用户访问多个页面就能只记录一次请求了。&lt;/p&gt;
+
+&lt;p&gt;我就不折腾这个缓存了，反正我用不到 😊。&lt;/p&gt;
+
+&lt;p&gt;参考:&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;http://subinsb.com/add-disqus-recent-comments-widget&quot;&gt;How To Add Disqus Recent Comments Widget&lt;/a&gt; &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:2&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;http://www.raymondcamden.com/2014/03/21/Example-of-a-JavaScript-Disqus-Recent-Comment-Widget/&quot;&gt;Example of a JavaScript Disqus Recent Comment Widget&lt;/a&gt; &lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;</content><author><name>Frank Lin</name></author><category term="Front-end" /><category term="JavaScript" /><category term="Disqus" /><summary>多说应该是目前国内用户量最大的社会化评论平台，但是稳定性堪忧，还不能完全适用于 https，所以我又把博客的评论系统从多说换到了 Disqus。</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://www.flinhong.com/images/201604/comments.jpg" /></entry><entry><title>Gabrielle Aplin - Home</title><link href="https://www.flinhong.com/media/Gabrielle-Aplin-Home/" rel="alternate" type="text/html" title="Gabrielle Aplin - Home" /><published>2016-04-03T00:00:00+08:00</published><updated>2016-04-03T00:00:00+08:00</updated><id>https://www.flinhong.com/media/Gabrielle-Aplin-Home</id><content type="html" xml:base="https://www.flinhong.com/media/Gabrielle-Aplin-Home/">&lt;p&gt;看完一部电影，听完一首歌，以及经历一个别人的故事，而后感悟一下自己的人生。&lt;/p&gt;
+
+&lt;p&gt;Gabrielle Aplin 的这首 &lt;em&gt;Home&lt;/em&gt; 是看电影 &lt;em&gt;&lt;a href=&quot;https://movie.douban.com/subject/10741220/&quot;&gt;Brooklyn&lt;/a&gt;&lt;/em&gt; 的预告片时听到的，觉得旋律很好，跟上预告片的情节倒是影片和歌曲一起喜欢上了，没想到细细品味之后发现歌曲和影片契合得这么好。&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;Brooklyn&lt;/em&gt; 中有一段为无家可归的爱尔兰老人举办圣诞节聚餐，席上女主 Eilis 问神父：Why don’t they go home? 神父回答：If there’s nothing there for a clever young girl such as yourself, there’s gonna be even less for men like these. Some of them have been here fifty years, that have lost touch with everyone. These are the man who built the tunnels, the bridges, the highways. God alone knows what they live on now.&lt;/p&gt;
+
+&lt;p&gt;然后一个老人清唱爱尔兰民谣（倒是让我想起中孝介岛国唱腔），一群思乡的人眼泛泪花，聊以安慰。&lt;/p&gt;
+
+&lt;p&gt;“真正心碎的经历，是你怀着思乡心切的情感回到故乡，却感觉到格格不入时，不是家乡变了，而是你自己变了。” 这就是 &lt;em&gt;Brooklyn&lt;/em&gt; 作者对乡情的描述了，而 &lt;em&gt;Home&lt;/em&gt; 中唱到&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Cause they say: home is where your heart is set in stone&lt;/p&gt;
+
+  &lt;p&gt;Is where you go when you’re alone&lt;/p&gt;
+
+  &lt;p&gt;Is where you go to rest your bones&lt;/p&gt;
+
+  &lt;p&gt;It’s not just where you lay your head&lt;/p&gt;
+
+  &lt;p&gt;It’s not just where you make your bed&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/201604/brooklyn.jpg&quot; alt=&quot;Brooklyn 剧照&quot; /&gt;
+&lt;em&gt;Brooklyn 剧照&lt;/em&gt;&lt;/p&gt;
+
+&lt;p&gt;每一个离开家乡的人，都将无一例外的经历心灵的蜕变，从不安失落的离家者，变成独立坚强的城市人。脱下的是不安与自卑，换上的是自信与魅力。人生的十字路口，选择留守还是创造，没有对错，只有无悔。人生从来都不是轻而易举，选择什么就会失去什么。但时间是公平的，你把时间花在哪儿，哪里就开出花来。我想留学在外的同学们看到这部电影，听到这首歌都会心下决定吧。&lt;/p&gt;
+
+&lt;p&gt;单说到这首歌，我觉得歌曲 MV 里的情景远不及电影里面的情节，还是看下面这个预告片听这首歌最有感觉了。&lt;/p&gt;
+
+&lt;iframe width=&quot;1280&quot; height=&quot;720&quot; src=&quot;https://www.youtube.com/embed/hn5KqHzPWrQ&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;</content><author><name>Frank Lin</name></author><category term="Media" /><category term="movie" /><category term="music" /><summary>看完一部电影，听完一首歌，以及经历一个别人的故事，而后感悟一下自己的人生。</summary></entry><entry><title>Jekyll 中的日期格式</title><link href="https://www.flinhong.com/front-end/date-formatting-in-jekyll/" rel="alternate" type="text/html" title="Jekyll 中的日期格式" /><published>2016-03-09T00:00:00+08:00</published><updated>2016-03-09T00:00:00+08:00</updated><id>https://www.flinhong.com/front-end/date-formatting-in-jekyll</id><content type="html" xml:base="https://www.flinhong.com/front-end/date-formatting-in-jekyll/">&lt;p&gt;博客中，经常需要调用文章发表日期，而且需要各种长短不一的日期格式以适配不同的场景。好在 Jekyll 使用 Liquid 标记语言来显示日期，可以方便地自定义显示格式，另外其他用到 Liquid 的地方都能用下面的方法来调整日期显示格式。&lt;/p&gt;
+
+&lt;h2 id=&quot;headid-liquid&quot;&gt;Liquid默认样式&lt;/h2&gt;
+
+&lt;p&gt;Jekyll 使用 Shopify’s Liquid Template Engine&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;，显示日期可以直接使用 Liquid tag: &lt;code class=&quot;highlighter-rouge&quot;&gt;page.date&lt;/code&gt;，当然外面加上双大括号（由于会直接显示结果了，所以这里和下文都不加大括号了）。这种默认格式显示结果为：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;page.date
+2016-03-09 00:00:00 +0800
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;当然，一般情况下使用 Jekyll 很少去定义一个文章的具体时间，所以看到的 time 都是 &lt;code class=&quot;highlighter-rouge&quot;&gt;00:00:00&lt;/code&gt;，当然你也可以在 YAML 中加上 time。如果对上面的默认 tag 加以修饰，就能生成各种不同格式的日期样式，更方便我们查看。例如，加上一个 &lt;code class=&quot;highlighter-rouge&quot;&gt;date:&lt;/code&gt;的 filter，我们就可以只取日期而不取时间，这也是我们最常使用的，比如下面的样式：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;page.date | date: &#39;%B %d, %Y&#39;
+March 09, 2016
+
+page.date | date: &#39;%b %d, %Y&#39;
+Mar 09, 2016
+
+page.date | date: &#39;%b %-d, %Y&#39;
+Mar 9, 2016
+
+page.date | date: &#39;%Y-%m-%d&#39;
+2016-03-09
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;用到上面这些其实已经相当足够了，可以按自己的需要做各种自定义。当然还可以对结果进一步处理，具体可参见 Jekyll Date Formatting Examples 中更多的示例&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;。这篇文章也主要是简单做个总结，方便自己参考。&lt;/p&gt;
+
+&lt;h2 id=&quot;headid-jekyll-&quot;&gt;Jekyll 内置样式&lt;/h2&gt;
+
+&lt;h3 id=&quot;headid-date-to-string&quot;&gt;Date to String&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;page.date | date_to_string
+09 Mar 2016
+
+Output Example 1: 03 May 2016
+Output Example 2: 04 Jul 2016
+Output Example 3: 23 Sep 2016
+Output Example 4: 26 Nov 2016
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;headid-date-to-long-string&quot;&gt;Date to Long String&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;page.date | date_to_long_string
+09 March 2016
+
+Output Example 1: 03 May 2016
+Output Example 2: 04 July 2016
+Output Example 3: 23 September 2016
+Output Example 4: 26 November 2016
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;headid-date-to-xml-schema&quot;&gt;Date to XML Schema&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;page.date | date_to_xmlschema
+2016-03-09T00:00:00+08:00
+
+Output Example 1: 2016-05-03T09:14:00-04:00
+Output Example 2: 2016-07-04T09:14:00-04:00
+Output Example 3: 2016-09-23T09:14:00-04:00
+Output Example 4: 2016-11-26T08:14:00-05:00
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;headid-date-to-rfc-822&quot;&gt;Date to RFC-822&lt;/h3&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;page.date | date_to_rfc822
+Wed, 09 Mar 2016 00:00:00 +0800
+
+Output Example 1: Fri, 03 May 2016 09:14:00 -0400
+Output Example 2: Thu, 04 Jul 2016 09:14:00 -0400
+Output Example 3: Mon, 23 Sep 2016 09:14:00 -0400
+Output Example 4: Tue, 26 Nov 2016 08:14:00 -0500
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;headid-jekyll--liquid-&quot;&gt;Jekyll 中自定义 Liquid 样式&lt;/h2&gt;
+
+&lt;h3 id=&quot;headid-section&quot;&gt;非英文月份&lt;/h3&gt;
+
+&lt;p&gt;Outside U.S. Style with Non-English Full Month Name，这里就用中文简单举例好了，其实很不适合中文呢，不过大概意思就是这样了。&lt;/p&gt;
+
+&lt;script src=&quot;https://gist.github.com/flinhong/2e903284c59e84abbccb.js&quot;&gt;&lt;/script&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;三月9号，2016
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;headid-section-1&quot;&gt;英文有序日期&lt;/h3&gt;
+
+&lt;p&gt;U.S. Style with Full Month Names and Ordinalized Days:
+&lt;script src=&quot;https://gist.github.com/flinhong/533a14966a01cddd60c4.js&quot;&gt;&lt;/script&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Output Example 1: May 3rd, 2016
+Output Example 2: July 4th, 2016 
+Output Example 3: September 23rd, 2016 
+Output Example 4: November 26th, 2016
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;headid-section-2&quot;&gt;英文月份缩写&lt;/h3&gt;
+
+&lt;p&gt;U.S. Style with AP Month Abbreviations and Ordinalized Days:
+&lt;script src=&quot;https://gist.github.com/flinhong/ab6fd80d7eae4164529f.js&quot;&gt;&lt;/script&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Output Example 1: May 3rd, 2016
+Output Example 2: July 4th, 2016 
+Output Example 3: Sept. 23rd, 2016
+Output Example 4: Nov. 26th, 2016
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;headid-section-3&quot;&gt;英文加上星期&lt;/h3&gt;
+
+&lt;p&gt;U.S. Style Full Day and Full Month Names:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;page.date | date: &quot;%A, %B %-d, %Y&quot;
+Wednesday, March 9, 2016
+
+Output Example 1: Friday, May 3, 2016
+Output Example 2: Thursday, July 4, 2016 
+Output Example 3: Monday, September 23, 2016 
+Output Example 4: Tuesday, November 26, 2016
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;headid-section-4&quot;&gt;英文星期缩写&lt;/h3&gt;
+
+&lt;p&gt;Chicago Manual of Style Day Abbreviations and U.S. Style Date:
+&lt;script src=&quot;https://gist.github.com/flinhong/837b5d9fc307e86f3166.js&quot;&gt;&lt;/script&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;Output Example 1: Fri. ~ May 3, 2016
+Output Example 2: Thurs. ~ July 4, 2016
+Output Example 3: Mon. ~ September 23, 2016 
+Output Example 4: Tues. ~ November 26, 2016
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;真是不看不知道，一看吓一跳，前辈们真是好好和时间约了一次，才有现在这些结果 🐤。&lt;/p&gt;
+
+&lt;p&gt;参考：&lt;/p&gt;
+
+&lt;div class=&quot;footnotes&quot;&gt;
+  &lt;ol&gt;
+    &lt;li id=&quot;fn:1&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;http://wiki.shopify.com/Liquid&quot;&gt;Shopify’s Liquid template engine&lt;/a&gt;. “A small and fast template language which is quick to learn but very powerful for full customization.” &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+    &lt;li id=&quot;fn:2&quot;&gt;
+      &lt;p&gt;&lt;a href=&quot;http://alanwsmith.com/jekyll-liquid-date-formatting-examples&quot;&gt;Jekyll Date Formatting Examples&lt;/a&gt;. “Everything you wanted to know about Jekyll date formatting but were afraid to ask.” &lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/div&gt;</content><author><name>Frank Lin</name></author><category term="Front-end" /><category term="Jekyll" /><summary>博客中，经常需要调用文章发表日期，而且需要各种长短不一的日期格式以适配不同的场景。好在 Jekyll 使用 Liquid 标记语言来显示日期，可以方便地自定义显示格式，另外其他用到 Liquid 的地方都能用下面的方法来调整日期显示格式。</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://www.flinhong.com/images/201603/date format.jpg" /></entry></feed>

@@ -4,20 +4,22 @@
 <head>
   <meta charset="utf-8" />
   
-  <title>Anna Kendrick - Cups</title>
+  <title>Git 学习笔记 - 撤销操作</title>
   
   <meta content="IE=edge" http-equiv="X-UA-Compatible" />
   <meta content="width=device-width, initial-scale=1" name="viewport" />
   <meta name="google-site-verification" content="HXPDAWYIepFJGNogMyAiitfbS7Y1qch0g48wPNEcWe4" />
-  <link rel="canonical" href="http://www.flinhong.com/media/Anna-Kendrick-Cups/" />
+  <link rel="canonical" href="http://www.flinhong.com/tools/Git-notes-reset/" />
   
-  <meta name="description" content="这首歌本是 A. P. Carter 在 20 世纪 30 年代所创作的一首老歌，名叫《若我离开了》("When I'm Gone")。后由多人先后反复修改，加入了击杯元素并修改了填词，最后由美国演员 Anna Kendrick 在电影 *Pitch Perfect* 中唱红。" />
+  <meta name="description" content="今天学习一下 Git 中的撤销操作，但是有些撤销操作是不可逆的，这也是在使用 Git 的过程中，会因为操作失误而导致之前的工作丢失的少有几个地方之一。" />
   <meta property="og:type" content="article" />
-  <meta property="og:title" content="Anna Kendrick - Cups" />
-  <meta property="og:description" content="这首歌本是 A. P. Carter 在 20 世纪 30 年代所创作的一首老歌，名叫《若我离开了》("When I'm Gone")。后由多人先后反复修改，加入了击杯元素并修改了填词，最后由美国演员 Anna Kendrick 在电影 *Pitch Perfect* 中唱红。" />
+  <meta property="og:title" content="Git 学习笔记 - 撤销操作" />
+  <meta property="og:description" content="今天学习一下 Git 中的撤销操作，但是有些撤销操作是不可逆的，这也是在使用 Git 的过程中，会因为操作失误而导致之前的工作丢失的少有几个地方之一。" />
+  
+  <meta property="og:image" content="/images/201606/reset-concept.png" />
   
   
-  <meta property="og:url" content="http://www.flinhong.com/media/Anna-Kendrick-Cups/" />
+  <meta property="og:url" content="http://www.flinhong.com/tools/Git-notes-reset/" />
   <meta property="og:site_name" content="Frank's Blog" />
   <link rel="shortcut icon" href="/assets/images/favicon.ico" />
   <link rel="icon" type="image/png" href="/assets/images/android-chrome-192x192.png" sizes="192x192">
@@ -130,7 +132,7 @@
         <li><a href="/">Homepage</a></li>
         <li><a href="/blog/">Blog</a></li>
         
-        <li><a href="/categories/media">Media</a></li>
+        <li><a href="/categories/tools">Tools</a></li>
         
       </ul>
     </div>
@@ -141,61 +143,129 @@
     <div id="main-box">
       <!-- BEGIN #main -->
       <div id="main">
-        <h1><span>Anna Kendrick - Cups</span></h1>
+        <h1><span>Git 学习笔记 - 撤销操作</span></h1>
         <div class="content-padding">
           <div class="article-full">
             
             <div class="article-main-photo">
-              <iframe width="853" height="480" src="https://www.youtube.com/embed/cmSbXsFE3l8" frameborder="0" allowfullscreen></iframe>
+              <img src="/images/201606/reset-concept.png" alt="Git 学习笔记 - 撤销操作" title="Git 学习笔记 - 撤销操作" />
             </div>
             
             <div class="article-icons">
               <a href="user-single.html" class="user-tooltip"><i class="fa fa-user"></i>Frank Lin</a>
-              <a href="javascript:;"><i class="fa fa-calendar"></i>June 12, 2016</a>
-              <a href="/categories/Media/"><i class="fa fa-tag"></i>Media</a>
-              <a href="/media/Anna-Kendrick-Cups/#disqus_thread" data-disqus-identifier="Frank's Blog//media/Anna-Kendrick-Cups"><i class="fa fa-comments"></i>0 Comment</a>
-              <a href="javascript:;"><i class="fa fa-check-square-o"></i>535 words.</a>
+              <a href="javascript:;"><i class="fa fa-calendar"></i>June 14, 2016</a>
+              <a href="/categories/Tools/"><i class="fa fa-tag"></i>Tools</a>
+              <a href="/tools/Git-notes-reset/#disqus_thread" data-disqus-identifier="Frank's Blog//tools/Git-notes-reset"><i class="fa fa-comments"></i>0 Comment</a>
+              <a href="javascript:;"><i class="fa fa-check-square-o"></i>2144 words.</a>
             </div>
             <div class="clear-float do-the-split"></div>
             <div class="article-content">
-              <p>这首歌本是 A. P. Carter 在 20 世纪 30 年代所创作的一首老歌，名叫《若我离开了》(“When I’m Gone”)。后由多人先后反复修改，加入了击杯元素并修改了填词，最后由美国演员 Anna Kendrick 在电影 <em>Pitch Perfect</em> 中唱红。</p>
+              <p>今天学习一下 Git 中的撤销操作，但是有些撤销操作是不可逆的，这也是在使用 Git 的过程中，会因为操作失误而导致之前的工作丢失的少有几个地方之一。</p>
 
-<p>歌词很简单，但是击杯游戏很有意思，吸引了大部分眼球。</p>
+<p>练习操作还是可以继续克隆这个仓库：<code class="highlighter-rouge">https://github.com/libgit2/libgit2</code></p>
 
-<blockquote>
-  <p>I got my ticket for the long way round</p>
+<p>有时候我们提交完了才发现漏掉了几个文件没有添加，或者提交信息写错了。 此时，可以运行带有 <code class="highlighter-rouge">--amend</code> 选项的提交命令尝试重新提交：</p>
 
-  <p>The one with the prettiest of views</p>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>git commit --amend
+</code></pre>
+</div>
 
-  <p>It’s got mountains</p>
+<p>这个命令会将暂存区中的文件提交。 如果自上次提交以来你还未做任何修改（例如，在上次提交后马上执行了此命令），那么快照会保持不变，而你所修改的只是提交信息。</p>
 
-  <p>It’s got rivers</p>
+<p>例如，你提交后发现忘记了暂存某些需要的修改，可以像下面这样操作：</p>
 
-  <p>It’s got sights to give you shivers
-But it sure would be prettier with you</p>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>git commit -m <span class="s1">'initial commit'</span>
+<span class="gp">$ </span>git add forgotten_file
+<span class="gp">$ </span>git commit --amend
+</code></pre>
+</div>
 
-  <p>When I’m gone</p>
+<p>最终你只会有一个提交，第二次提交将代替第一次提交的结果。</p>
 
-  <p>When I’m gone</p>
+<h2 id="headid-section">取消暂存的文件</h2>
 
-  <p>You’re gonna miss me when I’m gone</p>
+<p>如果你已经修改了两个文件并且想要将它们作为两次独立的修改提交，但是却意外地输入了 <code class="highlighter-rouge">git add *</code> 暂存了它们两个。 如何只取消暂存两个中的一个呢？ <code class="highlighter-rouge">git status</code> 命令提示了你：</p>
 
-  <p>You’re gonna miss me by my walk</p>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>git add <span class="k">*</span>
+<span class="gp">$ </span>git status
+On branch master
+Changes to be committed:
+  <span class="o">(</span>use <span class="s2">"git reset HEAD &lt;file&gt;..."</span> to unstage<span class="o">)</span>
 
-  <p>You’re gonna miss me by my talk, oh</p>
+    renamed:    README.md -&gt; README
+    modified:   CONTRIBUTING.md
+</code></pre>
+</div>
 
-  <p>You’re gonna miss me when I’m gone</p>
-</blockquote>
+<p>在 “Changes to be committed” 文字正下方，提示使用 <code class="highlighter-rouge">git reset HEAD &lt;file&gt;...</code> 来取消暂存。 所以，我们可以这样用 <code class="highlighter-rouge">git reset</code> 来取消暂存 <code class="highlighter-rouge">CONTRIBUTING.md</code> 文件：</p>
 
-<p>电影中这段也挺好玩的：</p>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>git reset HEAD CONTRIBUTING.md
+Unstaged changes after reset:
+M	CONTRIBUTING.md
+<span class="gp">$ </span>git status
+On branch master
+Changes to be committed:
+  <span class="o">(</span>use <span class="s2">"git reset HEAD &lt;file&gt;..."</span> to unstage<span class="o">)</span>
 
-<iframe width="853" height="480" src="https://www.youtube.com/embed/weqDCGg0GYs" frameborder="0" allowfullscreen=""></iframe>
+    renamed:    README.md -&gt; README
+
+Changes not staged <span class="k">for </span>commit:
+  <span class="o">(</span>use <span class="s2">"git add &lt;file&gt;..."</span> to update what will be committed<span class="o">)</span>
+  <span class="o">(</span>use <span class="s2">"git checkout -- &lt;file&gt;..."</span> to discard changes <span class="k">in </span>working directory<span class="o">)</span>
+
+    modified:   CONTRIBUTING.md
+</code></pre>
+</div>
+
+<p>这个命令有点儿奇怪，但是起作用了。 <code class="highlighter-rouge">CONTRIBUTING.md</code> 文件已经是修改未暂存的状态了。</p>
+
+<h2 id="headid-section-1">撤消对文件的修改</h2>
+
+<p>如果你并不想保留对 <code class="highlighter-rouge">CONTRIBUTING.md</code> 文件的修改怎么办？ 你该如何方便地撤消修改 —— 将它还原成上次提交时的样子（或者刚克隆完的样子，或者刚把它放入工作目录时的样子）？ 幸运的是，<code class="highlighter-rouge">git status</code> 也告诉了你应该如何做。 在最后一个例子中，未暂存区域是这样：</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>Changes not staged <span class="k">for </span>commit:
+  <span class="o">(</span>use <span class="s2">"git add &lt;file&gt;..."</span> to update what will be committed<span class="o">)</span>
+  <span class="o">(</span>use <span class="s2">"git checkout -- &lt;file&gt;..."</span> to discard changes <span class="k">in </span>working directory<span class="o">)</span>
+
+    modified:   CONTRIBUTING.md
+</code></pre>
+</div>
+
+<p>它非常清楚地告诉了你如何撤消之前所做的修改。 让我们来按照提示执行：</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>git checkout -- CONTRIBUTING.md
+<span class="gp">$ </span>git status
+On branch master
+Changes to be committed:
+  <span class="o">(</span>use <span class="s2">"git reset HEAD &lt;file&gt;..."</span> to unstage<span class="o">)</span>
+
+    renamed:    README.md -&gt; README
+</code></pre>
+</div>
+
+<p>可以看到那些修改已经被撤消了。</p>
+
+<div class="info-message">
+	<a href="#" class="close-info"><i class="fa fa-times"></i></a>
+	<p><strong>注意:</strong></p>
+	<p>你需要知道 "git checkout -- [file]" 是一个危险的命令，这很重要。 你对那个文件做的任何修改都会消失 —— 你只是拷贝了另一个文件来覆盖它。 除非你确实清楚不想要那个文件了，否则不要使用这个命令。</p>
+</div>
+
+<p>另外，在 Git 中任何<strong>已提交的</strong>东西几乎总是可以恢复的。 甚至那些被删除的分支中的提交或使用 <code class="highlighter-rouge">--amend</code> 选项覆盖的提交也可以恢复。 然而，任何你未提交的东西丢失后很可能再也找不到了。<sup id="fnref:1"><a href="#fn:1" class="footnote">1</a></sup></p>
+
+<p>引用：</p>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p><a href="https://git-scm.com/book/zh/v2/Git-%E5%9F%BA%E7%A1%80-%E6%92%A4%E6%B6%88%E6%93%8D%E4%BD%9C">2.4 Git 基础 - 撤消操作</a> <a href="#fnref:1" class="reversefootnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
 
               <div class="article-icons">
                 <span><i class="fa fa-tags"></i></span>
-                <a href="/tags/#movie" class="tags">movie</a>
-                
-                <a href="/tags/#music" class="tags">music</a>
+                <a href="/tags/#Git" class="tags">Git</a>
                 
               </div>
               <div class="breaking-line"></div>
@@ -232,13 +302,13 @@ But it sure would be prettier with you</p>
 			<ul>
 				
 				<li>
-					<a href="/tools/Git-notes-reset/">
-						<span class="image-comments"><span class="disqus-comment-count" data-disqus-identifier="Frank's Blog//tools/Git-notes-reset">0 Comments</span></span>
+					<a href="/media/Anna-Kendrick-Cups/">
+						<span class="image-comments"><span class="disqus-comment-count" data-disqus-identifier="Frank's Blog//media/Anna-Kendrick-Cups">0 Comments</span></span>
 						
-						<img src="/images/201606/reset-concept.png" alt="Git 学习笔记 - 撤销操作" title="Git 学习笔记 - 撤销操作">
+						<img src="/assets/images/default.jpg" alt="Anna Kendrick - Cups" title="Anna Kendrick - Cups">
 						
-						<strong>Git 学习笔记 - 撤销操作</strong>
-						<span class="a-txt">June 14, 2016</span>
+						<strong>Anna Kendrick - Cups</strong>
+						<span class="a-txt">June 12, 2016</span>
 					</a>
 				</li>
 				
@@ -283,9 +353,9 @@ But it sure would be prettier with you</p>
 		<div id="disqus_thread"></div>
 		<script>
 		var disqus_config = function () {
-		this.page.url = "http://www.flinhong.com/media/Anna-Kendrick-Cups/";
-		this.page.identifier = "Frank's Blog//media/Anna-Kendrick-Cups";
-		this.page.title = "Anna Kendrick - Cups";
+		this.page.url = "http://www.flinhong.com/tools/Git-notes-reset/";
+		this.page.identifier = "Frank's Blog//tools/Git-notes-reset";
+		this.page.title = "Git 学习笔记 - 撤销操作";
 		};
 		(function() { // DON'T EDIT BELOW THIS LINE
 		var d = document, s = d.createElement('script');
@@ -331,6 +401,15 @@ But it sure would be prettier with you</p>
 	</div>
 	
 
+	
+	<!-- BEGIN .panel -->
+	<div class="panel toc-fix">
+		<h2>Table of Contents</h2>
+		<div class="panel-content">
+			<div id="toc" class="toc-menu"></div>
+		</div>
+	<!-- END .panel -->
+	</div>
 	
 
 	<!-- BEGIN .panel -->
@@ -597,6 +676,13 @@ But it sure would be prettier with you</p>
   ga('send', 'pageview');
 </script>
 
+
+<script type="text/javascript" src="/jscript/toc.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#toc').toc({ headers: '.article-content h1, .article-content h2, .article-content h3, .article-content h4, .article-content h5, .article-content h6' });
+});
+</script>
 
 
 </body>

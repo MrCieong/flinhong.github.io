@@ -137,7 +137,7 @@
               <a href="javascript:;"><i class="fa fa-calendar"></i>May 21, 2016</a>
               <a href="/categories/tools/"><i class="fa fa-tag"></i>Tools</a>
               <a href="/tools/Git-notes-logs/#disqus_thread" data-disqus-identifier="Frank's Blog//tools/Git-notes-logs"><i class="fa fa-comments"></i>0 Comment</a>
-              <a href="javascript:;"><i class="fa fa-check-square-o"></i>4098 words.</a>
+              <a href="javascript:;"><i class="fa fa-check-square-o"></i>4097 words.</a>
             </div>
             <div class="clear-float do-the-split"></div>
             <div class="article-content mylist">
@@ -298,9 +298,9 @@ ca82a6d - Scott Chacon, 6 years ago : changed the version number
 </code></pre>
 </div>
 
-<p>以上只是简单介绍了一些 <code class="highlighter-rouge">git log</code> 命令支持的选项。这个有个<a href="https://git-scm.com/book/zh/v2/ch00/log_options">表格</a>列出了我们目前涉及到的和没涉及到的选项，以及它们是如何影响 log 命令的输出的。</p>
+<p>以上只是简单介绍了一些 <code class="highlighter-rouge">git log</code> 命令支持的选项。这有个<a href="https://git-scm.com/book/zh/v2/ch00/log_options">表格</a>列出了我们目前涉及到的和没涉及到的选项，以及它们是如何影响 log 命令的输出的。</p>
 
-<p>除了定制输出格式的选项之外，<code class="highlighter-rouge">git log</code> 还有许多非常实用的限制输出长度的选项，也就是只输出部分提交信息。之前你已经看到过 -2 了，它只显示最近的两条提交，实际上，这是 <code class="highlighter-rouge">-&lt;n&gt;</code> 选项的写法，其中的 n 可以是任何整数，表示仅显示最近的若干条提交。不过实践中我们是不太用这个选项的，Git 在输出所有提交时会自动调用分页程序，所以你一次只会看到一页的内容。</p>
+<p>除了定制输出格式的选项之外，<code class="highlighter-rouge">git log</code> 还有许多非常实用的限制输出长度的选项，也就是只输出部分提交信息。之前你已经看到过 <code class="highlighter-rouge">-2</code> 了，它只显示最近的两条提交，实际上，这是 <code class="highlighter-rouge">-&lt;n&gt;</code> 选项的写法，其中的 n 可以是任何整数，表示仅显示最近的若干条提交。不过实践中我们是不太用这个选项的，Git 在输出所有提交时会自动调用分页程序，所以你一次只会看到一页的内容。</p>
 
 <p>另外还有按照时间作限制的选项，比如 <code class="highlighter-rouge">--since</code> 和 <code class="highlighter-rouge">--until</code> 也很有用。</p>
 

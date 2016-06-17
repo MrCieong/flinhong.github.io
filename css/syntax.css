@@ -81,7 +81,7 @@ pre.highlight {border: 1px dotted #e8e7e5; border-radius: 7px; padding-left: 7px
 th, tr .article-content {padding-right: 2em;}
 
 .mylist ol {padding-bottom: 1em;}
-.mylist ul li {list-style-type: disc; line-height: 100%; padding-left: 0em; list-style-position: inside; display: list-item;}
+.mylist ul li {list-style-type: disc; line-height: 120%; padding-left: 0em; list-style-position: inside; display: list-item;}
 
 .back-to-top {
 	display: none;

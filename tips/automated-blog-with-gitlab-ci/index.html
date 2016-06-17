@@ -140,7 +140,7 @@
               <a href="javascript:;"><i class="fa fa-check-square-o"></i>1623 words.</a>
             </div>
             <div class="clear-float do-the-split"></div>
-            <div class="article-content">
+            <div class="article-content mylist">
               <p>由于一些莫名其妙的原因，我用 GitHub Pages 的 Jekyll 版本不能在本地生成 _posts 的静态文件，自然放到 GitHub 上也不行。一直没弄清楚原因，😳 求知情人士解答。于是找了备用方案，用起了 <a href="http://docs.gitlab.com/ee/pages/README.html">GitLab Pages</a>，但是访问速度上又没有 GitHub Pages 给力，又不想用其他 CDN，所以还是两头托管，还能让百度索引。</p>
 
 <p>其实 GitLab Pages 是基于 GitLab CI，我们最终看到的网站是借由所配置的 <a href="http://doc.gitlab.com/ee/ci/quick_start/README.html#configuring-a-runner">Runner</a> 生成的，所以可以用各种 Jekyll 插件，还能自定所使用的 Jekyll 版本。搭建起来和 GitHub Pages 差不多，可以参看官方博客 <a href="https://about.gitlab.com/2016/04/07/gitlab-pages-setup/">Hosting on GitLab.com with GitLab Pages</a> 设置就行。</p>

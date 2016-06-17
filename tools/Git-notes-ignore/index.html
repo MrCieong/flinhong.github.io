@@ -140,7 +140,7 @@
               <a href="javascript:;"><i class="fa fa-check-square-o"></i>2480 words.</a>
             </div>
             <div class="clear-float do-the-split"></div>
-            <div class="article-content">
+            <div class="article-content mylist">
               <p>项目中经常会生成一些 Git 系统不需要追踪的文件。典型的是在编译生成过程中产生的文件或是编程器生成的临时备份文件。当然，你不追踪这些文件，可以不用 <code class="highlighter-rouge">git add</code> 把它们加到索引中。但是这样会很快变成一件烦人的事，你发现项目中到处有未追踪的文件; 这样也使 <code class="highlighter-rouge">git add .</code> 和 <code class="highlighter-rouge">git commit -a</code> 变得没有实际用处，同时 <code class="highlighter-rouge">git status</code> 命令的输出也会有它们，每次都看到 <code class="highlighter-rouge">Untracked files ...</code> 是不是会变得很抓狂。</p>
 
 <p>其实，这个问题解决起来也很简单，我们可以创建一个名为 <code class="highlighter-rouge">.gitignore</code> 的特殊文件，然后把要忽略的文件名填进去，Git 就会自动忽略这些文件。之前在学习 <a href="/tools/Git-notes-basics/#headid-section-7">Git 基础</a>的时候就谈过这个问题。</p>

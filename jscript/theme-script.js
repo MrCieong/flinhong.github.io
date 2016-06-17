@@ -992,3 +992,12 @@ jWindow.scroll(function(){
     });    
   }
 });
+
+$('.hascaption').each(function() {
+	$(this).replaceWith($('<div class="wp-caption hascaption">' + this.innerHTML + '</div>'));
+});
+$('.hascaption').children('img').each(function() {
+	var caption;
+	caption = $(this).attr('title');
+	$(this).after('<p class="wp-caption-text">' + caption + '</p>');
+});

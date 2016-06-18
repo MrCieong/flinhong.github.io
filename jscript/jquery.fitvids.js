@@ -39,6 +39,7 @@
         'iframe[src*="kickstarter.com"][src*="video.html"]',
         'iframe[src*="calendar.google.com"]',
         'iframe[src*="embed.spotify.com"]',
+        'iframe[src*="cdns.snacktools.net"]',
         'object',
         'embed'
       ];

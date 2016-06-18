@@ -150,3 +150,5 @@ ol,li .toc-menu {padding-left: 1em;}
 .search-results .gsc-control-cse .gsc-url-bottom {font-family:'Open Sans', "Microsoft YaHei", "微软雅黑", 'STXihei', "华文细黑", 'Arial Black','Arial normal','Helvetica Neue',Helvetica,sans-serif;}
 
 #toc-fix {display: none;}
+.lastfm img {max-width: 100%;}
+.lastfm iframe {padding-top: 1em;}

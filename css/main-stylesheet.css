@@ -1002,11 +1002,12 @@ a.featured-select:hover img {
 
 .main-menu ul li a strong {
 	display: block;
-	font-size: 12px;
+	font-size: 14px;
 	padding-top: 4px;
 	text-shadow: 0 1px 0 #000;
 	font-weight: normal;
-	font-family: Arial;
+	text-transform: uppercase;
+	font-family: "Lato", "Microsoft YaHei", "微软雅黑", 'STXihei', "华文细黑",  sans-serif;
 }
 
 .main-menu ul li.no-icon a strong {
@@ -1073,9 +1074,10 @@ a.featured-select:hover img {
 	display: block;
 	padding: 12px 20px;
 	box-shadow: 0 -1px 0 0 rgba(47, 47, 47, 0.6);
-	font-size: 13px;
+	font-size: 14px;
 	font-weight: bold;
 	color: #CACACA;
+	font-family: "Lato", "Microsoft YaHei", "微软雅黑", 'STXihei', "华文细黑",  sans-serif;
 }
 
 .main-menu ul.sub-menu li:hover > a {

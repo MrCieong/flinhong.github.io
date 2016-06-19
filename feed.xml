@@ -1,4 +1,24 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="http://www.flinhong.com/feed.xml" rel="self" type="application/atom+xml" /><link href="http://www.flinhong.com/" rel="alternate" type="text/html" /><updated>2016-06-18T17:38:50+08:00</updated><id>http://www.flinhong.com/</id><title>Frank&#39;s Blog</title><subtitle>This blog is an exploration of my quirky thoughts and random adventures through life. I hope you enjoy reading and perusing my posts, please leave me a comment... I&#39;d love to hear from you!</subtitle><author><name>Frank Lin</name></author><entry><title>Git 学习笔记 - 分支</title><link href="http://www.flinhong.com/tools/Git-notes-branch/" rel="alternate" type="text/html" title="Git 学习笔记 - 分支" /><published>2016-06-16T00:00:00+08:00</published><updated>2016-06-16T00:00:00+08:00</updated><id>http://www.flinhong.com/tools/Git-notes-branch</id><content type="html" xml:base="http://www.flinhong.com/tools/Git-notes-branch/">&lt;p&gt;Git 处理分支的方式可谓是难以置信的轻量，创建新分支这一操作几乎能在瞬间完成，并且在不同分支之间的切换操作也是一样便捷。与许多其它版本控制系统不同，Git 鼓励在工作流程中频繁地使用分支与合并，哪怕一天之内进行许多次。理解和精通这一特性，你便会意识到 Git 是如此的强大而又独特，并且从此真正改变你的开发方式。&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.1.6">Jekyll</generator><link href="http://www.flinhong.com/feed.xml" rel="self" type="application/atom+xml" /><link href="http://www.flinhong.com/" rel="alternate" type="text/html" /><updated>2016-06-20T03:25:28+08:00</updated><id>http://www.flinhong.com/</id><title>Frank&#39;s Blog</title><subtitle>This blog is an exploration of my quirky thoughts and random adventures through life. I hope you enjoy reading and perusing my posts, please leave me a comment... I&#39;d love to hear from you!</subtitle><author><name>Frank Lin</name></author><entry><title>使用 Robocopy 删除 Windows 上路径过长文件（夹）</title><link href="http://www.flinhong.com/tips/delete-folder-with-robocopy/" rel="alternate" type="text/html" title="使用 Robocopy 删除 Windows 上路径过长文件（夹）" /><published>2016-06-19T00:00:00+08:00</published><updated>2016-06-19T00:00:00+08:00</updated><id>http://www.flinhong.com/tips/delete-folder-with-robocopy</id><content type="html" xml:base="http://www.flinhong.com/tips/delete-folder-with-robocopy/">&lt;p&gt;&lt;img src=&quot;/images/201606/delete_file.png&quot; alt=&quot;windows notice&quot; /&gt;&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;文件名对目标文件夹可能过长。您可以缩短文件名并重试，或者尝试路径较短的位置。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;看到这样的提示，稍显尴尬，已经不是第一次了，所以干脆写个记录以备后患吧。&lt;/p&gt;
+
+&lt;p&gt;用到的工具是 &lt;a href=&quot;https://technet.microsoft.com/en-gb/library/cc733145(v=ws.10).aspx&quot;&gt;Robocopy&lt;/a&gt;，它是微软在 &lt;a href=&quot;https://www.microsoft.com/en-us/download/details.aspx?id=17657&quot;&gt;Windows Server 2003 Resource Kit Tools&lt;/a&gt; 中提供的复制工具，新版的 Windows 中应该已经集成该工具了，如果没有可以到上述网址下载。&lt;/p&gt;
+
+&lt;p&gt;好吧，看看怎么删除这样的文件路径过长的文件（夹）吧。&lt;/p&gt;
+
+&lt;p&gt;假设要删除的文件夹是 &lt;code class=&quot;highlighter-rouge&quot;&gt;D:\folder-to-delete&lt;/code&gt;，那么可以先在 D 盘下新建一个空文件夹 &lt;code class=&quot;highlighter-rouge&quot;&gt;D:\empty-folder&lt;/code&gt;。&lt;/p&gt;
+
+&lt;p&gt;然后再命令提示符中输入：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;robocopy /MIR D:\empty-folder D:\folder-to-delete
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;这样就把文件夹 &lt;code class=&quot;highlighter-rouge&quot;&gt;D:\folder-to-delete&lt;/code&gt; 复制成与 &lt;code class=&quot;highlighter-rouge&quot;&gt;D:\empty-folder&lt;/code&gt; 一样的空文件夹了，既删除了想要删掉的路径太长的文件。&lt;/p&gt;</content><author><name>Frank Lin</name></author><category term="Tips" /><category term="Windows" /><summary></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://www.flinhong.com/images/201606/delete.png" /></entry><entry><title>Git 学习笔记 - 分支</title><link href="http://www.flinhong.com/tools/Git-notes-branch/" rel="alternate" type="text/html" title="Git 学习笔记 - 分支" /><published>2016-06-16T00:00:00+08:00</published><updated>2016-06-16T00:00:00+08:00</updated><id>http://www.flinhong.com/tools/Git-notes-branch</id><content type="html" xml:base="http://www.flinhong.com/tools/Git-notes-branch/">&lt;p&gt;Git 处理分支的方式可谓是难以置信的轻量，创建新分支这一操作几乎能在瞬间完成，并且在不同分支之间的切换操作也是一样便捷。与许多其它版本控制系统不同，Git 鼓励在工作流程中频繁地使用分支与合并，哪怕一天之内进行许多次。理解和精通这一特性，你便会意识到 Git 是如此的强大而又独特，并且从此真正改变你的开发方式。&lt;/p&gt;
 
 &lt;h2 id=&quot;headid-section&quot;&gt;分支简介&lt;/h2&gt;
 
@@ -1164,80 +1184,4 @@ Frank Lin
     &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;</content><author><name>Frank Lin</name></author><category term="Learning" /><category term="C#" /><summary>没想到学一门语言都跳票多次，真是惭愧惭愧！这次是真的下定决心好好学习一下 C# 了，我就不信我坚持不下去。</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://www.flinhong.com/images/201605/csharp.jpg" /></entry><entry><title>在 Sublime Text 中用 Markdown 编辑 Evernote 笔记</title><link href="http://www.flinhong.com/tools/Sublime-Evernote/" rel="alternate" type="text/html" title="在 Sublime Text 中用 Markdown 编辑 Evernote 笔记" /><published>2016-05-16T00:00:00+08:00</published><updated>2016-05-16T00:00:00+08:00</updated><id>http://www.flinhong.com/tools/Sublime-Evernote</id><content type="html" xml:base="http://www.flinhong.com/tools/Sublime-Evernote/">&lt;p&gt;某个风和日丽的下午，一学妹问我有没有什么好用的笔记软件，但不要 Evernote 和 OneNote。一时语塞，除了这两个常用的笔记软件，我也提不出其他比较靠谱的了，知之甚少。&lt;/p&gt;
-
-&lt;p&gt;虽然自己也时有做笔记，但多数时间是用 Evernote 摘录网页，以作备用。为了回答学妹的问题，我也试着搜索了一下。&lt;a href=&quot;http://www.appinn.com/my-fav-note-final/&quot;&gt;小众软件&lt;/a&gt;曾票选过最受欢迎的笔记软件，还是 Evernote 最受青睐，OneNote 也还不错，其他的基本没用过也不做评价。&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://lh3.googleusercontent.com/-ofBR5thsjtU/VznEZr5z6TI/AAAAAAAAAYM/CmXFgB4Grkk/s0/Note%252520Apps.png&quot; alt=&quot;最受欢迎的笔记软件&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;既然 Evernote 最常用，那还是选择它吧。但是 Evernote 对 Markdown 支持不是很到位，更不要说 OneNote 了。所以有不少同学选择在 GitHub 上做起笔记来。这倒也可以，不过自己要看个笔记还得去翻网页就不太方便了。所以有了今天这款 &lt;a href=&quot;https://packagecontrol.io/packages/Evernote&quot;&gt;Evernote for Sublime Text&lt;/a&gt; 插件。&lt;/p&gt;
-
-&lt;h2 id=&quot;headid-section&quot;&gt;简介&lt;/h2&gt;
-
-&lt;p&gt;Evernote for Sublime Text 做到的是在 Sublime Text 中编辑 Markdown 文本，本地保存（可用 OneDrive, GitHub 等做同步备份）原始文本，并和 Evernote 笔记 ID 关联同步。这样，在 Sublime 中可以浏览由 Sublime 创建的 Markdown 文件，又能将转换后的笔记同步到 Evernote 的笔记列表，还可进行双向同步（在 Sublime 中打开 Evernote 的笔记并转换成 Markdown 进行编辑）。不过，在使用过程中，一旦在 Evernote 中对笔记进行了更新，则有一定几率导致笔记同步冲突&lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;。Markdown 标记错误也能引起不能同步。&lt;/p&gt;
-
-&lt;p&gt;自己试用了一下，感觉用 Markdown 这样做笔记确实很方便，同步冲突也确实遇到了（代码高亮的时候写错了语言名称），不过这不影响我继续使用这个优秀的插件。在编辑过程中注意不要修改 Evernote 中的笔记就是了（那就暂时不打开 Evernote吧）。若今后修改了 Evernote 中的笔记，最好使用插件的打开命令，打开一份新的再继续编辑更新吧。&lt;/p&gt;
-
-&lt;h2 id=&quot;headid-section-1&quot;&gt;安装&lt;/h2&gt;
-
-&lt;p&gt;那么，来看看这款插件的使用吧。首先是&lt;a href=&quot;https://github.com/bordaigorl/sublime-evernote/wiki/Installation&quot;&gt;安装&lt;/a&gt;：&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;用 Sublime Text 的 &lt;code class=&quot;highlighter-rouge&quot;&gt;Package Control&lt;/code&gt; 安装 Evernote。如果你在 Sublime Text 中没有安装过 &lt;code class=&quot;highlighter-rouge&quot;&gt;Package Control&lt;/code&gt;，请参见这里的&lt;a href=&quot;https://packagecontrol.io/installation&quot;&gt;安装指南&lt;/a&gt;。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;设置 Sublime Text 插件与 Evernote 关联&lt;sup id=&quot;fnref:2&quot;&gt;&lt;a href=&quot;#fn:2&quot; class=&quot;footnote&quot;&gt;2&lt;/a&gt;&lt;/sup&gt;：&lt;/p&gt;
-
-    &lt;p&gt;(1) 关联 Evernote 需要 &lt;code class=&quot;highlighter-rouge&quot;&gt;Developer Token&lt;/code&gt;，如果第一次关联或者要更新 Token，可以通过 Sublime Text 菜单中的 &lt;code class=&quot;highlighter-rouge&quot;&gt;Preferences &amp;gt; Package Settings &amp;gt; Evernote &amp;gt; Reconfigure Evernote&lt;/code&gt; 打开 Evernote 的相应页面获取应用授权。&lt;/p&gt;
-
-    &lt;p&gt;&lt;img src=&quot;https://lh3.googleusercontent.com/-eX1AQnGrvuQ/VznMqCedygI/AAAAAAAAAYc/2Tpri7no2ek/s0/sublime_text_2016-05-16_21-35-33.png&quot; alt=&quot;关联 Evernote&quot; /&gt;&lt;/p&gt;
-
-    &lt;p&gt;(2) 如果是中国印象笔记的用户，需&lt;a href=&quot;https://github.com/bordaigorl/sublime-evernote/wiki/First-Use#%E4%B8%AD%E5%9B%BD%E5%8D%B0%E8%B1%A1%E7%AC%94%E8%AE%B0%E7%94%A8%E6%88%B7appyinxiangcom&quot;&gt;参见这里&lt;/a&gt;进行关联设置。&lt;/p&gt;
-
-    &lt;p&gt;(3) 将 Evernote 网页中的 Developer Token 和 NoteStore URL 添加到 Sublime Evernote 插件的设置文件 &lt;code class=&quot;highlighter-rouge&quot;&gt;Preferences &amp;gt; Package Settings &amp;gt; Evernote &amp;gt; Settings - User&lt;/code&gt;：&lt;/p&gt;
-
-    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;&lt;span class=&quot;w&quot;&gt;
- &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;noteStoreUrl&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Your NoteStore URL&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-  &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;token&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Your Developer Token&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
- &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;测试是否成功：通过 &lt;code class=&quot;highlighter-rouge&quot;&gt;ctrl+shift+p&lt;/code&gt; (Win, Linux) 或者 &lt;code class=&quot;highlighter-rouge&quot;&gt;shift+command+p&lt;/code&gt; (OS X) 打开 Sublime Text 命令窗口，输入 Evernote，就会看见 Evernote 插件的许多命令，点击 Evernote:list recent notes，如果看到罗列出最新的笔记，则说明授权成功。&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;headid-section-2&quot;&gt;快捷键设置&lt;/h2&gt;
-
-&lt;p&gt;默认情况下，Evernote 插件没有绑定任何快捷键，所有操作通过 Sublime 中 &lt;code class=&quot;highlighter-rouge&quot;&gt;ctrl+shift+p&lt;/code&gt; 输入 Evenote 后选择相应功能进行。当然你也可以在 Sublime Text 中通过 &lt;code class=&quot;highlighter-rouge&quot;&gt;Preferences &amp;gt; Key Bindings - User&lt;/code&gt; 关联快捷键&lt;sup id=&quot;fnref:3&quot;&gt;&lt;a href=&quot;#fn:3&quot; class=&quot;footnote&quot;&gt;3&lt;/a&gt;&lt;/sup&gt;:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;keys&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;super+e&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;command&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;show_overlay&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;args&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;overlay&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;command_palette&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;text&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Evernote: &quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;keys&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;ctrl+e&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;ctrl+s&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;command&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;send_to_evernote&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;keys&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;ctrl+e&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;ctrl+o&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;command&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;open_evernote_note&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;keys&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;ctrl+e&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;ctrl+u&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;],&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&quot;command&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;save_evernote_note&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;意思是，按 &lt;code class=&quot;highlighter-rouge&quot;&gt;ctrl+e&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;ctrl+s&lt;/code&gt; 后，会将笔记保存并且同步到印象笔记，按 &lt;code class=&quot;highlighter-rouge&quot;&gt;ctrl+e&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;ctrl+s&lt;/code&gt; 则是更新笔记。&lt;/p&gt;
-
-&lt;p&gt;嗯，差不多这样就可以开始使用了，更多功能参看 Evernote for Sublime Text 的 &lt;a href=&quot;https://github.com/bordaigorl/sublime-evernote/wiki&quot;&gt;Wiki&lt;/a&gt;。&lt;/p&gt;
-
-&lt;p&gt;对我来说，既可以用 Markdown 写 Blog post 同步到 Gitlab，又可以同时在 Evernote 中做个备份，很不错了。&lt;/p&gt;
-
-&lt;p&gt;参考:&lt;/p&gt;
-
-&lt;div class=&quot;footnotes&quot;&gt;
-  &lt;ol&gt;
-    &lt;li id=&quot;fn:1&quot;&gt;
-      &lt;p&gt;&lt;a href=&quot;http://blog.ernest.me/post/evernote-starts-support-markdown&quot;&gt;从 Evernote 开始官方支持 Markdown 说起&lt;/a&gt; &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-    &lt;li id=&quot;fn:2&quot;&gt;
-      &lt;p&gt;&lt;a href=&quot;http://www.jianshu.com/p/0add426fdd26&quot;&gt;Sublime-evernote：支持用 Markdown 写印象笔记(Evernote)&lt;/a&gt; &lt;a href=&quot;#fnref:2&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-    &lt;li id=&quot;fn:3&quot;&gt;
-      &lt;p&gt;&lt;a href=&quot;https://packagecontrol.io/packages/Evernote&quot;&gt;Evernote for Sublime Text&lt;/a&gt; &lt;a href=&quot;#fnref:3&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-  &lt;/ol&gt;
-&lt;/div&gt;</content><author><name>Frank Lin</name></author><category term="Tools" /><category term="Sublime Text" /><category term="Evernote" /><summary>某个风和日丽的下午，一学妹问我有没有什么好用的笔记软件，但不要 Evernote 和 OneNote。一时语塞，除了这两个常用的笔记软件，我也提不出其他比较靠谱的了，知之甚少。</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://www.flinhong.com/images/201605/Evernote.jpg" /></entry></feed>
+&lt;/div&gt;</content><author><name>Frank Lin</name></author><category term="Learning" /><category term="C#" /><summary>没想到学一门语言都跳票多次，真是惭愧惭愧！这次是真的下定决心好好学习一下 C# 了，我就不信我坚持不下去。</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://www.flinhong.com/images/201605/csharp.jpg" /></entry></feed>

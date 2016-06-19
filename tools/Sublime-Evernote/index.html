@@ -648,7 +648,7 @@
 	firebase.initializeApp(config);
 	// Get a reference to the database service
 	var database = firebase.database();
-	var flinhong = new Firebase("https://project-2069930841170623288.firebaseio.com");
+	var flinhong = new Firebase("http://www.flinhong.com");
 
 	// 明细由当前页面的url表示，将反斜线替换成下划线，并将中文decode出来
 	var current_url = decodeURI(window.location.pathname.replace(new RegExp('\\/|\\.', 'g'),"_"));
@@ -662,7 +662,7 @@
 	  };
 	});
 	// 获取明细，并将明细也展示在页面上
-	flinhong.child("detail/"+current_url).on("value", function(data){
+	flinhong.child("post/"+current_url).on("value", function(data){
 		var detail_counter = data.val();
 		if($("#detail_counter").length > 0 && detail_counter > 1){
 			$("#detail_counter").html(
@@ -675,7 +675,7 @@
 	  return (current_counter || 0) + 1;
 	});
 	// 明细+1
-	flinhong.child("detail/"+current_url).transaction(function (current_counter) {
+	flinhong.child("post/"+current_url).transaction(function (current_counter) {
 	  return (current_counter || 0) + 1;
 	});
 </script>

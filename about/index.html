@@ -476,8 +476,7 @@
 	};
 	firebase.initializeApp(config);
 	// Get a reference to the database service
-	var database = firebase.database();
-	var flinhong = new Firebase("https://project-2069930841170623288.firebaseio.com");
+	var flinhong = firebase.database();
 
 	// 明细由当前页面的url表示，将反斜线替换成下划线，并将中文decode出来
 	var current_url = decodeURI(window.location.pathname.replace(new RegExp('\\/|\\.', 'g'),"_"));

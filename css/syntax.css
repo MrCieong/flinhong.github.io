@@ -68,6 +68,7 @@
 #main pre {background-color: #e8e7e5;}
 #main p .highlighter-rouge {padding: 0; vertical-align: baseline;}
 p code {margin: 0 1px; color: #a6412b;}
+li code {margin: 0 1px; color: #a6412b;}
 p a:hover {text-decoration: underline;}
 ::-webkit-scrollbar {height: 5px;}
 #main figure {margin: 15px 0;}

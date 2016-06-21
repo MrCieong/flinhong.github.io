@@ -5,24 +5,9 @@
 
 	
 	<url>
-	<loc>http://www.flinhong.com/about/</loc>
+	<loc>https://flinhong.com/about/</loc>
 	
-		<lastmod>2016-06-21T17:52:12+08:00</lastmod>
-	
-	
-		<changefreq>monthly</changefreq>
-	
-	
-		<priority>0.3</priority>
-	
-	</url>
-	
-
-	
-	<url>
-	<loc>http://www.flinhong.com/archives/</loc>
-	
-		<lastmod>2016-06-21T17:52:12+08:00</lastmod>
+		<lastmod>2016-06-21T21:55:18+08:00</lastmod>
 	
 	
 		<changefreq>monthly</changefreq>
@@ -35,24 +20,9 @@
 
 	
 	<url>
-	<loc>http://www.flinhong.com/reading/</loc>
+	<loc>https://flinhong.com/archives/</loc>
 	
-		<lastmod>2016-06-21T17:52:12+08:00</lastmod>
-	
-	
-		<changefreq>monthly</changefreq>
-	
-	
-		<priority>0.3</priority>
-	
-	</url>
-	
-
-	
-	<url>
-	<loc>http://www.flinhong.com/calendar/</loc>
-	
-		<lastmod>2016-06-21T17:52:12+08:00</lastmod>
+		<lastmod>2016-06-21T21:55:18+08:00</lastmod>
 	
 	
 		<changefreq>monthly</changefreq>
@@ -65,24 +35,9 @@
 
 	
 	<url>
-	<loc>http://www.flinhong.com/contact/</loc>
+	<loc>https://flinhong.com/reading/</loc>
 	
-		<lastmod>2016-06-21T17:52:12+08:00</lastmod>
-	
-	
-		<changefreq>monthly</changefreq>
-	
-	
-		<priority>0.3</priority>
-	
-	</url>
-	
-
-	
-	<url>
-	<loc>http://www.flinhong.com/categories/front-end/</loc>
-	
-		<lastmod>2016-06-21T17:52:12+08:00</lastmod>
+		<lastmod>2016-06-21T21:55:18+08:00</lastmod>
 	
 	
 		<changefreq>monthly</changefreq>
@@ -95,24 +50,9 @@
 
 	
 	<url>
-	<loc>http://www.flinhong.com/blog/</loc>
+	<loc>https://flinhong.com/calendar/</loc>
 	
-		<lastmod>2016-06-21T17:52:12+08:00</lastmod>
-	
-	
-		<changefreq>monthly</changefreq>
-	
-	
-		<priority>0.3</priority>
-	
-	</url>
-	
-
-	
-	<url>
-	<loc>http://www.flinhong.com/</loc>
-	
-		<lastmod>2016-06-21T17:52:12+08:00</lastmod>
+		<lastmod>2016-06-21T21:55:18+08:00</lastmod>
 	
 	
 		<changefreq>monthly</changefreq>
@@ -125,24 +65,9 @@
 
 	
 	<url>
-	<loc>http://www.flinhong.com/categories/journal/</loc>
+	<loc>https://flinhong.com/contact/</loc>
 	
-		<lastmod>2016-06-21T17:52:12+08:00</lastmod>
-	
-	
-		<changefreq>monthly</changefreq>
-	
-	
-		<priority>0.3</priority>
-	
-	</url>
-	
-
-	
-	<url>
-	<loc>http://www.flinhong.com/categories/learning/</loc>
-	
-		<lastmod>2016-06-21T17:52:12+08:00</lastmod>
+		<lastmod>2016-06-21T21:55:18+08:00</lastmod>
 	
 	
 		<changefreq>monthly</changefreq>
@@ -155,24 +80,9 @@
 
 	
 	<url>
-	<loc>http://www.flinhong.com/categories/media/</loc>
+	<loc>https://flinhong.com/categories/front-end/</loc>
 	
-		<lastmod>2016-06-21T17:52:12+08:00</lastmod>
-	
-	
-		<changefreq>monthly</changefreq>
-	
-	
-		<priority>0.3</priority>
-	
-	</url>
-	
-
-	
-	<url>
-	<loc>http://www.flinhong.com/categories/reading/</loc>
-	
-		<lastmod>2016-06-21T17:52:12+08:00</lastmod>
+		<lastmod>2016-06-21T21:55:18+08:00</lastmod>
 	
 	
 		<changefreq>monthly</changefreq>
@@ -185,24 +95,9 @@
 
 	
 	<url>
-	<loc>http://www.flinhong.com/robots.txt</loc>
+	<loc>https://flinhong.com/blog/</loc>
 	
-		<lastmod>2016-06-21T17:52:12+08:00</lastmod>
-	
-	
-		<changefreq>monthly</changefreq>
-	
-	
-		<priority>0.3</priority>
-	
-	</url>
-	
-
-	
-	<url>
-	<loc>http://www.flinhong.com/search/</loc>
-	
-		<lastmod>2016-06-21T17:52:12+08:00</lastmod>
+		<lastmod>2016-06-21T21:55:18+08:00</lastmod>
 	
 	
 		<changefreq>monthly</changefreq>
@@ -215,24 +110,9 @@
 
 	
 	<url>
-	<loc>http://www.flinhong.com/shortcodes/</loc>
+	<loc>https://flinhong.com/</loc>
 	
-		<lastmod>2016-06-21T17:52:12+08:00</lastmod>
-	
-	
-		<changefreq>monthly</changefreq>
-	
-	
-		<priority>0.3</priority>
-	
-	</url>
-	
-
-	
-	<url>
-	<loc>http://www.flinhong.com/sitedoc/</loc>
-	
-		<lastmod>2016-06-21T17:52:12+08:00</lastmod>
+		<lastmod>2016-06-21T21:55:18+08:00</lastmod>
 	
 	
 		<changefreq>monthly</changefreq>
@@ -245,24 +125,9 @@
 
 	
 	<url>
-	<loc>http://www.flinhong.com/sitemap.xml</loc>
+	<loc>https://flinhong.com/categories/journal/</loc>
 	
-		<lastmod>2016-06-21T17:52:12+08:00</lastmod>
-	
-	
-		<changefreq>monthly</changefreq>
-	
-	
-		<priority>0.3</priority>
-	
-	</url>
-	
-
-	
-	<url>
-	<loc>http://www.flinhong.com/tags/</loc>
-	
-		<lastmod>2016-06-21T17:52:12+08:00</lastmod>
+		<lastmod>2016-06-21T21:55:18+08:00</lastmod>
 	
 	
 		<changefreq>monthly</changefreq>
@@ -275,24 +140,9 @@
 
 	
 	<url>
-	<loc>http://www.flinhong.com/categories/tips/</loc>
+	<loc>https://flinhong.com/categories/learning/</loc>
 	
-		<lastmod>2016-06-21T17:52:12+08:00</lastmod>
-	
-	
-		<changefreq>monthly</changefreq>
-	
-	
-		<priority>0.3</priority>
-	
-	</url>
-	
-
-	
-	<url>
-	<loc>http://www.flinhong.com/categories/tools/</loc>
-	
-		<lastmod>2016-06-21T17:52:12+08:00</lastmod>
+		<lastmod>2016-06-21T21:55:18+08:00</lastmod>
 	
 	
 		<changefreq>monthly</changefreq>
@@ -305,24 +155,9 @@
 
 	
 	<url>
-	<loc>http://www.flinhong.com/feed.xml</loc>
+	<loc>https://flinhong.com/categories/media/</loc>
 	
-		<lastmod>2016-06-21T17:52:12+08:00</lastmod>
-	
-	
-		<changefreq>monthly</changefreq>
-	
-	
-		<priority>0.3</priority>
-	
-	</url>
-	
-
-	
-	<url>
-	<loc>http://www.flinhong.com/blog/page2/</loc>
-	
-		<lastmod>2016-06-21T17:52:12+08:00</lastmod>
+		<lastmod>2016-06-21T21:55:18+08:00</lastmod>
 	
 	
 		<changefreq>monthly</changefreq>
@@ -335,9 +170,9 @@
 
 	
 	<url>
-	<loc>http://www.flinhong.com/blog/page3/</loc>
+	<loc>https://flinhong.com/categories/reading/</loc>
 	
-		<lastmod>2016-06-21T17:52:12+08:00</lastmod>
+		<lastmod>2016-06-21T21:55:18+08:00</lastmod>
 	
 	
 		<changefreq>monthly</changefreq>
@@ -350,9 +185,174 @@
 
 	
 	<url>
-	<loc>http://www.flinhong.com/blog/page4/</loc>
+	<loc>https://flinhong.com/robots.txt</loc>
 	
-		<lastmod>2016-06-21T17:52:12+08:00</lastmod>
+		<lastmod>2016-06-21T21:55:18+08:00</lastmod>
+	
+	
+		<changefreq>monthly</changefreq>
+	
+	
+		<priority>0.3</priority>
+	
+	</url>
+	
+
+	
+	<url>
+	<loc>https://flinhong.com/search/</loc>
+	
+		<lastmod>2016-06-21T21:55:18+08:00</lastmod>
+	
+	
+		<changefreq>monthly</changefreq>
+	
+	
+		<priority>0.3</priority>
+	
+	</url>
+	
+
+	
+	<url>
+	<loc>https://flinhong.com/shortcodes/</loc>
+	
+		<lastmod>2016-06-21T21:55:18+08:00</lastmod>
+	
+	
+		<changefreq>monthly</changefreq>
+	
+	
+		<priority>0.3</priority>
+	
+	</url>
+	
+
+	
+	<url>
+	<loc>https://flinhong.com/sitedoc/</loc>
+	
+		<lastmod>2016-06-21T21:55:18+08:00</lastmod>
+	
+	
+		<changefreq>monthly</changefreq>
+	
+	
+		<priority>0.3</priority>
+	
+	</url>
+	
+
+	
+	<url>
+	<loc>https://flinhong.com/sitemap.xml</loc>
+	
+		<lastmod>2016-06-21T21:55:18+08:00</lastmod>
+	
+	
+		<changefreq>monthly</changefreq>
+	
+	
+		<priority>0.3</priority>
+	
+	</url>
+	
+
+	
+	<url>
+	<loc>https://flinhong.com/tags/</loc>
+	
+		<lastmod>2016-06-21T21:55:18+08:00</lastmod>
+	
+	
+		<changefreq>monthly</changefreq>
+	
+	
+		<priority>0.3</priority>
+	
+	</url>
+	
+
+	
+	<url>
+	<loc>https://flinhong.com/categories/tips/</loc>
+	
+		<lastmod>2016-06-21T21:55:18+08:00</lastmod>
+	
+	
+		<changefreq>monthly</changefreq>
+	
+	
+		<priority>0.3</priority>
+	
+	</url>
+	
+
+	
+	<url>
+	<loc>https://flinhong.com/categories/tools/</loc>
+	
+		<lastmod>2016-06-21T21:55:18+08:00</lastmod>
+	
+	
+		<changefreq>monthly</changefreq>
+	
+	
+		<priority>0.3</priority>
+	
+	</url>
+	
+
+	
+	<url>
+	<loc>https://flinhong.com/feed.xml</loc>
+	
+		<lastmod>2016-06-21T21:55:18+08:00</lastmod>
+	
+	
+		<changefreq>monthly</changefreq>
+	
+	
+		<priority>0.3</priority>
+	
+	</url>
+	
+
+	
+	<url>
+	<loc>https://flinhong.com/blog/page2/</loc>
+	
+		<lastmod>2016-06-21T21:55:18+08:00</lastmod>
+	
+	
+		<changefreq>monthly</changefreq>
+	
+	
+		<priority>0.3</priority>
+	
+	</url>
+	
+
+	
+	<url>
+	<loc>https://flinhong.com/blog/page3/</loc>
+	
+		<lastmod>2016-06-21T21:55:18+08:00</lastmod>
+	
+	
+		<changefreq>monthly</changefreq>
+	
+	
+		<priority>0.3</priority>
+	
+	</url>
+	
+
+	
+	<url>
+	<loc>https://flinhong.com/blog/page4/</loc>
+	
+		<lastmod>2016-06-21T21:55:18+08:00</lastmod>
 	
 	
 		<changefreq>monthly</changefreq>
@@ -367,7 +367,7 @@
 
 	
 	<url>
-	<loc>http://www.flinhong.com/front-end/liquid-notes/</loc>
+	<loc>https://flinhong.com/front-end/liquid-notes/</loc>
 	
 		<lastmod>2016-06-20T00:00:00+08:00</lastmod>
 	
@@ -382,7 +382,7 @@
 
 	
 	<url>
-	<loc>http://www.flinhong.com/tips/delete-folder-with-robocopy/</loc>
+	<loc>https://flinhong.com/tips/delete-folder-with-robocopy/</loc>
 	
 		<lastmod>2016-06-19T00:00:00+08:00</lastmod>
 	
@@ -397,7 +397,7 @@
 
 	
 	<url>
-	<loc>http://www.flinhong.com/tools/Git-notes-branch/</loc>
+	<loc>https://flinhong.com/tools/Git-notes-branch/</loc>
 	
 		<lastmod>2016-06-16T00:00:00+08:00</lastmod>
 	
@@ -412,7 +412,7 @@
 
 	
 	<url>
-	<loc>http://www.flinhong.com/tools/Git-notes-reset/</loc>
+	<loc>https://flinhong.com/tools/Git-notes-reset/</loc>
 	
 		<lastmod>2016-06-14T00:00:00+08:00</lastmod>
 	
@@ -427,7 +427,7 @@
 
 	
 	<url>
-	<loc>http://www.flinhong.com/media/Anna-Kendrick-Cups/</loc>
+	<loc>https://flinhong.com/media/Anna-Kendrick-Cups/</loc>
 	
 		<lastmod>2016-06-12T00:00:00+08:00</lastmod>
 	
@@ -442,7 +442,7 @@
 
 	
 	<url>
-	<loc>http://www.flinhong.com/tools/Git-notes-ignore/</loc>
+	<loc>https://flinhong.com/tools/Git-notes-ignore/</loc>
 	
 		<lastmod>2016-06-12T00:00:00+08:00</lastmod>
 	
@@ -457,7 +457,7 @@
 
 	
 	<url>
-	<loc>http://www.flinhong.com/tips/automated-blog-with-gitlab-ci/</loc>
+	<loc>https://flinhong.com/tips/automated-blog-with-gitlab-ci/</loc>
 	
 		<lastmod>2016-05-22T00:00:00+08:00</lastmod>
 	
@@ -472,7 +472,7 @@
 
 	
 	<url>
-	<loc>http://www.flinhong.com/tools/Git-notes-logs/</loc>
+	<loc>https://flinhong.com/tools/Git-notes-logs/</loc>
 	
 		<lastmod>2016-05-21T00:00:00+08:00</lastmod>
 	
@@ -487,7 +487,7 @@
 
 	
 	<url>
-	<loc>http://www.flinhong.com/tools/Git-notes-basics/</loc>
+	<loc>https://flinhong.com/tools/Git-notes-basics/</loc>
 	
 		<lastmod>2016-05-20T00:00:00+08:00</lastmod>
 	
@@ -502,7 +502,7 @@
 
 	
 	<url>
-	<loc>http://www.flinhong.com/tools/Git-notes-start/</loc>
+	<loc>https://flinhong.com/tools/Git-notes-start/</loc>
 	
 		<lastmod>2016-05-19T00:00:00+08:00</lastmod>
 	
@@ -517,7 +517,7 @@
 
 	
 	<url>
-	<loc>http://www.flinhong.com/learning/hello-world-again/</loc>
+	<loc>https://flinhong.com/learning/hello-world-again/</loc>
 	
 		<lastmod>2016-05-18T00:00:00+08:00</lastmod>
 	
@@ -532,7 +532,7 @@
 
 	
 	<url>
-	<loc>http://www.flinhong.com/tools/Sublime-Evernote/</loc>
+	<loc>https://flinhong.com/tools/Sublime-Evernote/</loc>
 	
 		<lastmod>2016-05-16T00:00:00+08:00</lastmod>
 	
@@ -547,7 +547,7 @@
 
 	
 	<url>
-	<loc>http://www.flinhong.com/media/First-Direct-Platypus/</loc>
+	<loc>https://flinhong.com/media/First-Direct-Platypus/</loc>
 	
 		<lastmod>2016-05-13T00:00:00+08:00</lastmod>
 	
@@ -562,7 +562,7 @@
 
 	
 	<url>
-	<loc>http://www.flinhong.com/front-end/recent-comments-using-disqus-api/</loc>
+	<loc>https://flinhong.com/front-end/recent-comments-using-disqus-api/</loc>
 	
 		<lastmod>2016-04-13T00:00:00+08:00</lastmod>
 	
@@ -577,7 +577,7 @@
 
 	
 	<url>
-	<loc>http://www.flinhong.com/media/Gabrielle-Aplin-Home/</loc>
+	<loc>https://flinhong.com/media/Gabrielle-Aplin-Home/</loc>
 	
 		<lastmod>2016-04-03T00:00:00+08:00</lastmod>
 	
@@ -592,7 +592,7 @@
 
 	
 	<url>
-	<loc>http://www.flinhong.com/front-end/date-formatting-in-jekyll/</loc>
+	<loc>https://flinhong.com/front-end/date-formatting-in-jekyll/</loc>
 	
 		<lastmod>2016-03-09T00:00:00+08:00</lastmod>
 	
@@ -607,7 +607,7 @@
 
 	
 	<url>
-	<loc>http://www.flinhong.com/journal/my-new-camera-om-d-e-m5-ii/</loc>
+	<loc>https://flinhong.com/journal/my-new-camera-om-d-e-m5-ii/</loc>
 	
 		<lastmod>2016-03-05T00:00:00+08:00</lastmod>
 	
@@ -622,7 +622,7 @@
 
 	
 	<url>
-	<loc>http://www.flinhong.com/reading/be-happy-with-your-life/</loc>
+	<loc>https://flinhong.com/reading/be-happy-with-your-life/</loc>
 	
 		<lastmod>2016-01-07T00:00:00+08:00</lastmod>
 	
@@ -637,7 +637,7 @@
 
 	
 	<url>
-	<loc>http://www.flinhong.com/journal/tai-hang-fire-dragon/</loc>
+	<loc>https://flinhong.com/journal/tai-hang-fire-dragon/</loc>
 	
 		<lastmod>2015-09-28T00:00:00+08:00</lastmod>
 	
@@ -652,7 +652,7 @@
 
 	
 	<url>
-	<loc>http://www.flinhong.com/reading/the-paper-menagerie/</loc>
+	<loc>https://flinhong.com/reading/the-paper-menagerie/</loc>
 	
 		<lastmod>2015-09-26T00:00:00+08:00</lastmod>
 	
@@ -667,7 +667,7 @@
 
 	
 	<url>
-	<loc>http://www.flinhong.com/front-end/file-path-in-html/</loc>
+	<loc>https://flinhong.com/front-end/file-path-in-html/</loc>
 	
 		<lastmod>2015-09-26T00:00:00+08:00</lastmod>
 	
@@ -682,7 +682,7 @@
 
 	
 	<url>
-	<loc>http://www.flinhong.com/front-end/code-highlighting-in-jekyll/</loc>
+	<loc>https://flinhong.com/front-end/code-highlighting-in-jekyll/</loc>
 	
 		<lastmod>2015-09-25T00:00:00+08:00</lastmod>
 	
@@ -697,7 +697,7 @@
 
 	
 	<url>
-	<loc>http://www.flinhong.com/tips/360wifi2-in-ubuntu/</loc>
+	<loc>https://flinhong.com/tips/360wifi2-in-ubuntu/</loc>
 	
 		<lastmod>2015-09-16T00:00:00+08:00</lastmod>
 	
